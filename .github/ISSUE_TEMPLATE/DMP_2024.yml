@@ -1,4 +1,4 @@
-name: Template Builder	
+name: DMP 2024 Project Template
 description: List a new project for Dedicated Mentoring Program (DMP) 2024 
 title: "[DMP 2024]: "
 labels: ["DMP 2024"]
@@ -9,9 +9,9 @@ body:
       required: true
     attributes:
       label: Ticket Contents
-      value: A template builder is a tool for creating standardized document layouts quickly. It offers a user-friendly interface to design templates, ensuring consistency in formatting for various purposes such as certificates or official letters. Users can choose pre-designed templates or customize their own, streamlining the document creation process.
-
-Ticket Description: 1. Need to create a template registry from where a drag and drop template can be added in the template builder. 2. Ui/Ux design can be enhanced . 3. make the system integratable or convert as a package so that it can can be considred as a plug and play with other systems. 4. Digital signature needs to be integrated for the approver and the applicant
+      value: |
+        ## Description
+        [Provide a brief description of the feature, including why it is needed and what it will accomplish.]
 
   - type: textarea
     id: ticket-goals
