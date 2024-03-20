@@ -9,7 +9,7 @@ body:
       required: true
     attributes:
       label: Ticket Contents
-      A template builder is a tool for creating standardized document layouts quickly. It offers a user-friendly interface to design templates, ensuring consistency in formatting for various purposes such as certificates or official letters. Users can choose pre-designed templates or customize their own, streamlining the document creation process.
+      value: A template builder is a tool for creating standardized document layouts quickly. It offers a user-friendly interface to design templates, ensuring consistency in formatting for various purposes such as certificates or official letters. Users can choose pre-designed templates or customize their own, streamlining the document creation process.
 
 Ticket Description: 1. Need to create a template registry from where a drag and drop template can be added in the template builder. 2. Ui/Ux design can be enhanced . 3. make the system integratable or convert as a package so that it can can be considred as a plug and play with other systems. 4. Digital signature needs to be integrated for the approver and the applicant
 
