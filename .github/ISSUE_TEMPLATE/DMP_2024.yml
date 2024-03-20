@@ -1,4 +1,5 @@
-- project_title: "Template Builder"
+template_builder_project:
+  project_title: "Template Builder"
   filled_up_by: "Muttalib Hossain"
   github_link: "https://github.com/a2i-dpg/template-builder.git"
   ticket_contents: |
