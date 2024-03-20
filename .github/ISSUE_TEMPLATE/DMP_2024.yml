@@ -1,4 +1,4 @@
-name: DMP 2024 Project Template
+name: Template Builder
 description: List a new project for Dedicated Mentoring Program (DMP) 2024 
 title: "[DMP 2024]: "
 labels: ["DMP 2024"]
@@ -25,7 +25,6 @@ body:
       required: true
     attributes:
       label: Goals & Mid-Point Milestone
-      description: List the goals of the feature. Please add the goals that must be achieved by Mid-point check-in i.e 1.5 months into the coding period.
       value: |
         ## Goals for a Template Builder:
         - [ ] User-Friendly Interface: Develop an intuitive and user-friendly design for easy template creation.
@@ -40,7 +39,6 @@ body:
     id: ticket-setup
     attributes:
       label: Setup/Installation 
-      description: Please list or link setup or installation guide (if any)
       value: |
         Installations guidelines:
         - Clone your project
@@ -65,9 +63,8 @@ body:
     id: ticket-acceptance-criteria
     attributes:
       label: Acceptance Criteria
-      description: List the acceptance criteria for this feature.
       value: |
-        N/A
+        Better Ui/ Ux and easy integration feature with any system
 
   - type: textarea
     id: ticket-implementation-details
@@ -75,7 +72,6 @@ body:
       required: true
     attributes:
       label: Implementation Details
-      description: List any technical details about the proposed implementation, including any specific technologies that will be used.
       value: |
         The project will be developed using Laravel framework. Specific tasks include:
         - Creating a template registry for drag and drop functionality.
@@ -87,7 +83,6 @@ body:
     id: ticket-mockups
     attributes:
       label: Mockups/Wireframes
-      description: Include links to any visual aids, mockups, wireframes, or diagrams that help illustrate what the final product should look like. This is not always necessary, but can be very helpful in many cases.
       value: |
         N/A
 
@@ -121,7 +116,6 @@ body:
     id: ticket-technical-skills-required
     attributes:
       label: Tech Skills Needed
-      description: Specify the technology skills needed for this ticket
-      value: Laravel
+      value: Laravel, API 
     validations:
       required: true
