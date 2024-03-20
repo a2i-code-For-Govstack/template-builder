@@ -108,7 +108,7 @@ body:
     attributes:
       label: Domain
       description: Enter the domain of the project
-      value: Service Delivery
+      value: https://template-workflow.live.mygov.bd/login 
     validations:
       required: true
 
