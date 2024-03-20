@@ -1,49 +1,127 @@
-template_builder:
-  project_title: "Template Builder"
-  filled_up_by: "Muttalib Hossain"
-  github_link: "https://github.com/a2i-dpg/template-builder.git"
-  ticket_contents: |
-    A template builder is a tool for creating standardized document layouts quickly. It offers a user-friendly interface to design templates, ensuring consistency in formatting for various purposes such as certificates or official letters. Users can choose pre-designed templates or customize their own, streamlining the document creation process.
+name: DMP 2024 Project Template
+description: List a new project for Dedicated Mentoring Program (DMP) 2024 
+title: "[DMP 2024]: "
+labels: ["DMP 2024"]
+body:
+  - type: textarea
+    id: ticket-description
+    validations:
+      required: true
+    attributes:
+      label: Ticket Contents
+      value: |
+        ## Description
+        A template builder is a tool for creating standardized document layouts quickly. It offers a user-friendly interface to design templates, ensuring consistency in formatting for various purposes such as certificates or official letters. Users can choose pre-designed templates or customize their own, streamlining the document creation process.
+        
+        **Ticket Description:**
+        1. Need to create a template registry from where a drag and drop template can be added in the template builder.
+        2. UI/UX design can be enhanced.
+        3. Make the system integratable or convert as a package so that it can be considered as plug and play with other systems.
+        4. Digital signature needs to be integrated for the approver and the applicant.
 
-    Ticket Description:
-    1. Need to create a template registry from where a drag and drop template can be added in the template builder.
-    2. Ui/Ux design can be enhanced.
-    3. Make the system integratable or convert as a package so that it can be considered as plug and play with other systems.
-    4. Digital signature needs to be integrated for the approver and the applicant.
-  goals_and_milestones: |
-    Goals for a Template Builder:
-    - User-Friendly Interface: Develop an intuitive and user-friendly design for easy template creation.
-    - Versatility: Provide a tool that caters to various document types and purposes.
-    - Consistency: Ensure templates maintain a consistent look and feel across different sections.
-    - Customization: Enable users to easily customize templates to meet their specific needs.
-    - Efficiency: Streamline the document creation process, saving users time and effort.
-    - Compatibility: Ensure compatibility with popular document formats and software.
-    - Collaboration: Allow users to collaborate on template creation, facilitating team workflows.
+  - type: textarea
+    id: ticket-goals
+    validations:
+      required: true
+    attributes:
+      label: Goals & Mid-Point Milestone
+      description: List the goals of the feature. Please add the goals that must be achieved by Mid-point check-in i.e 1.5 months into the coding period.
+      value: |
+        ## Goals for a Template Builder:
+        - [ ] User-Friendly Interface: Develop an intuitive and user-friendly design for easy template creation.
+        - [ ] Versatility: Provide a tool that caters to various document types and purposes.
+        - [ ] Consistency: Ensure templates maintain a consistent look and feel across different sections.
+        - [ ] Customization: Enable users to easily customize templates to meet their specific needs.
+        - [ ] Efficiency: Streamline the document creation process, saving users time and effort.
+        - [ ] Compatibility: Ensure compatibility with popular document formats and software.
+        - [ ] Collaboration: Allow users to collaborate on template creation, facilitating team workflows.
 
-    Milestones for a Template Builder:
-    - Prototype Development: Create an initial version showcasing basic template-building functionalities.
-    - User Testing: Gather feedback from users to refine and improve the template builder's usability.
-    - Template Library Establishment: Build a library of pre-designed templates for user convenience.
-    - Customization Features: Implement advanced customization options for diverse user needs.
-    - Compatibility Testing: Ensure seamless integration with various document formats and software.
-    - Collaboration Tools Integration: Integrate features that allow users to collaborate on template creation.
-    - Official Release: Launch the template builder to the public, marking its availability for general use.
-  setup_installation_guide_link: "https://template-workflow.live.mygov.bd"
-  expected_outcome: "Make the product as Plug and Playable, more integratable, and user friendly."
-  acceptance_criteria: "N/A"
-  implementation_details: |
-    - Installations guidelines:
-      1. Clone your project
-      2. Go to the folder application using cd command on your cmd or terminal
-      3. Run composer install on your cmd or terminal
-      4. Copy .env.example file to .env on the root folder. You can type copy .env.example .env if using command prompt Windows or cp .env.example .env if using terminal, Ubuntu
-      5. Open your .env file and change the database name (DB_DATABASE) to whatever you have, username (DB_USERNAME) and password (DB_PASSWORD) field correspond to your configuration.
-      6. Run php artisan key:generate
-      7. Run php artisan migrate
-      8. Run php artisan serve
-      9. Go to http://localhost:8000/
-  mockup_wireframes_links: "N/A"
-  domain_link: "https://template-workflow.live.mygov.bd"
-  required_tech_skills: "basic PHP and Laravel framework"
-  mentors_focals: "N/A"
-  product_category: "Template Builder"
+  - type: textarea
+    id: ticket-setup
+    attributes:
+      label: Setup/Installation 
+      description: Please list or link setup or installation guide (if any)
+      value: |
+        Installations guidelines:
+        - Clone your project
+        - Go to the folder application using cd command on your cmd or terminal
+        - Run composer install on your cmd or terminal
+        - Copy .env.example file to .env on the root folder. You can type copy .env.example .env if using command prompt Windows or cp .env.example .env if using terminal, Ubuntu
+        - Open your .env file and change the database name (DB_DATABASE) to whatever you have, username (DB_USERNAME) and password (DB_PASSWORD) field correspond to your configuration.
+        - Run php artisan key:generate
+        - Run php artisan migrate
+        - Run php artisan serve
+        - Go to http://localhost:8000/
+
+  - type: textarea
+    id: ticket-expected-outcome
+    attributes:
+      label: Expected Outcome
+      description: Describe in detail what the final product or result should look like and how it should behave.
+      value: |
+        Make the product as plug and playable, more integratable, and user-friendly.
+
+  - type: textarea
+    id: ticket-acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: List the acceptance criteria for this feature.
+      value: |
+        N/A
+
+  - type: textarea
+    id: ticket-implementation-details
+    validations:
+      required: true
+    attributes:
+      label: Implementation Details
+      description: List any technical details about the proposed implementation, including any specific technologies that will be used.
+      value: |
+        The project will be developed using Laravel framework. Specific tasks include:
+        - Creating a template registry for drag and drop functionality.
+        - Enhancing UI/UX design.
+        - Making the system integratable or converting it into a package.
+        - Integrating digital signature for approver and applicant.
+
+  - type: textarea
+    id: ticket-mockups
+    attributes:
+      label: Mockups/Wireframes
+      description: Include links to any visual aids, mockups, wireframes, or diagrams that help illustrate what the final product should look like. This is not always necessary, but can be very helpful in many cases.
+      value: |
+        N/A
+
+  - type: input
+    id: ticket-product
+    attributes:
+      label: Product Name
+      placeholder: Enter Product Name
+    validations:
+      required: true
+
+  - type: textarea
+    id: ticket-organisation
+    attributes:
+      label: Organisation Name
+      description: Enter Organisation Name
+      value: a2i
+    validations:
+      required: true
+
+  - type: textarea
+    id: ticket-governance-domain
+    attributes:
+      label: Domain
+      description: Enter the domain of the project
+      value: Service Delivery
+    validations:
+      required: true
+
+  - type: textarea
+    id: ticket-technical-skills-required
+    attributes:
+      label: Tech Skills Needed
+      description: Specify the technology skills needed for this ticket
+      value: Laravel
+    validations:
+      required: true
