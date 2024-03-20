@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Nikosh';
+    /* src: url('/fonts/kalpurush.woff') format('woff'), */
+    src:url('/fonts/Nikosh.ttf') format('ttf');
+}
+
+body{
+    font-family: Kalpurush !important;
+}
+
