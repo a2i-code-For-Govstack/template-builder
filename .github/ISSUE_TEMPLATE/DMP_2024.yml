@@ -1,6 +1,8 @@
-Project:
-  Title: Template Builder
-  FilledBy: Mutttalib Hossain
+name: Template Builder
+description: List a new project for Dedicated Mentoring Program (DMP) 2024 
+title: "[DMP 2024]: "
+labels: ["DMP 2024"]
+
   GithubLink: https://github.com/a2i-dpg/template-builder.git
   TicketContents: |
     A template builder is a tool for creating standardized document layouts quickly. It offers a user-friendly interface to design templates, ensuring consistency in formatting for various purposes such as certificates or official letters. Users can choose pre-designed templates or customize their own, streamlining the document creation process.
