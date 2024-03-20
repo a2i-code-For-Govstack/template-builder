@@ -2,42 +2,41 @@ name: Template Builder
 description: List a new project for Dedicated Mentoring Program (DMP) 2024 
 title: "[DMP 2024]: "
 labels: ["DMP 2024"]
+GithubLink: https://github.com/a2i-dpg/template-builder.git
+TicketContents: |
+  A template builder is a tool for creating standardized document layouts quickly. It offers a user-friendly interface to design templates, ensuring consistency in formatting for various purposes such as certificates or official letters. Users can choose pre-designed templates or customize their own, streamlining the document creation process.
 
-  GithubLink: https://github.com/a2i-dpg/template-builder.git
-  TicketContents: |
-    A template builder is a tool for creating standardized document layouts quickly. It offers a user-friendly interface to design templates, ensuring consistency in formatting for various purposes such as certificates or official letters. Users can choose pre-designed templates or customize their own, streamlining the document creation process.
+  Ticket Description:
+  1. Need to create a template registry from where a drag and drop template can be added in the template builder.
+  2. Ui/Ux design can be enhanced.
+  3. Make the system integratable or convert as a package so that it can be considered as plug and play with other systems.
+  4. Digital signature needs to be integrated for the approver and the applicant.
+GoalsAndMilestones: |
+  Goals for a Template Builder:
 
-    Ticket Description:
-    1. Need to create a template registry from where a drag and drop template can be added in the template builder.
-    2. Ui/Ux design can be enhanced.
-    3. Make the system integratable or convert as a package so that it can be considered as plug and play with other systems.
-    4. Digital signature needs to be integrated for the approver and the applicant.
-  GoalsAndMilestones: |
-    Goals for a Template Builder:
+  - User-Friendly Interface: Develop an intuitive and user-friendly design for easy template creation.
+  - Versatility: Provide a tool that caters to various document types and purposes.
+  - Consistency: Ensure templates maintain a consistent look and feel across different sections.
+  - Customization: Enable users to easily customize templates to meet their specific needs.
+  - Efficiency: Streamline the document creation process, saving users time and effort.
+  - Compatibility: Ensure compatibility with popular document formats and software.
+  - Collaboration: Allow users to collaborate on template creation, facilitating team workflows.
 
-    - User-Friendly Interface: Develop an intuitive and user-friendly design for easy template creation.
-    - Versatility: Provide a tool that caters to various document types and purposes.
-    - Consistency: Ensure templates maintain a consistent look and feel across different sections.
-    - Customization: Enable users to easily customize templates to meet their specific needs.
-    - Efficiency: Streamline the document creation process, saving users time and effort.
-    - Compatibility: Ensure compatibility with popular document formats and software.
-    - Collaboration: Allow users to collaborate on template creation, facilitating team workflows.
+  Milestones for a Template Builder:
 
-    Milestones for a Template Builder:
-
-    - Prototype Development: Create an initial version showcasing basic template-building functionalities.
-    - User Testing: Gather feedback from users to refine and improve the template builder's usability.
-    - Template Library Establishment: Build a library of pre-designed templates for user convenience.
-    - Customization Features: Implement advanced customization options for diverse user needs.
-    - Compatibility Testing: Ensure seamless integration with various document formats and software.
-    - Collaboration Tools Integration: Integrate features that allow users to collaborate on template creation.
-    - Official Release: Launch the template builder to the public, marking its availability for general use.
-  SetupInstallationGuideLink: https://template-workflow.live.mygov.bd
-  ExpectedOutcome: Make the product as Plug and Playable, more integratable, and user friendly.
-  AcceptanceCriteria: N/A
-  ImplementationDetails: Laravel
-  MockupWireframesLinks: N/A
-  DomainLink: https://template-workflow.live.mygov.bd
-  RequiredTechSkills: Basic PHP and Laravel framework
-  MentorsFocals: N/A
-  ProductCategory: N/A
+  - Prototype Development: Create an initial version showcasing basic template-building functionalities.
+  - User Testing: Gather feedback from users to refine and improve the template builder's usability.
+  - Template Library Establishment: Build a library of pre-designed templates for user convenience.
+  - Customization Features: Implement advanced customization options for diverse user needs.
+  - Compatibility Testing: Ensure seamless integration with various document formats and software.
+  - Collaboration Tools Integration: Integrate features that allow users to collaborate on template creation.
+  - Official Release: Launch the template builder to the public, marking its availability for general use.
+SetupInstallationGuideLink: https://template-workflow.live.mygov.bd
+ExpectedOutcome: Make the product as Plug and Playable, more integratable, and user friendly.
+AcceptanceCriteria: N/A
+ImplementationDetails: Laravel
+MockupWireframesLinks: N/A
+DomainLink: https://template-workflow.live.mygov.bd
+RequiredTechSkills: Basic PHP and Laravel framework
+MentorsFocals: N/A
+ProductCategory: N/A
