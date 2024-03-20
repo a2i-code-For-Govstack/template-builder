@@ -1,4 +1,4 @@
-name: Template Builder
+name: DMP 2024 Project Template	
 description: List a new project for Dedicated Mentoring Program (DMP) 2024 
 title: "[DMP 2024]: "
 labels: ["DMP 2024"]
@@ -90,7 +90,7 @@ body:
     id: ticket-product
     attributes:
       label: Product Name
-      placeholder: Enter Product Name
+      placeholder: Template Builder
     validations:
       required: true
 
