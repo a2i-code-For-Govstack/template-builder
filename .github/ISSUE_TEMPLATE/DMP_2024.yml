@@ -1,7 +1,8 @@
-  Project Title: Template Builder
-  Filled Up By: Mutttalib Hossain
-  Github Link (give collaborator access to dpg@a2i.gov.bd): https://github.com/a2i-dpg/template-builder.git
-  Ticket Contents (Brief Description of the feature): |
+Project:
+  Title: Template Builder
+  FilledBy: Mutttalib Hossain
+  GithubLink: https://github.com/a2i-dpg/template-builder.git
+  TicketContents: |
     A template builder is a tool for creating standardized document layouts quickly. It offers a user-friendly interface to design templates, ensuring consistency in formatting for various purposes such as certificates or official letters. Users can choose pre-designed templates or customize their own, streamlining the document creation process.
 
     Ticket Description:
@@ -9,7 +10,7 @@
     2. Ui/Ux design can be enhanced.
     3. Make the system integratable or convert as a package so that it can be considered as plug and play with other systems.
     4. Digital signature needs to be integrated for the approver and the applicant.
-  Goals and MileStones: |
+  GoalsAndMilestones: |
     Goals for a Template Builder:
 
     - User-Friendly Interface: Develop an intuitive and user-friendly design for easy template creation.
@@ -29,13 +30,12 @@
     - Compatibility Testing: Ensure seamless integration with various document formats and software.
     - Collaboration Tools Integration: Integrate features that allow users to collaborate on template creation.
     - Official Release: Launch the template builder to the public, marking its availability for general use.
-  Setup/Installation Guide Link: https://template-workflow.live.mygov.bd
-  Expected Outcome: Make the product as Plug and Playable, more integratable and user friendly.
-  Acceptance Criteria: N/A
-  Implementation Details: Laravel
-  Mockup/Wireframes Links: N/A
-  Domain Link: https://template-workflow.live.mygov.bd
-  Required Tech Skills: Basic PHP and Laravel framework
-  Mentors /Focals: N/A
-  Product Category (Choose the categories that best describe your ticket): N/A
-
+  SetupInstallationGuideLink: https://template-workflow.live.mygov.bd
+  ExpectedOutcome: Make the product as Plug and Playable, more integratable, and user friendly.
+  AcceptanceCriteria: N/A
+  ImplementationDetails: Laravel
+  MockupWireframesLinks: N/A
+  DomainLink: https://template-workflow.live.mygov.bd
+  RequiredTechSkills: Basic PHP and Laravel framework
+  MentorsFocals: N/A
+  ProductCategory: N/A
