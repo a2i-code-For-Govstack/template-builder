@@ -3,7 +3,7 @@ description: List a new project for Dedicated Mentoring Program (DMP) 2024
 title: "[DMP 2024]: "
 labels: ["DMP 2024"]
 body:
-  - type: string
+  - type: plain_text
     id: ticket-description
     validations:
       required: true
@@ -11,7 +11,7 @@ body:
       label: Ticket Contents
       description: "Provide a brief description of the feature, including why it is needed and what it will accomplish."
 
-  - type: string
+  - type: plain_text
     id: ticket-goals
     validations:
       required: true
@@ -19,25 +19,25 @@ body:
       label: Goals & Mid-Point Milestone
       description: "List the goals of the feature. Please add the goals that must be achieved by Mid-point check-in i.e 1.5 months into the coding period."
 
-  - type: string
+  - type: plain_text
     id: ticket-setup
     attributes:
       label: Setup/Installation 
       description: "List or link setup or installation guide (if any)"
 
-  - type: string
+  - type: plain_text
     id: ticket-expected-outcome
     attributes:
       label: Expected Outcome
       description: "Describe in detail what the final product or result should look like and how it should behave."
 
-  - type: string
+  - type: plain_text
     id: ticket-acceptance-criteria
     attributes:
       label: Acceptance Criteria
       description: "List the acceptance criteria for this feature."
 
-  - type: string
+  - type: plain_text
     id: ticket-implementation-details
     validations:
       required: true
@@ -45,13 +45,13 @@ body:
       label: Implementation Details
       description: "List any technical details about the proposed implementation, including any specific technologies that will be used."
 
-  - type: string
+  - type: plain_text
     id: ticket-mockups
     attributes:
       label: Mockups/Wireframes
       description: "Include links to any visual aids, mockups, wireframes, or diagrams that help illustrate what the final product should look like."
 
-  - type: string
+  - type: plain_text
     id: ticket-product
     attributes:
       label: Product Name
@@ -59,7 +59,7 @@ body:
     validations:
       required: true
 
-  - type: string
+  - type: plain_text
     id: ticket-organisation
     attributes:
       label: Organisation Name
@@ -68,7 +68,7 @@ body:
     validations:
       required: true
 
-  - type: string
+  - type: plain_text
     id: ticket-governance-domain
     attributes:
       label: Domain
@@ -77,7 +77,7 @@ body:
     validations:
       required: true
 
-  - type: string
+  - type: plain_text
     id: ticket-technical-skills-required
     attributes:
       label: Tech Skills Needed
