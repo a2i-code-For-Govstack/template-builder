@@ -1,87 +1,41 @@
-name: DMP 2024 Project Template
-description: List a new project for Dedicated Mentoring Program (DMP) 2024 
-title: "[DMP 2024]: "
-labels: ["DMP 2024"]
-body:
-  - type: plain_text
-    id: ticket-description
-    validations:
-      required: true
-    attributes:
-      label: Ticket Contents
-      description: "Provide a brief description of the feature, including why it is needed and what it will accomplish."
+  Project Title: Template Builder
+  Filled Up By: Mutttalib Hossain
+  Github Link (give collaborator access to dpg@a2i.gov.bd): https://github.com/a2i-dpg/template-builder.git
+  Ticket Contents (Brief Description of the feature): |
+    A template builder is a tool for creating standardized document layouts quickly. It offers a user-friendly interface to design templates, ensuring consistency in formatting for various purposes such as certificates or official letters. Users can choose pre-designed templates or customize their own, streamlining the document creation process.
 
-  - type: plain_text
-    id: ticket-goals
-    validations:
-      required: true
-    attributes:
-      label: Goals & Mid-Point Milestone
-      description: "List the goals of the feature. Please add the goals that must be achieved by Mid-point check-in i.e 1.5 months into the coding period."
+    Ticket Description:
+    1. Need to create a template registry from where a drag and drop template can be added in the template builder.
+    2. Ui/Ux design can be enhanced.
+    3. Make the system integratable or convert as a package so that it can be considered as plug and play with other systems.
+    4. Digital signature needs to be integrated for the approver and the applicant.
+  Goals and MileStones: |
+    Goals for a Template Builder:
 
-  - type: plain_text
-    id: ticket-setup
-    attributes:
-      label: Setup/Installation 
-      description: "List or link setup or installation guide (if any)"
+    - User-Friendly Interface: Develop an intuitive and user-friendly design for easy template creation.
+    - Versatility: Provide a tool that caters to various document types and purposes.
+    - Consistency: Ensure templates maintain a consistent look and feel across different sections.
+    - Customization: Enable users to easily customize templates to meet their specific needs.
+    - Efficiency: Streamline the document creation process, saving users time and effort.
+    - Compatibility: Ensure compatibility with popular document formats and software.
+    - Collaboration: Allow users to collaborate on template creation, facilitating team workflows.
 
-  - type: plain_text
-    id: ticket-expected-outcome
-    attributes:
-      label: Expected Outcome
-      description: "Describe in detail what the final product or result should look like and how it should behave."
+    Milestones for a Template Builder:
 
-  - type: plain_text
-    id: ticket-acceptance-criteria
-    attributes:
-      label: Acceptance Criteria
-      description: "List the acceptance criteria for this feature."
+    - Prototype Development: Create an initial version showcasing basic template-building functionalities.
+    - User Testing: Gather feedback from users to refine and improve the template builder's usability.
+    - Template Library Establishment: Build a library of pre-designed templates for user convenience.
+    - Customization Features: Implement advanced customization options for diverse user needs.
+    - Compatibility Testing: Ensure seamless integration with various document formats and software.
+    - Collaboration Tools Integration: Integrate features that allow users to collaborate on template creation.
+    - Official Release: Launch the template builder to the public, marking its availability for general use.
+  Setup/Installation Guide Link: https://template-workflow.live.mygov.bd
+  Expected Outcome: Make the product as Plug and Playable, more integratable and user friendly.
+  Acceptance Criteria: N/A
+  Implementation Details: Laravel
+  Mockup/Wireframes Links: N/A
+  Domain Link: https://template-workflow.live.mygov.bd
+  Required Tech Skills: Basic PHP and Laravel framework
+  Mentors /Focals: N/A
+  Product Category (Choose the categories that best describe your ticket): N/A
 
-  - type: plain_text
-    id: ticket-implementation-details
-    validations:
-      required: true
-    attributes:
-      label: Implementation Details
-      description: "List any technical details about the proposed implementation, including any specific technologies that will be used."
-
-  - type: plain_text
-    id: ticket-mockups
-    attributes:
-      label: Mockups/Wireframes
-      description: "Include links to any visual aids, mockups, wireframes, or diagrams that help illustrate what the final product should look like."
-
-  - type: plain_text
-    id: ticket-product
-    attributes:
-      label: Product Name
-      placeholder: "Enter Product Name"
-    validations:
-      required: true
-
-  - type: plain_text
-    id: ticket-organisation
-    attributes:
-      label: Organisation Name
-      description: "Enter Organisation Name"
-      placeholder: "a2i"
-    validations:
-      required: true
-
-  - type: plain_text
-    id: ticket-governance-domain
-    attributes:
-      label: Domain
-      description: "Enter the domain of the project"
-      placeholder: "Service Delivery"
-    validations:
-      required: true
-
-  - type: plain_text
-    id: ticket-technical-skills-required
-    attributes:
-      label: Tech Skills Needed
-      description: "Specify the technology skills needed for this ticket"
-      placeholder: "Laravel"
-    validations:
-      required: true
