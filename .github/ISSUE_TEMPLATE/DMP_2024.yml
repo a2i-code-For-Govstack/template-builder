@@ -55,7 +55,6 @@ body:
     id: ticket-expected-outcome
     attributes:
       label: Expected Outcome
-      description: Describe in detail what the final product or result should look like and how it should behave.
       value: |
         Make the product as plug and playable, more integratable, and user-friendly.
 
