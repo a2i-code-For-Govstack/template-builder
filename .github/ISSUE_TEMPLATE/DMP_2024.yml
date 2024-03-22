@@ -1,4 +1,4 @@
-name: DMP 2024 Project Template	
+name: DMP 2024 Project Template
 description: List a new project for Dedicated Mentoring Program (DMP) 2024 
 title: "[DMP 2024]: "
 labels: ["DMP 2024"]
@@ -11,13 +11,7 @@ body:
       label: Ticket Contents
       value: |
         ## Description
-        A template builder is a tool for creating standardized document layouts quickly. It offers a user-friendly interface to design templates, ensuring consistency in formatting for various purposes such as certificates or official letters. Users can choose pre-designed templates or customize their own, streamlining the document creation process.
-        
-        **Ticket Description:**
-        1. Need to create a template registry from where a drag and drop template can be added in the template builder.
-        2. UI/UX design can be enhanced.
-        3. Make the system integratable or convert as a package so that it can be considered as plug and play with other systems.
-        4. Digital signature needs to be integrated for the approver and the applicant.
+        [Provide a brief description of the feature, including why it is needed and what it will accomplish.]
 
   - type: textarea
     id: ticket-goals
@@ -25,45 +19,32 @@ body:
       required: true
     attributes:
       label: Goals & Mid-Point Milestone
+      description: List the goals of the feature. Please add the goals that must be achieved by Mid-point check-in i.e 1.5 months into the coding period.
       value: |
-        ## Goals for a Template Builder:
-        - [ ] User-Friendly Interface: Develop an intuitive and user-friendly design for easy template creation.
-        - [ ] Versatility: Provide a tool that caters to various document types and purposes.
-        - [ ] Consistency: Ensure templates maintain a consistent look and feel across different sections.
-        - [ ] Customization: Enable users to easily customize templates to meet their specific needs.
-        - [ ] Efficiency: Streamline the document creation process, saving users time and effort.
-        - [ ] Compatibility: Ensure compatibility with popular document formats and software.
-        - [ ] Collaboration: Allow users to collaborate on template creation, facilitating team workflows.
+        ## Goals
+        - [ ] [Goal 1]
+        - [ ] [Goal 2]
+        - [ ] [Goal 3]
+        - [ ] [Goal 4]
+        - [ ] [Goals Achieved By Mid-point Milestone]
 
   - type: textarea
     id: ticket-setup
     attributes:
       label: Setup/Installation 
-      value: |
-        Installations guidelines:
-        - Clone your project
-        - Go to the folder application using cd command on your cmd or terminal
-        - Run composer install on your cmd or terminal
-        - Copy .env.example file to .env on the root folder. You can type copy .env.example .env if using command prompt Windows or cp .env.example .env if using terminal, Ubuntu
-        - Open your .env file and change the database name (DB_DATABASE) to whatever you have, username (DB_USERNAME) and password (DB_PASSWORD) field correspond to your configuration.
-        - Run php artisan key:generate
-        - Run php artisan migrate
-        - Run php artisan serve
-        - Go to http://localhost:8000/
+      description: Please list or link setup or installation guide (if any)
 
   - type: textarea
     id: ticket-expected-outcome
     attributes:
       label: Expected Outcome
-      value: |
-        Make the product as plug and playable, more integratable, and user-friendly.
+      description: Describe in detail what the final product or result should look like and how it should behave.
 
   - type: textarea
     id: ticket-acceptance-criteria
     attributes:
       label: Acceptance Criteria
-      value: |
-        Better Ui/ Ux and easy integration feature with any system
+      description: List the acceptance criteria for this feature.
 
   - type: textarea
     id: ticket-implementation-details
@@ -71,50 +52,212 @@ body:
       required: true
     attributes:
       label: Implementation Details
-      value: |
-        The project will be developed using Laravel framework. Specific tasks include:
-        - Creating a template registry for drag and drop functionality.
-        - Enhancing UI/UX design.
-        - Making the system integratable or converting it into a package.
-        - Integrating digital signature for approver and applicant.
+      description: List any technical details about the proposed implementation, including any specific technologies that will be used.
 
   - type: textarea
     id: ticket-mockups
     attributes:
       label: Mockups/Wireframes
-      value: |
-        N/A
+      description: Include links to any visual aids, mockups, wireframes, or diagrams that help illustrate what the final product should look like. This is not always necessary, but can be very helpful in many cases.
 
   - type: input
     id: ticket-product
     attributes:
       label: Product Name
-      placeholder: Template Builder
+      placeholder: Enter Product Name
     validations:
       required: true
 
-  - type: textarea
+  - type: dropdown
     id: ticket-organisation
     attributes:
       label: Organisation Name
       description: Enter Organisation Name
-      value: a2i
+      multiple: false
+      options:
+        - Bandhu
+        - a2i (aspire to innovate)
+        - Blockster Global (CREDBEL)
+        - Civis
+        - Dhwani
+        - Dhiway
+        - EGov
+        - EkShop Marketplace
+        - FIDE
+        - If Me
+        - Key Education Foundation
+        - Norwegian Meteorological Institute
+        - Planet Read
+        - Project Second Chance
+        - Reap Benefit
+        - SamagraX
+        - ShikshaLokam
+        - Tech4Dev
+        - Tekdi
+        - The Mifos Initiative
+        - Tibil
+        - Ushahidi
+        - Arghyam
+        - Piramal Swasthya Management Research Institute
     validations:
       required: true
 
-  - type: textarea
+  - type: dropdown
     id: ticket-governance-domain
     attributes:
       label: Domain
-      description: Enter the domain of the project
-      value: https://template-workflow.live.mygov.bd/login 
+      options:
+        - ⁠Healthcare 
+        - ⁠Education
+        - Financial Inclusion
+        - ⁠Livelihoods
+        - ⁠Skilling 
+        - ⁠Learning & Development
+        - ⁠Agriculture
+        - ⁠Service Delivery
+        - Open Source Library
+        - Water
+    validations:
+      required: true
+
+
+  - type: dropdown
+    id: ticket-technical-skills-required
+    attributes:
+      label: Tech Skills Needed
+      description: Select the technologies needed for this ticket (use Ctrl or Command to select multiple)
+      multiple: true
+      options:
+        - .NET
+        - Angular
+        - Artificial Intelligence
+        - ASP.NET
+        - AWS
+        - Babel
+        - Bootstrap
+        - C#
+        - Chart.js
+        - CI/CD
+        - Computer Vision
+        - CORS
+        - cURL
+        - Cypress
+        - D3.js
+        - Database
+        - Debugging
+        - Design
+        - DevOps
+        - Django
+        - Docker
+        - Electron
+        - ESLint
+        - Express.js
+        - Feature
+        - Flask
+        - Go
+        - GraphQL
+        - HTML
+        - Ionic
+        - Jest
+        - Java
+        - JavaScript
+        - Jenkins
+        - JWT
+        - Kubernetes
+        - Laravel
+        - Machine Learning
+        - Maintenance
+        - Markdown
+        - Material-UI
+        - Microservices
+        - MongoDB
+        - Mobile
+        - Mockups
+        - Mocha
+        - Natural Language Processing
+        - NestJS
+        - Node.js
+        - NUnit
+        - OAuth
+        - Performance Improvement
+        - Prettier
+        - Python
+        - Question
+        - React
+        - React Native
+        - Redux
+        - RESTful APIs
+        - Ruby
+        - Ruby on Rails
+        - Rust
+        - Scala
+        - Security
+        - Selenium
+        - SEO
+        - Serverless
+        - Solidity
+        - Spring Boot
+        - SQL
+        - Swagger
+        - Tailwind CSS
+        - Test
+        - Testing Library
+        - Three.js
+        - TypeScript
+        - UI/UX/Design
+        - Virtual Reality
+        - Vue.js
+        - WebSockets
+        - Webpack
+        - Other
     validations:
       required: true
 
   - type: textarea
-    id: ticket-technical-skills-required
+    id: ticket-mentors
     attributes:
-      label: Tech Skills Needed
-      value: Laravel, API 
+      label: Mentor(s)
+      description: Please tag relevant mentors for the ticket
     validations:
       required: true
+
+  - type: dropdown
+    id: ticket-category
+    attributes: 
+      label: Category
+      description: Choose the categories that best describe your ticket
+      multiple: true
+      options:
+        - API
+        - Analytics
+        - Accessibility
+        - Backend
+        - Breaking Change
+        - Beginner Friendly
+        - Configuration
+        - CI/CD
+        - Database
+        - Data Science
+        - Deprecation
+        - Documentation
+        - Delpoyment
+        - Frontend
+        - Internationalization
+        - Localization
+        - Machine Learning
+        - Maintenance
+        - Mobile
+        - Performance Improvement
+        - Question
+        - Refactoring
+        - Research
+        - Needs Reproduction
+        - SEO
+        - Security
+        - Testing
+        - AI
+        - Other
+    validations:
+      required: true
+
+  
