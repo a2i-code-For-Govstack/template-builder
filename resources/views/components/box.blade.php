@@ -14,7 +14,7 @@
         width:180px;
         height:250px;
         position:relative;
-        border:2px solid black;
+       
     }
     .option-box-image{
         width:100%;
@@ -31,7 +31,7 @@
         position:absolute;
         background-color:white ;
         opacity:0.3;
-        display:none;
+       
     }
     .box-use{
         font-size:40px;
@@ -54,4 +54,5 @@
             option_box_cover_array.style.display="flex";
     });
     */
+   
 </script>

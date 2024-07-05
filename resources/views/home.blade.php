@@ -261,11 +261,13 @@
             padding:40px 0 40px 0;
         }
         .home-sliding-option{
-            min-width:16.66%;
-            height:fit-content;
+            width:16.66%;
+            height:300px;
             display:flex;
             justify-content:center;
-
+            align-items:center;
+            border-radius:0 0 20px 0;
+            box-shadow: 10px 10px 10px 10px grey;
         }
         #home-heading-templates{
             padding:20px;
@@ -294,7 +296,6 @@
             #home-background-main{
                 width:100%;
             }
-            
         }
     </style>
 
