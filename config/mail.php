@@ -43,6 +43,9 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'auth_mode' => null,
+            'verify_peer' => env('MAIL_VALIDATE_CERT',  false),
+            'verify_peer_name' => env('MAIL_VALIDATE_CERT',  false)
         ],
 
         'ses' => [
@@ -98,8 +101,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'aditivijay1711@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'Aditi Vijayvargiya'),
     ],
 
     /*

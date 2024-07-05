@@ -22,6 +22,7 @@ class HomeController extends Controller
     {
         $this->middleware('permission:home-index', ['only' => ['usersrole']]);
         $this->middleware('auth');
+        $this->middleware('verified');
     }
 
     /**
@@ -32,12 +33,15 @@ class HomeController extends Controller
     public function index()
 
     {
+        
 
         $total_form = Form::count();
         $total_template_log =TemplateData::count();
         $total_category = Category::count();
         $total_user = User::count();
-        return view('home',compact('total_form','total_template_log','total_category','total_user'));
+        $forms= Form::all();
+        return view('home', compact('total_form','total_template_log','total_category','total_user','forms'));
+
     }
 
     public function usersrole(Request $request){

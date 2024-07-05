@@ -2,19 +2,23 @@
     .side-text{
         text-decoration: none;
     }
+    .sidebar{
+        z-index: 2;
+    }
+    
 </style>
-<div id="mySidebar" class="sidebar ">
-    <div class="nav text-end mx-4 ">
+<div id="mySidebar" class="sidebar">
+    <div class="nav text-end mx-4">
         <a class="my-2 py-2 text-start active" href="{{ route('home') }}" style="text-decoration:none;">
             <span class="px-2 side-text">
-                <i class='bx bxs-dashboard text-primary' style='font-size: 13px'></i>
+                <i class='bx bxs-dashboard text-primary '></i>
                 Dashboard
             </span>
         </a>
         @canany(['log-index', 'log-show', 'log-update', 'log-edit'])
             <a class="my-2 py-2 text-start active" href="{{ route('log.info') }}" style="text-decoration:none;">
                 <span class="px-2 side-text">
-                    <i class='bx bx-data text-primary' style='font-size: 13px'></i>
+                    <i class='bx bx-data text-primary' ></i>
                     Api Store Log
                 </span>
             </a>
@@ -22,7 +26,7 @@
         @canany(['category-list', 'category-create', 'category-edit', 'category-delete'])
             <a class="my-2 py-2 text-start active" href="{{ route('category.list') }}" style="text-decoration:none;">
                 <span class="px-2 side-text">
-                    <i class='bx bx-data text-primary' style='font-size: 13px'></i>
+                    <i class='bx bx-data text-primary' ></i>
                     Category
                 </span>
             </a>
@@ -31,7 +35,7 @@
             <div class="dropdown">
                 <a class="my-2 py-2 text-start dropdown-toggle" href="#" role="button" id="formsDropdown"
                     data-bs-toggle="dropdown" aria-expanded="true" style="text-decoration:none;">
-                    <span class="px-2 side-text" > <i class='bx bx-paperclip text-primary' style='font-size: 13px'></i>
+                    <span class="px-2 side-text" > <i class='bx bx-paperclip text-primary' ></i>
                         Templates
                     </span>
                 </a>
@@ -41,13 +45,13 @@
                     <li><a class="dropdown-item" href="{{ route('form.index') }}">List</a></li>
                 </ul>
             </div>
-        @endcanany
+         @endcanany
         @canany(['home-index', 'role-list', 'role-create', 'role-edit', 'role-delete', 'user-list', 'user-create',
-            'user-edit', 'user-delete'])
+           'user-edit', 'user-delete'])
             <div class="dropdown">
                 <a class="my-2 py-2 text-start dropdown-toggle" href="#" role="button" id="formsDropdown1"
                     data-bs-toggle="dropdown" aria-expanded="true" style="text-decoration:none;">
-                    <span class="px-2 side-text"> <i class='bx bx-paperclip text-primary' style='font-size: 13px'></i>
+                    <span class="px-2 side-text"> <i class='bx bx-paperclip text-primary' ></i>
                         Role & Permission
                     </span>
                 </a>

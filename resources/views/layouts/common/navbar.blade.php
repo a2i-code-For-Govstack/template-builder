@@ -1,22 +1,44 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<style>
+    *{
+        box-sizing:border-box;
+    }
+    #navbar{
+        background-color:#ECF6FD ;
+    }
+    li:hover{
+        background-color:none ;
+    }
+    #navbar-main{
+        background-color:#ECF6FD ;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        height: 80px;
+    }
+    #navbar-dropdown{
+        margin-right:25px;
+    }
+    #navbar-logo{
+        margin-left:25px;
+    }
+</style>
+<!--
+<nav id="navbar"class="navbar navbar-expand-md navbar-light">
     <div class="container">
+        
         <a class="navbar-brand" href="{{ url('/home') }}">
 {{--            {{ config('app.name', 'tinymce') }}--}}
             <img src="{{ asset('assets/images/logo.png') }}" alt="Image" class="img-fluid w-75">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left Side Of Navbar -->
+        
+            
             <ul class="navbar-nav me-auto">
 
             </ul>
 
-            <!-- Right Side Of Navbar -->
+            
             <ul class="navbar-nav ms-auto">
-                <!-- Authentication Links -->
+                
                 @guest
                     @if (Route::has('login'))
                         <li class="nav-item">
@@ -30,42 +52,89 @@
                         </li>
                     @endif
                 @else
-
-                    <li class="nav-item ms-auto me-2">
-                        <a class="btn btn-outline-primary" href="{{ url()->previous() }}">
-                            <i class='bx bx-left-top-arrow-circle bx-fade-left' style='color:#213398;font-size: 20px' ></i>Go Back
-                        </a>
-                    </li>
-
-                    <li class="nav-item dropdown nav-item ms-auto me-2">
-                        <a id="navbarDropdown" class="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{--{{ Auth::user()->name }}--}}
-                            <i class='bx bxs-user-circle' style='color:#289821;font-size: 27px'  ></i>
-                            <i class='bx bx-chevron-down' style='color:#000000;font-size: 27px'></i>
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-
-                            <a class="dropdown-item border-bottom" href="">
+                            <div class="dropdown">
+                            <button class="btn btn-secondary me-auto bg-transparent" style="color:black"type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                                <i class='bx bxs-user-circle' style='color:#33AFFF;font-size: 27px' ></i>
+                            </button>
+                            <div class="dropdown-menu me-auto" aria-labelledby="dropdownMenuButton">
+                                <span class="dropdown-item">
                                 <strong>Name:</strong> {{ Auth::user()->name }}
-                            </a>
-                            <a class="dropdown-item border-bottom" href="">
-                                <strong>Designation:</strong>
-                            </a>
-
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                </span>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
-                            </form>
-                        </div>
-                    </li>
+                                </form>
+
+                            </div>
+                            </div>
+                            <div class="dropdown">
+                                <a class="nav2-a dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown">
+                                    <span >
+                                    <i class='bx bxs-user-circle' style='color:#33AFFF;font-size: 27px' ></i>
+                                    </span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-custom " style="background-color:#ECF6FD;" aria-labelledby="formsDropdown1">
+                                    <li><span class="dropdown-item">
+                                            <strong>Name:</strong> {{ Auth::user()->name }}
+                                            </span></li>
+                                    
+                                    <li>
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                        </form>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
                 @endguest
             </ul>
         </div>
-    </div>
-</nav>
+    
+</nav>-->
+<div id="navbar-main">
+        <a id="navbar-logo"class="navbar-brand" href="{{ url('/home') }}">
+        {{--            {{ config('app.name', 'tinymce') }}--}}
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="Image" class="img-fluid w-75">
+                </a>
+
+                <div id="navbar-dropdown"class="dropdown">
+                                <a class="nav2-a " href="#" role="button"
+                                data-bs-toggle="dropdown">
+                                    <span >
+                                    <i class='bx bxs-user-circle' style='color:#33AFFF;font-size: 40px' ></i>
+                                    </span>
+                                </a>
+
+                                <ul class="dropdown-menu" style="background-color:#ECF6FD;" aria-labelledby="formsDropdown1">
+                                    <li><span class="dropdown-item">
+                                            <strong>Name:</strong> {{ Auth::user()->name }}
+                                            </span></li>
+                                    
+                                    <li>
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                        </form>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+</div>
+
+
+

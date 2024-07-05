@@ -9,9 +9,9 @@
                 <div class="card-body">
                     <form method="get" action="{{ route('export-pdf') }}">
                         @csrf
-                        <textarea name="content" id="content">
+                        <textarea name="content" class="content">
 
-{{--    <div class="mceNonEditable"> Non Editable Contents</div>--}}
+                        {{--    <div class="mceNonEditable"> Non Editable Contents</div>--}}
 
         <p class="MsoNormal" style="margin-bottom: 0in; text-align: justify; tab-stops: 0in;"><strong><span style="font-size: 13.0pt; mso-bidi-font-size: 12.0pt; line-height: 115%; font-family: serif; mso-fareast-font-family:  mso-bidi-theme-font: minor-bidi;">No. C &amp; W/Cons/LOI/....</span></strong><strong style="mso-bidi-font-weight: normal;"><span style="font-size: 13.0pt; mso-bidi-font-size: 12.0pt; line-height: 115%; font-family: serif; mso-fareast-font-family:  mso-bidi-theme-font: minor-bidi;">/23/A/B-......<span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #00b050;">(Current date</span>................... 2023</span></strong></p>
         <p class="MsoNormal" style="text-align: center;" align="center"><strong style="mso-bidi-font-weight: normal;"><u><span style="font-size: 5.0pt; mso-bidi-font-size: 12.0pt; line-height: 115%; font-family: serif; mso-bidi-theme-font: minor-bidi;"><span style="text-decoration: none;">&nbsp;</span></span></u></strong></p>

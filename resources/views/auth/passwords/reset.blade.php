@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('auth.auth-layout')
 
-@section('content')
+@section('auth-content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

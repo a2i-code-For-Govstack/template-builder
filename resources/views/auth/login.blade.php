@@ -14,9 +14,11 @@
             padding-top: 50px;
             margin: auto;
         }
+        
     </style>
+    
     <div class="container mt-5">
-        <div class="row justify-content-center  shadow bg-light rounded mt-3 mb-3 d-md-flex">
+        <div class="row justify-content-center  shadow rounded mt-3 mb-3 d-md-flex">
             <div class="col-md-6 p-3">
                 <div class="col-md-12 card mb-3 shadow p-0">
                     <div class="card-header border-none login-instruction p-1">
@@ -27,12 +29,12 @@
                     </div>
                     <div class="card-body text-success">
                         <div class="col-md-12 border-bottom px-0 my-2">
-                            <label class="my-2 border-left-info login-text-instruction ps-2">
+                            <label class=" my-2 border-left-info login-text-instruction ps-2">
                                 আপনি আইডি পাসওয়ার্ড দিয়ে লগইন বাটনে ক্লিক করুন।
                             </label>
                         </div>
                         <div class="col-md-12 border-bottom px-0 my-2">
-                            <label class="my-2 border-left-info login-text-instruction ps-2">
+                            <label class=" my-2 border-left-info login-text-instruction ps-2">
                                 আপনাকে মেইন হোম পেজে নিয়ে যাওয়া হবে ।</label>
                         </div>
 
@@ -86,7 +88,11 @@
                     <div class="card-body">
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
-
+                            @if (session('warning'))
+                                    <div class="alert alert-warning" role="alert">
+                                        {{ session('warning') }}
+                                    </div>
+                            @endif
                             <div class="row mb-3">
                                 <label for="email"
                                     class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
@@ -109,15 +115,12 @@
                                     class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
                                 <div class="col-md-6">
-                                    {{-- <input id="password" type="password"
+                                {{-- <input id="password" type="password"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
                                         required autocomplete="current-password"> --}}
 
                                     <input id="password-field" type="password" class="form-control" name="password"
                                         >
-                                    <span toggle="#password-field"
-                                        class="fa fa-fw fa-eye field-icon toggle-password"></span>
-
 
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
@@ -126,7 +129,7 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            
                             <div class="row mb-3">
                                 <div class="col-md-6 offset-md-4">
                                     <div class="form-check">
@@ -151,6 +154,9 @@
                                             {{ __('Forgot Your Password?') }}
                                         </a>
                                     @endif
+                                    <a class="btn btn-link p-0" href="{{ route('register') }}" ml=0 pl=0>
+                                            {{ __("Don't have an account?") }}
+                                    </a>
                                 </div>
                             </div>
                         </form>
@@ -160,10 +166,10 @@
         </div>
         <footer class="row bg-white shadow rounded">
             <div class="container-fluid my-auto">
-                <div class="content-wrapper container p-0">
+                <div class=" content-wrapper container p-0">
                     <div class="row">
                         <!-- copyright -->
-                        <div id="copyright" class=" d-flex justify-content-start col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div id="copyright" class="d-flex justify-content-start col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <table>
                                 <tbody>
                                     <tr>
@@ -198,16 +204,5 @@
             </div>
         </footer>
     </div>
-    <script>
-        $(".toggle-password").click(function() {
-
-            $(this).toggleClass("fa-eye fa-eye-slash");
-            var input = $($(this).attr("toggle"));
-            if (input.attr("type") == "password") {
-                input.attr("type", "text");
-            } else {
-                input.attr("type", "password");
-            }
-        });
-    </script>
+    
 @endsection

@@ -19,4 +19,5 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+    protected $redirectTo = '/password/email';
 }

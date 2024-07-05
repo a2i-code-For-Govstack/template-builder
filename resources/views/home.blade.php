@@ -209,10 +209,97 @@
             transform: translate(-50%, -50%);
             transition: all 0.3s ease-in-out;
         }
+        #home-background-main{
+            width:80%;
+            margin:auto;
+            height:550px;
+            background-image:url("/img/background4.avif");
+            background-position:1500px center;
+            display:flex;
+            overflow:hidden;
+            background-size:cover;
+        }
+        #home-tagline{
+            margin-top:150px;
+            margin-left:180px;
+            width:400px;
+            color:black;
+        }
+        .home-tagline-button{
+            width:120px;
+            height:45px;
+            font-size:20px;
+            font-weight:bolder;
+            margin-top:20px;
+            background-color:black;
+            color:white;
+            border:2px solid grey;
+            
+        }
+        #home-tagline-box{
+            width:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            /*background-image:url("/img/background2.jpg"); */
+            background-color:#C486F8;
+        }
+        #home-tagline-min{
+            width:300px;
+            height:300px;
+            display:flex;
+            flex-direction:column;     
+            padding: 40px 0 0 20px;
+            margin:auto;
+            display:none;
+        }
+        #home-options{
+            display:flex;
+            width:100%;
+            overflow:hidden;
+            flex-wrap:wrap;
+            padding:40px 0 40px 0;
+        }
+        .home-sliding-option{
+            min-width:16.66%;
+            height:fit-content;
+            display:flex;
+            justify-content:center;
+
+        }
+        #home-heading-templates{
+            padding:20px;
+            margin:50px 0 0 0;
+            background-color:#9AF96F ;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:bolder;
+        }
+        @media(max-width:900px){
+            #home-tagline-min{
+                display:flex;
+                width:400px;
+            }
+            #home-background-main{
+                display:none;
+            }
+        }
+        @media(max-width:500px){
+            #home-tagline-min{
+                width:300px;
+            }
+        }
+        @media(max-width:1050px){
+            #home-background-main{
+                width:100%;
+            }
+            
+        }
     </style>
 
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center ">
             <div class="col-md-11">
                 <div class="">
 
@@ -300,9 +387,9 @@
                             @endcanany
 
 
-                        </div>
+                        
 
-                        {{-- <div class="card-body">
+                        {{--<div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
@@ -310,9 +397,54 @@
                     @endif
 
                     {{ __('You are logged in!') }}
-                </div> --}}
+                </div>--}}
+                </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+                        
+                <div id="home-background-main">
+                    {{--<img src="{{ asset('img/background1.jpg') }}">
+                    <img src="{{ asset('img/background2.webp') }}">
+                    <img src="{{ asset('img/background3.jpg') }}">--}}
+                    <div id="home-tagline">
+                        <div style="font-size:35px; color:black;">Building templates Made Simple and Effective!!!</div>
+                            <a href="">
+                            <button class="home-tagline-button">Lets Start</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="home-tagline-box">
+                <div id="home-tagline-min">
+                        <div style="font-size:35px; color:black;">Building templates Made Simple and Effective!!!</div>
+                            <a href="">
+                            <button class="home-tagline-button">Lets Start</button>
+                            </a>
+                        </div>
+                </div>
+                </div>
+                
+                <div id="home-heading-templates">Choose the perfect one!</div>
+                
+                <div id="home-options">
+                    
+                    @foreach ($forms as $form)
+                    <div class="home-sliding-option">
+                        <a href="{{ route('form.any',['id' => $form->id]) }}"><x-box source="{{ $form->background_image}}" title=""/></a>
+                    </div>
+                    @endforeach
+                    
+                </div>
+                
+                
+                  
+{{--
 
-                        {{-- <ul class="list-group">
+
+                <ul class="list-group">
 
                         <li class="list-group-item">
 
@@ -321,7 +453,7 @@
 
                         </li>
                         <li class="list-group-item">
-
+                            <a href="{{ route('form.any',['id' => 12]) }}" class="link-warning"> Form any</a>
                         </li>
                         <li class="list-group-item">
                             <a href="{{ route('form.one') }}" class="link-warning"> Form One</a>
@@ -329,9 +461,23 @@
                         <li class="list-group-item">
                             <a href="{{ route('form.two') }}" class="link-success"> Form Two</a>
                         </li>
-                    </ul> --}}
-                    </div>
-                </div>
-            </div>
-        </div>
+                 </ul>
+                    
+        --}}
+    <script>
+    let component_option_box=document.getElementsByClassName("component-option-box")
+    let option_box_cover=document.getElementsByClassName("option-box-cover")
+    for (let x= 0; x<component_option_box.length; x++) {
+        component_option_box[x].addEventListener('mouseover', function(){
+                option_box_cover[x].style.display="none";
+            }
+        );
+    }
+    for (let w= 0; w<component_option_box.length;w++) {
+        component_option_box[w].addEventListener('mouseout', function(){
+            option_box_cover[w].style.display="flex";
+            }
+        );
+    }
+    </script>
     @endsection
