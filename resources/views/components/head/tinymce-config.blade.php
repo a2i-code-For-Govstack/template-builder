@@ -6,7 +6,7 @@
         selector: '.content',
         height:1000,
         plugins: 'noneditable code table lists insertdatetime',
-        toolbar: 'undo redo | formatselect| bold italic | alignleft aligncenter alignright alignjustify| indent outdent | bullist numlist | code | table',
+        toolbar: 'undo redo |formatselect| bold italic | alignleft aligncenter alignright alignjustify| indent outdent | bullist numlist | code | table',
         insertdatetime_dateformat: '%d-%m-%Y',
       });
 */

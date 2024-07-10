@@ -6,20 +6,14 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class box extends Component
+class images extends Component
 {
     /**
      * Create a new component instance.
      */
-    public $source;
-    public $title;
-    public $size;
-    public function __construct($source,$title,$size)
+    public function __construct()
     {
         //
-        $this->source=$source;
-        $this->title=$title;
-        $this->size=$size;
     }
 
     /**
@@ -27,6 +21,6 @@ class box extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.box');
+        return view('components.images');
     }
 }

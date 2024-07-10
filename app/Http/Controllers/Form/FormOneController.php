@@ -17,9 +17,5 @@ class FormOneController extends Controller
 
         return view('pages.editor-one',$data);
     }
-    public function any($id)
-    {   
-        $form=Form::find($id);
-        return view('pages.editor.editor', ['form'=>$form]);
-    }
+    
 }

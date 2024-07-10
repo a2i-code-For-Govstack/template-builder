@@ -3,11 +3,11 @@
 @section('content')
 <script>
     var form= @json($form);
-    height=(600/form.paper_size.split('X')[0])*form.paper_size.split('X')[1];
+    height=((500/form.paper_size.split('X')[0])*form.paper_size.split('X')[1]) +110;
     address="url('"+form.background_image+"')"
     tinymce.init({
         selector: '.content',
-        width:600,
+        width:500,
         height:height,
         setup: function (editor) { 
             editor.on('init', function () {
@@ -19,7 +19,7 @@
         },
         
         plugins: 'noneditable code table lists insertdatetime',
-        toolbar: 'undo redo | formatselect|styles| bold italic |forecolor| underline | alignleft aligncenter alignright alignjustify| indent outdent | bullist numlist | code | table ',
+        toolbar: 'undo redo| bold italic  underline forecolor  |styles| formatselect| alignleft aligncenter alignright alignjustify| indent outdent | bullist numlist | table ',
         insertdatetime_dateformat: '%d-%m-%Y',
 
         });
@@ -74,7 +74,7 @@
 </div>
 --}}
 <div class="card">
-    <div class="card-header">TITLE</div>
+    <div class="card-header">{{ $form->title }}</div>
     <div class="card-body">
         <form method="get" action="{{ route('export-pdf') }}">
         @csrf
@@ -85,9 +85,15 @@
     <div>
 </div>
 <style>
+    .card-header{
+        background-color:#ABEBC6;
+    }
     .card{
         margin:auto;
         max-width:fit-content;
+    }
+    .card-body{
+        background-color:#D5F5E3 ;
     }
     .editor-submit-button{
         margin:30px 0 30px 0;

@@ -4,15 +4,15 @@
     <div class="component-option-box">
         <img class="option-box-image" src={{$source}}>
         <div class="option-box-cover">
-            <div class="box-use">USE</div>
+            <div class="box-use">{{$size}}</div>
         </div>
     </div>
 </div>
 
 <style>
     .component-option-box{
-        width:180px;
-        height:250px;
+        width:140px;
+        height:200px;
         position:relative;
        
     }
@@ -29,13 +29,14 @@
         justify-content:center;
         align-items:center;
         position:absolute;
-        background-color:white ;
+        background-color:#9AF96F  ;
         opacity:0.3;
-       
+        
     }
     .box-use{
-        font-size:40px;
+        font-size:25px;
         font-weight:bolder;
+        color:black;
     }
     .component-option-box:hover{
         
@@ -54,5 +55,6 @@
             option_box_cover_array.style.display="flex";
     });
     */
+    
    
 </script>

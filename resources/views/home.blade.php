@@ -257,17 +257,18 @@
             display:flex;
             width:100%;
             overflow:hidden;
-            flex-wrap:wrap;
+            align-items:center;
             padding:40px 0 40px 0;
         }
         .home-sliding-option{
-            width:16.66%;
-            height:300px;
+            min-width:12.5%;
+            height:240px;
             display:flex;
             justify-content:center;
             align-items:center;
-            border-radius:0 0 20px 0;
-            box-shadow: 10px 10px 10px 10px grey;
+            border-radius:0 20px 20px 0;
+            box-shadow: 8px 8px 8px 8px #d1d1d1;
+            transition: all 1s ease-in-out ;
         }
         #home-heading-templates{
             padding:20px;
@@ -277,8 +278,9 @@
             align-items:center;
             justify-content:center;
             font-weight:bolder;
+            font-size:20px;
         }
-        @media(max-width:900px){
+        @media(max-width:1000px ){
             #home-tagline-min{
                 display:flex;
                 width:400px;
@@ -291,10 +293,25 @@
             #home-tagline-min{
                 width:300px;
             }
+            .home-sliding-option{
+                min-width:50%;
+                width:50%;
+            }
         }
-        @media(max-width:1050px){
+        @media(max-width:800px) and (min-width:500px){
+            .home-sliding-option{
+                width:33.3%;
+                min-width:33.33%;
+            }
+        }
+        @media(max-width:1050px) and (min-width:800px){
             #home-background-main{
                 width:100%;
+            }
+            .home-sliding-option{
+                min-width:20%;
+                width:20%;
+                margin:0;
             }
         }
     </style>
@@ -428,14 +445,16 @@
                 </div>
                 </div>
                 
-                <div id="home-heading-templates">Choose the perfect one!</div>
+                <div id="home-heading-templates"><center>We hope you fall, but in love with these templates!</center></div>
                 
                 <div id="home-options">
                     
                     @foreach ($forms as $form)
-                    <div class="home-sliding-option">
-                        <a href="{{ route('form.any',['id' => $form->id]) }}"><x-box source="{{ $form->background_image}}" title=""/></a>
-                    </div>
+                    @if ($form->page_type=="vertical")
+                        <div class="home-sliding-option">
+                            <a href="{{ route('form.any',['id' => $form->sid]) }}"><x-box source="{{ $form->background_image}}" title="" size="{{$form->paper_size}}"/></a>
+                        </div>
+                    @endif
                     @endforeach
                     
                 </div>
@@ -465,7 +484,9 @@
                  </ul>
                     
         --}}
+
     <script>
+    
     let component_option_box=document.getElementsByClassName("component-option-box")
     let option_box_cover=document.getElementsByClassName("option-box-cover")
     for (let x= 0; x<component_option_box.length; x++) {
@@ -479,6 +500,26 @@
             option_box_cover[w].style.display="flex";
             }
         );
+    }
+
+    let count=1;
+    
+    let home_sliding_option=document.getElementsByClassName("home-sliding-option");
+    setInterval(func1,2000);
+    
+    function func1(){
+        number=home_sliding_option.length-(screen.width/(home_sliding_option[0].offsetWidth))+1;
+        if(count>number){
+            count=0;
+        }
+        else{
+            elementWidth=Number(home_sliding_option[0].offsetWidth);
+            translate_width=(elementWidth*count).toString();
+            for(let i=0;i<home_sliding_option.length;i++){
+                home_sliding_option[i].style.transform="translateX(-"+translate_width+"px)";
+            }
+            count=count+1;
+        }
     }
     </script>
     @endsection

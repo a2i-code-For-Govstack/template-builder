@@ -8,6 +8,7 @@
         align-items:center;
         justify-content:center;
         flex-wrap:wrap;
+        margin-bottom:30px;
     }
     .nav2-ref{
         text-decoration:none;
@@ -23,20 +24,22 @@
     .nav2-list{
         font-size:12px;
     }
-    
+    .nav2-ref.active{
+        text-decoration:underline;
+    }
 </style>
 <div id="nav2" class="ms-auto">
-        <a  class="nav2-ref"href="{{ route('home') }}" >
+        <a   class="nav2-ref"href="{{ route('home') }}" >
             <span>
                 DASHBOARD
             </span>
         </a>
-        <a  class="nav2-ref"href="{{ route('home') }}" >
+        <a  class="nav2-ref"href="{{ route('collection') }}" >
             <span>
                 COLLECTION
             </span>
         </a>
-        <a  class="nav2-ref"href="{{ route('home') }}" >
+        <a  class="nav2-ref"href="{{ route('form.index') }}" >
             <span>
                 EDITOR
             </span>
@@ -99,3 +102,15 @@
         @endcanany
         
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav2-ref');
+        currentPath="http://127.0.0.1:8000"+currentPath;
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>

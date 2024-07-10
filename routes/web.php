@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Collection\CollectionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,7 +66,13 @@ Route::group([
         Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth', 'verified');
         Route::get('/usersrole', ['uses'=>'HomeController@usersrole'])->name('usersrole');
 });
-
+Route::group([
+    'namespace' => 'App\Http\Controllers\Collection',
+    'prefix' => '/collection',
+    ], function () {
+        Route::get('/', [CollectionController::class, 'index'])->name('collection')->middleware('auth', 'verified');
+        Route::get('/search', [CollectionController::class, 'search'])->name('search');
+});
 Route::middleware(['auth'])->group(function () {
 
     Route::group([
@@ -140,7 +147,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/update-form-update-log-list/{id}', ['uses'=>'FormUpdateLogController@updateformUpdateLogList'])->name('updateformUpdateLogList');
             Route::get('/form-update-log-set-live/{id}', ['uses'=>'FormUpdateLogController@formUpdateLogListSetlive'])->name('formUpdateLogListSetlive');
             Route::get('/pdf/show/{id}', ['uses'=>'FormController@FormPdfShow'])->name('pdf.show');
-            Route::get('/form-any/{id}', ['uses'=>'FormOneController@any'])->name('form.any');
+            Route::get('/form-any', ['uses'=>'FormAnyController@index'])->name('form.index');
+            Route::get('/form-any/{id}', ['uses'=>'FormAnyController@any'])->name('form.any');
     });
 
 
