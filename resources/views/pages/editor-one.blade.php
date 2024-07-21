@@ -10,7 +10,7 @@
                     <!-- Insert the blade containing the TinyMCE placeholder HTML element -->
                     <form method="get" action="{{ route('export-pdf') }}">
                         @csrf
-                        <textarea name="content" id="content">
+                        <textarea name="content" class="content">
                             <p class="MsoNormal">&nbsp;</p>
 
                             <table style="border-collapse: collapse; width: 100%; border-width: 0px;  border-style: none;" ><colgroup><col style="width: 50%;"><col style="width: 50%;"></colgroup>

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
-
+use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Auth;
 class VerificationController extends Controller
 {
     /*
@@ -18,15 +20,13 @@ class VerificationController extends Controller
     | be re-sent if the user didn't receive the original email message.
     |
     */
-
-    use VerifiesEmails;
-
     /**
      * Where to redirect users after verification.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/home';
+
 
     /**
      * Create a new controller instance.
@@ -35,8 +35,44 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('signed')->only('verify');
-        $this->middleware('throttle:6,1')->only('verify', 'resend');
+        $this->middleware('guest')->except('verify', 'resend');
+    }
+
+    public function show()
+    {
+        return view('auth.verify');
+    }
+    
+    
+    public function verify(Request $request)
+    {
+        $user = User::findOrFail($request->route('id'));
+
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
+            Auth::login($user);
+        }
+
+        return redirect($this->redirectPath())->with('verified', true);
+    }
+    
+    /**
+     * Resend the email verification notification.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function resend(Request $request)
+    {
+        
+        $user = User::where('email', $request->email)->first();
+
+        if ($user&& is_null($user->email_verified_at)) {
+            // Send verification email
+            $user->sendEmailVerificationNotification();
+            return back()->with('status', 'Verification email has been resent!');
+        }
+
+        return back()->withErrors(['email' => 'Email not found or already verified.']);
     }
 }

@@ -1,14 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\Pdf\PDFController;
-// use App\Http\Controllers\Form\FormOneController;
+use App\Http\Controllers\Pdf\PDFController;
+use App\Http\Controllers\Form\FormOneController;
 use App\Http\Controllers\Form\FormTwoController;
-// use App\Http\Controllers\Form\FormController;
-// use App\Http\Controllers\Category\CategoryController;
-// use App\Http\Controllers\Home\HomeController;
-
-
+use App\Http\Controllers\Form\FormController;
+use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Collection\CollectionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,22 +28,51 @@ Route::get('/', function () {
    return redirect()->route('home') ;
 });
 
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('guest','preventBackHistory');
+Route::post('login', [LoginController::class, 'login'])->middleware('guest','preventBackHistory');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth','preventBackHistory');
+
+// Registration Routes...
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register')->middleware('guest','preventBackHistory');
+Route::post('register', [RegisterController::class, 'register'])->middleware('guest','preventBackHistory');
+
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request')->middleware('guest');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email')->middleware('guest');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset')->middleware('guest');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update')->middleware('guest');
+
+// Password Confirmation Routes...
+Route::get('password/confirm', [ConfirmPasswordController::class, 'showConfirmForm'])->name('password.confirm')->middleware('auth');
+Route::post('password/confirm', [ConfirmPasswordController::class, 'confirm'])->middleware('auth');
+
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
+    Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify')->middleware('throttle:6,1');
+    Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend')->middleware('throttle:6,1');
+});
+
 // Route::get('/test-pdf',function(){
 //    $content="Test For New Romman";
 //    return view('pdf-generator.loi-nov',compact(['content']));
 // });
 
-Auth::routes();
+
 
 // Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::group([
     'namespace' => 'App\Http\Controllers\Home',
     'prefix' => '/home',
     ], function () {
-        Route::get('/', ['uses'=>'HomeController@index'])->name('home');
+        Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth', 'verified');
         Route::get('/usersrole', ['uses'=>'HomeController@usersrole'])->name('usersrole');
 });
-
+Route::group([
+    'namespace' => 'App\Http\Controllers\Collection',
+    'prefix' => '/collection',
+    ], function () {
+        Route::get('/', [CollectionController::class, 'index'])->name('collection')->middleware('auth', 'verified');
+        Route::get('/search', [CollectionController::class, 'search'])->name('search');
+});
 Route::middleware(['auth'])->group(function () {
 
     Route::group([
@@ -114,11 +147,15 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/update-form-update-log-list/{id}', ['uses'=>'FormUpdateLogController@updateformUpdateLogList'])->name('updateformUpdateLogList');
             Route::get('/form-update-log-set-live/{id}', ['uses'=>'FormUpdateLogController@formUpdateLogListSetlive'])->name('formUpdateLogListSetlive');
             Route::get('/pdf/show/{id}', ['uses'=>'FormController@FormPdfShow'])->name('pdf.show');
+            Route::get('/form-any', ['uses'=>'FormAnyController@editor'])->name('form.editor');
+            Route::get('/form-any/{id}', ['uses'=>'FormAnyController@any'])->name('form.any');
     });
 
 
 
 });
+
+
 
 
 

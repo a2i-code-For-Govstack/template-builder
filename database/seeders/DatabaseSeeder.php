@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
         $user = User::create([
             'name' => 'SuperAdmin',
             'email' => 'simpleSuperAdmin@gmail.com',
-            'password' =>Hash::make('custom-password'),
+            'password' =>hash::make('custom-password'),
             'email_verified_at' => now(),
             'created_at'=>	now(),
             'updated_at'=>now(),

@@ -209,10 +209,115 @@
             transform: translate(-50%, -50%);
             transition: all 0.3s ease-in-out;
         }
+        #home-background-main{
+            width:80%;
+            margin:auto;
+            height:550px;
+            background-image:url("/img/background4.avif");
+            background-position:1500px center;
+            display:flex;
+            overflow:hidden;
+            background-size:cover;
+        }
+        #home-tagline{
+            margin-top:150px;
+            margin-left:180px;
+            width:400px;
+            color:black;
+        }
+        .home-tagline-button{
+            width:120px;
+            height:45px;
+            font-size:20px;
+            font-weight:bolder;
+            margin-top:20px;
+            background-color:black;
+            color:white;
+            border:2px solid grey;
+            
+        }
+        #home-tagline-box{
+            width:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            /*background-image:url("/img/background2.jpg"); */
+            background-color:#C486F8;
+        }
+        #home-tagline-min{
+            width:300px;
+            height:300px;
+            display:flex;
+            flex-direction:column;     
+            padding: 40px 0 0 20px;
+            margin:auto;
+            display:none;
+        }
+        #home-options{
+            display:flex;
+            width:100%;
+            overflow:hidden;
+            align-items:center;
+            padding:40px 0 40px 0;
+        }
+        .home-sliding-option{
+            min-width:12.5%;
+            height:240px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            border-radius:0 20px 20px 0;
+            box-shadow: 8px 8px 8px 8px #d1d1d1;
+            transition: all 1s ease-in-out ;
+        }
+        #home-heading-templates{
+            padding:20px;
+            margin:50px 0 0 0;
+            background-color:#9AF96F ;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:bolder;
+            font-size:20px;
+        }
+        @media(max-width:1000px ){
+            #home-tagline-min{
+                display:flex;
+                width:400px;
+            }
+            #home-background-main{
+                display:none;
+            }
+        }
+        @media(max-width:500px){
+            #home-tagline-min{
+                width:300px;
+            }
+            .home-sliding-option{
+                min-width:50%;
+                width:50%;
+            }
+        }
+        @media(max-width:800px) and (min-width:500px){
+            .home-sliding-option{
+                width:33.3%;
+                min-width:33.33%;
+            }
+        }
+        @media(max-width:1050px) and (min-width:800px){
+            #home-background-main{
+                width:100%;
+            }
+            .home-sliding-option{
+                min-width:20%;
+                width:20%;
+                margin:0;
+            }
+        }
     </style>
 
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center ">
             <div class="col-md-11">
                 <div class="">
 
@@ -300,9 +405,9 @@
                             @endcanany
 
 
-                        </div>
+                        
 
-                        {{-- <div class="card-body">
+                        {{--<div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
@@ -310,9 +415,56 @@
                     @endif
 
                     {{ __('You are logged in!') }}
-                </div> --}}
+                </div>--}}
+                </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+                        
+                <div id="home-background-main">
+                    {{--<img src="{{ asset('img/background1.jpg') }}">
+                    <img src="{{ asset('img/background2.webp') }}">
+                    <img src="{{ asset('img/background3.jpg') }}">--}}
+                    <div id="home-tagline">
+                        <div style="font-size:35px; color:black;">Building templates Made Simple and Effective!!!</div>
+                            <a href="">
+                            <button class="home-tagline-button">Lets Start</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="home-tagline-box">
+                <div id="home-tagline-min">
+                        <div style="font-size:35px; color:black;">Building templates Made Simple and Effective!!!</div>
+                            <a href="">
+                            <button class="home-tagline-button">Lets Start</button>
+                            </a>
+                        </div>
+                </div>
+                </div>
+                
+                <div id="home-heading-templates"><center>We hope you fall, but in love with these templates!</center></div>
+                
+                <div id="home-options">
+                    
+                    @foreach ($forms as $form)
+                    @if ($form->page_type=="vertical")
+                        <div class="home-sliding-option">
+                            <a href="{{ route('form.any',['id' => $form->sid]) }}"><x-box source="{{ $form->background_image}}" title="" size="{{$form->paper_size}}"/></a>
+                        </div>
+                    @endif
+                    @endforeach
+                    
+                </div>
+                
+                
+                  
+{{--
 
-                        {{-- <ul class="list-group">
+
+                <ul class="list-group">
 
                         <li class="list-group-item">
 
@@ -321,7 +473,7 @@
 
                         </li>
                         <li class="list-group-item">
-
+                            <a href="{{ route('form.any',['id' => 12]) }}" class="link-warning"> Form any</a>
                         </li>
                         <li class="list-group-item">
                             <a href="{{ route('form.one') }}" class="link-warning"> Form One</a>
@@ -329,9 +481,45 @@
                         <li class="list-group-item">
                             <a href="{{ route('form.two') }}" class="link-success"> Form Two</a>
                         </li>
-                    </ul> --}}
-                    </div>
-                </div>
-            </div>
-        </div>
+                 </ul>
+                    
+        --}}
+
+    <script>
+    
+    let component_option_box=document.getElementsByClassName("component-option-box")
+    let option_box_cover=document.getElementsByClassName("option-box-cover")
+    for (let x= 0; x<component_option_box.length; x++) {
+        component_option_box[x].addEventListener('mouseover', function(){
+                option_box_cover[x].style.display="none";
+            }
+        );
+    }
+    for (let w= 0; w<component_option_box.length;w++) {
+        component_option_box[w].addEventListener('mouseout', function(){
+            option_box_cover[w].style.display="flex";
+            }
+        );
+    }
+
+    let count=1;
+    
+    let home_sliding_option=document.getElementsByClassName("home-sliding-option");
+    setInterval(func1,2000);
+    
+    function func1(){
+        number=home_sliding_option.length-(screen.width/(home_sliding_option[0].offsetWidth))+1;
+        if(count>number){
+            count=0;
+        }
+        else{
+            elementWidth=Number(home_sliding_option[0].offsetWidth);
+            translate_width=(elementWidth*count).toString();
+            for(let i=0;i<home_sliding_option.length;i++){
+                home_sliding_option[i].style.transform="translateX(-"+translate_width+"px)";
+            }
+            count=count+1;
+        }
+    }
+    </script>
     @endsection

@@ -170,7 +170,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         //Munir
-        PhantomPdf\Laravel\LaravelServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+        //PhantomPdf\Laravel\LaravelServiceProvider::class,
         // yajra datatable service provider
         Yajra\DataTables\DataTablesServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
@@ -191,10 +192,11 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-        // 'DomPDF' => Barryvdh\DomPDF\Facade::class,
+        //'DomPDF' => Barryvdh\DomPDF\Facade::class,
         'DomPDF' => Barryvdh\DomPDF\Facade\Pdf::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
         //Munir
-        'PhantomPDF' => PhantomPdf\Laravel\PDFFacade::class,
+        //'PhantomPDF' => PhantomPdf\Laravel\PDFFacade::class,
         // yajra datatable alies
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,

@@ -11,14 +11,15 @@
 <body>
 
 @include('layouts.common.navbar')
-<div id="app" class="mb-5">
+@include('layouts.common.navbar2')
+<div id="app">
 
     <main >
-        @include('layouts.common.sidebar')
+        {{--
         <button class="openbtn" onclick="toggleNav()">
             <i id="menu-icon" class="bx bx-menu bx-tada" style="color:#0a0af3"></i>
         </button>
-
+--}}
 
         @yield('content')
     </main>
