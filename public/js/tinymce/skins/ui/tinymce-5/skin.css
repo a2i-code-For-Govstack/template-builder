@@ -1,3 +1,4 @@
+
 .tox {
   box-shadow: none;
   box-sizing: content-box;
@@ -35,7 +36,7 @@
 }
 .tox *:not(svg):not(rect) {
   /* stylelint-disable-line no-duplicate-selectors */
-  background: transparent;
+  background: transparent ;
   border: 0;
   box-shadow: none;
   float: none;
@@ -56,6 +57,7 @@
   text-align: right;
 }
 .tox-tinymce {
+  background-color: transparent;
   border: 1px solid #cccccc;
   border-radius: 0;
   box-shadow: none;
@@ -2665,13 +2667,14 @@ body.tox-dialog__disable-scroll {
   left: calc(100% - 20px);
 }
 .tox .tox-sidebar-wrap {
+  background-color: transparent;
   display: flex;
   flex-direction: row;
   flex-grow: 1;
   min-height: 0;
 }
 .tox .tox-sidebar {
-  background-color: #fff;
+  background-color: transparent;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;

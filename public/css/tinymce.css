@@ -1,0 +1,108 @@
+img{
+    
+}
+div{
+    
+}
+.hidden-button{
+    display:none;
+}
+.pinktable td{
+    background-color: pink;
+    padding:10px;
+    border: 5px solid white !important;
+}
+.bluetable td{
+    background-color: #29B6F6 ;
+    padding:10px;
+    border: 5px solid white !important;
+}
+.olivetable td{
+    background-color: olive;
+    padding:10px;
+    border: 5px solid white !important;
+}
+.firstrowpinktable tr:first-child td{
+    background-color:#F48FB1 ;
+}
+.firstrowpinktable td{
+    background-color: pink;
+    padding:10px;
+    border: 5px solid white !important;
+}
+.firstrowbluetable tr:first-child td{
+    background-color:#29B6F6;
+}
+.firstrowbluetable td{
+    background-color: #B3E5FC;
+    padding:10px;
+    border: 5px solid white !important;
+}
+.firstrowolivetable tr:first-child td{
+    background-color:olive ;
+}
+.firstrowolivetable td{
+    background-color:  #AFB42B ;
+    padding:10px;
+    border: 5px solid white !important;
+}
+.firstrowfirstcolumnpinktable td{
+    background-color: pink;
+    padding:10px;
+    border: 5px solid white !important;
+}
+
+.firstrowfirstcolumnpinktable tr td:first-child{
+    background-color: #F48FB1 ;
+}
+.firstrowfirstcolumnpinktable tr:first-child td{
+    background-color: #F06292  ;
+}
+.firstrowfirstcolumnbluetable td{
+    background-color: #B3E5FC;
+    padding:10px;
+    border: 5px solid white !important;
+}
+.firstrowfirstcolumnbluetable tr td:first-child{
+    background-color: #81D4FA;
+}
+.firstrowfirstcolumnbluetable tr:first-child td{
+    background-color: #29B6F6;
+}
+.firstrowfirstcolumnolivetable td{
+    background-color: #DCE775 ;
+    padding:10px;
+    border: 5px solid white !important;
+}
+.firstrowfirstcolumnolivetable tr td:first-child{
+    background-color:#AFB42B ;
+}
+.firstrowfirstcolumnolivetable tr:first-child td{
+    background-color: olive;
+}
+.block-div{
+    display:flex;
+    align-items:center;
+    padding:5px;
+    width:100%;
+}
+.block-icon{
+   
+    padding:5px;
+    padding-bottom:0;
+    
+}
+.block-title{
+    font-size:20px;
+    font-weight:bolder;
+}
+.block-img{
+    max-height:200px;
+}
+.block-content{
+    padding:10px;
+}
+.image-div{
+    padding:20px;
+    border:1px solid black;
+}

@@ -8,7 +8,7 @@
         align-items:center;
         justify-content:center;
         flex-wrap:wrap;
-        margin-bottom:30px;
+        
     }
     .nav2-ref{
         text-decoration:none;
@@ -39,7 +39,7 @@
                 COLLECTION
             </span>
         </a>
-        <a  class="nav2-ref"href="{{ route('form.index') }}" >
+        <a  class="nav2-ref"href="{{ route('form.editor') }}" >
             <span>
                 EDITOR
             </span>
@@ -49,11 +49,7 @@
                 COLLABORATION
             </span>
         </a>
-        <a  class="nav2-ref"href="{{ route('home') }}" >
-            <span>
-                ANYTHING
-            </span>
-        </a>
+        
         @canany(['log-index', 'log-show', 'log-update', 'log-edit'])
             <a  class="nav2-ref"href="{{ route('log.info') }}" >
                 <span >

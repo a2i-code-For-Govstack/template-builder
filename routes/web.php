@@ -147,7 +147,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/update-form-update-log-list/{id}', ['uses'=>'FormUpdateLogController@updateformUpdateLogList'])->name('updateformUpdateLogList');
             Route::get('/form-update-log-set-live/{id}', ['uses'=>'FormUpdateLogController@formUpdateLogListSetlive'])->name('formUpdateLogListSetlive');
             Route::get('/pdf/show/{id}', ['uses'=>'FormController@FormPdfShow'])->name('pdf.show');
-            Route::get('/form-any', ['uses'=>'FormAnyController@index'])->name('form.index');
+            Route::get('/form-any', ['uses'=>'FormAnyController@editor'])->name('form.editor');
             Route::get('/form-any/{id}', ['uses'=>'FormAnyController@any'])->name('form.any');
     });
 

@@ -49,7 +49,37 @@
                 @endfor
 
         @endif
+        <div id="collection-sections">
+                <div class="collection-section" onClick="showingRows(0)">1</div>
+                <div class="collection-section" onClick="showingRows(1)">2</div>
+                <div class="collection-section" onClick="showingRows(2)">3</div>
+                <div class="collection-section" onClick="showingRows(3)">4</div>
+        </div>
 <style>
+        #collection-sections{
+                margin:auto;
+                display:flex;
+                width:280px;
+                align-items:center;
+
+        }
+        .collection-section{
+                width:50px;
+                height:50px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background-color:#D7BDE2;
+                border:2px solid black;
+                color:black;
+                font-size:25px;
+                margin:10px;
+        }
+        .collection-section:hover{
+                width:40px;
+                height:40px;
+                
+        }
         #collection-search{
                 height:200px;
                 display: flex;
@@ -118,6 +148,14 @@
         }
 </style>
 <script>
-        
+        function showingRows(x){
+                sections=document.getElementsByClassName("row");
+                console.log(sections)
+                for(var i=0; i<sections.length ; i++){
+                        sections[i].style.display="none";
+
+                }
+                sections[x].style.display="flex";
+        }
 </script>
 @endsection

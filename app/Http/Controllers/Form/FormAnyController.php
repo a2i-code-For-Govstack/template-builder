@@ -9,7 +9,7 @@ use App\Models\Form;
 class FormAnyController extends Controller
 {
     //
-    public function index(){
+    public function editor(){
         $form=Form::find(1);
         return view('pages.editor.editor', ['form'=>$form]);
     }
