@@ -32,174 +32,264 @@
                 editor.getDoc().body.style.backgroundRepeat = "no-repeat"; 
                 editor.getDoc().body.style.overflow = "hidden"; 
                 editor.getDoc().body.style.margin= "0 !important"; 
-                //editor.getDoc().body.style.border = "5px solid black";
-                //applyResizableToDivs(editor.getDoc().body);
                 
-                //ensureTrailingParagraph(editor)
-                // Re-apply resizable handles whenever content changes 
-                
-                
-                children=editor.getDoc().body.childNodes
-                
-                /*for(var i=0;i<children.length;i++){
-                    children[i].classList.add('div-resizable-draggable');
-                }*/
                 setTimeout(applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement),1000);
-                //uneditableP(editor)
+                
+                
             });  
+            editor.on('dragstart', function (e) {
+                e.preventDefault()
+            });
+            
+            editor.on('dragend', function (e) {
+                e.preventDefault()
+            
+            });
             editor.on('NodeChange', function (e) {
-                    //applyResizableToDivs(editor.getDoc().body);
-                    //uneditableP(editor)
-                    console.log(editor.getDoc().body.querySelectorAll('.div-resizable-draggable'))
                     applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
                     tinymce.activeEditor.dom.select('.selected-node').forEach(function(node) {
                         node.classList.remove('selected-node');
                     });
-                    if (e.element) {
-                            e.element.classList.add('selected-node');
-                    }
-                    //ensureTrailingParagraph(editor)
+                    
+                    e.element.classList.add('selected-node');
                     
             });  
             
             editor.on('setContent', function () {
-                    //applyResizableToDivs(editor.getDoc().body);
                     applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
-                    //ensureTrailingParagraph(editor)
             });
             
             editor.on('click', function (e) {
                 
-                //console.log(editor.selection.getStart(), editor.getDoc().body)
-                if (e.target === editor.getDoc().body) {
-                    e.preventDefault()
-                    first=editor.getBody().firstChild
-                    editor.selection.select(first,true)
-                    editor.selection.collapse(true);
-                }
             });
             editor.on('drop', function(event) {
+                
+
                 event.preventDefault();
                 event.stopPropagation();
                 const jsonData= event.dataTransfer.getData('application/json');
                 const information= JSON.parse(jsonData);
                 const id=information.id
                 const classes=information.classes
-                const dropPosition = editor.selection.getRng().startOffset;
-                console.log(dropPosition)
-                if (dropPosition){
-                editor.selection.setCursorLocation(editor.selection.getNode(), dropPosition);
-                
-                }
-                if (classes=="space draggable"){
-                    const selectedElement = editor.selection.getNode();
-                    const hrElement = editor.dom.create('br');
-                    selectedElement.insertAdjacentElement('afterend', hrElement);
-                }
-                if (id=="solid-line"){
-                    //const hrElement = '<hr>';
-                    //editor.insertContent(hrElement);
-                    //hrElement.classList.add("div-resizable-draggable");
-                    const newElement = editor.dom.create('hr', { class: 'div-resizable-draggable' });
-                    //editor.insertContent(editor.dom.getOuterHTML(hrElement));
-                    const rect = editor.getDoc().body.getBoundingClientRect();
-                    editor.getDoc().body.position="absolute";
-                    const x = event.clientX ;
-                    const y = event.clientY;
-
+               
+                const rect = editor.getDoc().body.getBoundingClientRect();
+                editor.getDoc().body.position="absolute";
+                const x = event.clientX ;
+                const y = event.clientY;
+                if(classes=="text draggable"){
+                    if(id=="h1-text"){
+                        newElement=editor.dom.create('h1', { class: 'div-resizable-draggable' });
+                    }
+                    if(id=="h2-text"){
+                        newElement=editor.dom.create('h2', { class: 'div-resizable-draggable' });
+                    }
+                    if(id=="h3-text"){
+                        newElement=editor.dom.create('h3', { class: 'div-resizable-draggable' });
+                    }
+                    if(id=="h4-text"){
+                        newElement=editor.dom.create('h4', { class: 'div-resizable-draggable' });
+                    }
+                    if(id=="h5-text"){
+                        newElement=editor.dom.create('h5', { class: 'div-resizable-draggable' });
+                    }
+                    if(id=="h6-text"){
+                        newElement=editor.dom.create('h6', { class: 'div-resizable-draggable' });
+                    }
+                    if(id=="p-text"){
+                        newElement=editor.dom.create('p', { class: 'div-resizable-draggable' });
+                    }
+                    newElement.innerText="Rewrite this content";
                     newElement.style.left = `${x}px`;
                     newElement.style.top = `${y}px`;
-
+                    console.log(newElement)
                     editor.getDoc().body.appendChild(newElement);
                 }
-                if (id=="thick-line"){
-                    editor.insertContent('<hr style="border:none;border-top:5px solid black;">');
+                if(classes=="line draggable"){
+                    const newElement = editor.dom.create('hr', { class: 'div-resizable-draggable' });
+                    if (id=="solid-line"){
+                        newElement.setAttribute("style","width:100%;border:none;border-top:2px solid black;");
+                    }
+                    if (id=="thick-line"){
+                        newElement.setAttribute("style","width:100%;border:none;border-top:5px solid black;");
+                    }
+                    if (id=="dotted-line"){
+                        newElement.setAttribute("style","width:100%;border:none;border-top:5px solid black;");
+                    }
+                    if (id=="dashed-line"){
+                        newElement.setAttribute("style","width:100%;border:none;border-top:5px solid black;");
+                    }
+                    if (id=="double-line"){
+                        newElement.setAttribute("style","width:100%;border:none;border-top:5px solid black;");
+                    }
+                    newElement.style.left = `${x}px`;
+                    newElement.style.top = `${y}px`;
+                    console.log(newElement)
+                    editor.getDoc().body.appendChild(newElement);
                 }
-                if (id=="dotted-line"){
-                    editor.insertContent('<hr style="border:none;border-top:5px dotted black;">');
+                if(classes=="table draggable"){
+                    const newElement = editor.dom.create('table', {
+                        class: 'div-resizable-draggable'
+                    });
+                    newElement.setAttribute('width',"100%")
+                    const colgroup = editor.dom.create('colGroup');
+                    const col1 = editor.dom.create('col');
+                    const col2 = editor.dom.create('col');
+                    const col3 = editor.dom.create('col');
+                    editor.dom.add(newElement,colgroup)
+                    editor.dom.add(colgroup,col1)
+                    editor.dom.add(colgroup,col2)
+                    editor.dom.add(colgroup,col3)
+                    // Create and append the tbody and rows
+                    const tbody = editor.dom.create('tbody');
+                    editor.dom.add(newElement,tbody)
+                    const tr1 = editor.dom.create('tr');
+                    editor.dom.add(tbody,tr1)
+                    const tr2 = editor.dom.create('tr');
+                    editor.dom.add(tbody,tr2)
+                    const tr3 = editor.dom.create('tr');
+                    editor.dom.add(tbody,tr3)
+                    const td11 = editor.dom.create('td');
+                    const td12 = editor.dom.create('td');
+                    const td13 = editor.dom.create('td');
+                    const td21 = editor.dom.create('td');
+                    const td22 = editor.dom.create('td');
+                    const td23 = editor.dom.create('td');
+                    const td31 = editor.dom.create('td');
+                    const td32 = editor.dom.create('td');
+                    const td33 = editor.dom.create('td');
+                    editor.dom.add(tr1, td11);
+                    editor.dom.add(tr1, td12);
+                    editor.dom.add(tr1, td13);
+                    editor.dom.add(tr2, td21);
+                    editor.dom.add(tr2, td22);
+                    editor.dom.add(tr2, td23);
+                    editor.dom.add(tr3, td31);
+                    editor.dom.add(tr3, td32);
+                    editor.dom.add(tr3, td33);
+                    if (id=="plain-table"){
+                        
+                    }
+                    if (id=="pink-table"){
+                        editor.dom.addClass(newElement, 'pinktable');
+                    }
+                    if (id=="blue-table"){
+                        editor.dom.addClass(newElement, 'bluetable');
+                    }
+                    if (id=="olive-table"){
+                        editor.dom.addClass(newElement, 'olivetable');
+                    }
+                    if (id=="first-row-pink-table"){
+                        editor.dom.addClass(newElement, 'firstrowpinktable');
+                    }
+                    if (id=="first-row-blue-table"){
+                        editor.dom.addClass(newElement, 'firstrowbluetable');
+                    }
+                    if (id=="first-row-olive-table"){
+                        editor.dom.addClass(newElement, 'firstrowolivetable');
+                    }
+                    if (id=="first-row-first-column-pink-table"){
+                        editor.dom.addClass(newElement, 'firstrowfirstcolumnpinktable');
+                    }
+                    if (id=="first-row-first-column-blue-table"){
+                        editor.dom.addClass(newElement, 'firstrowfirstcolumnbluetable');
+                    }
+                    if (id=="first-row-first-column-olive-table"){
+                        editor.dom.addClass(newElement, 'firstrowfirstcolumnolivetable');
+                    }
+                    newElement.style.left = `${x}px`;
+                    newElement.style.top = `${y}px`;
+                    console.log(newElement)
+                    editor.getDoc().body.appendChild(newElement);
                 }
-                if (id=="dashed-line"){
-                    editor.insertContent('<hr style="border:none;border-top:5px dashed black;">');
-                }
-                if (id=="double-line"){
-                    editor.insertContent('<hr style="border:none;border-top:5px double black;">');
-                }
-                if (id=="plain-table"){
-                    editor.insertContent('<table width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>');
-                }
-                if (id=="pink-table"){
-                    editor.insertContent('<table class="pinktable"width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>');                    
-                    
-                }
-                if (id=="blue-table"){
-                    editor.insertContent('<table class="bluetable" width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>');
-                
-                }
-                if (id=="olive-table"){
-                    editor.insertContent('<table class="olivetable" width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>');
-                
-                }
-                if (id=="first-row-pink-table"){
-                    editor.insertContent('<table class="firstrowpinktable"width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>');
-                
-                }
-                if (id=="first-row-blue-table"){
-                    editor.insertContent('<table class="firstrowbluetable"width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>');
-                
-                }
-                if (id=="first-row-olive-table"){
-                    editor.insertContent('<table class="firstrowolivetable"width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>');
-                
-                }
-                if (id=="first-row-first-column-pink-table"){
-                    editor.insertContent('<table class="firstrowfirstcolumnpinktable"width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>');
-                
-                }
-                if (id=="first-row-first-column-blue-table"){
-                    editor.insertContent('<table class="firstrowfirstcolumnbluetable"width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>');
-                
-                }
-                if (id=="first-row-first-column-olive-table"){
-                    editor.insertContent('<table class="firstrowfirstcolumnolivetable"width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>');
-                
-                }
-                if (id=="two-simple-column"){
-                    editor.insertContent('<table class="column-using-table" width="100%"><colGroup><col width="50%"><col width="50%"></colGroup><td class="table-column"></td><td class="table-column"></td></table>');
-                    
-                }
-                if(id=="three-simple-column"){
+                if (classes=="block draggable"){
+                    const newElement = editor.dom.create('div', {
+                        class: 'div-resizable-draggable'
+                    });
+                    newElement.setAttribute("contentEditable","false")
+                    if (id=="1:1-blue-block"){
+                        newElement.setAttribute("style","background-color:#B3E5FC;width:100px;height:100px;")
+                    }
+                    if (id=="1:1-grey-block"){
+                        newElement.setAttribute("style","background-color:#CFD8DC;width:100px;height:100px;")
+                    }
+                    if (id=="1:1-yellow-block"){
+                        newElement.setAttribute("style","background-color:#FFECB3;width:100px;height:100px;")
+                    }
+                    if (id=="1:1-green-block"){
+                        newElement.setAttribute("style","background-color:#DCEDC8;width:100px;height:100px;")
+                    }
+                    if (id=="1:1-pink-block"){
+                        newElement.setAttribute("style","background-color:#FFCCBC;width:100px;height:100px;")
+                    }
+                    if (id=="1:1-purple-block"){
+                        newElement.setAttribute("style","background-color:#D1C4E9;width:100px;height:100px;")
+                    }
 
-                }
-                if (id=="info-block"){
-                    editor.insertContent('<div style="background-color:#B3E5FC ;"class="block-div"><img class="block-img"src="{{asset("/img/info.png")}}"><div class="block-content"><div class="block-title">Info</div><div >Write your content here.</div></div></div>')
-                }
-                if (id=="note-block"){
-                    editor.insertContent('<div  style="background-color:#CFD8DC ;"class="block-div"><img class="block-img" src="{{asset("/img/message.png")}}"><div class="block-content"><div class="block-title">Note</div><div>Write your content here.</div></div></div>')
-                
-                }
-                if (id=="warning-block"){
-                    editor.insertContent('<div  style="background-color:#FFECB3 ;"class="block-div"><img class="block-img" src="{{asset("/img/warning.png")}}"><div class="block-content"><div class="block-title">Warning</div><div>Write your content here.</div></div></div>')
-                
-                }
-                if (id=="success-block"){
-                    editor.insertContent('<div  style="background-color:#DCEDC8;"class="block-div"><img class="block-img"src="{{asset("/img/success.png")}}"><div class="block-content"><div class="block-title">Success</div><div>Write your content here.</div></div></div>')
-                
-                }
-                if (id=="error-block"){
-                    editor.insertContent('<div  style="background-color:#FFCCBC;" class="block-div"><img class="block-img"src="{{asset("/img/error.png")}}"><div class="block-content"><div class="block-title">Error</div><div>Write your content here.</div></div></div>')
-                
-                }
-                if (id=="quotation-block"){
-                    editor.insertContent('<div  style="background-color:#D1C4E9 ;" class="block-div"><img class="block-img"src="{{asset("/img/quote.png")}}"><div class="block-content"><div class="block-title">Quotation</div><div>Write your content here.</div></div></div>');
-                
-                }
-                if (id=="upload-image"){
+                    if (id=="4:5-blue-block"){
+                        newElement.setAttribute("style","background-color:#B3E5FC;width:200px;height:250px;")
+                    }
+                    if (id=="4:5-grey-block"){
+                        newElement.setAttribute("style","background-color:#CFD8DC;width:200px;height:250px;")
+                    }
+                    if (id=="4:5-yellow-block"){
+                        newElement.setAttribute("style","background-color:#FFECB3;width:200px;height:250px;")
+                    }
+                    if (id=="4:5-green-block"){
+                        newElement.setAttribute("style","background-color:#DCEDC8;width:200px;height:250px;")
+                    }
+                    if (id=="4:5-pink-block"){
+                        newElement.setAttribute("style","background-color:#FFCCBC;width:200px;height:250px;")
+                    }
+                    if (id=="4:5-purple-block"){
+                        newElement.setAttribute("style","background-color:#D1C4E9;width:200px;height:250px;")
+                    }
+
+                    if (id=="9:16-blue-block"){
+                        newElement.setAttribute("style","background-color:#B3E5FC;width:90px;height:160px;")
+                    }
+                    if (id=="9:16-grey-block"){
+                        newElement.setAttribute("style","background-color:#CFD8DC;width:90px;height:160px;")
+                    }
+                    if (id=="9:16-yellow-block"){
+                        newElement.setAttribute("style","background-color:#FFECB3;width:90px;height:160px;")
+                    }
+                    if (id=="9:16-green-block"){
+                        newElement.setAttribute("style","background-color:#DCEDC8;width:90px;height:160px;")
+                    }
+                    if (id=="9:16-pink-block"){
+                        newElement.setAttribute("style","background-color:#FFCCBC;width:90px;height:160px;")
+                    }
+                    if (id=="9:16-purple-block"){
+                        newElement.setAttribute("style","background-color:#D1C4E9;width:90px;height:160px;")
+                    }
                     
+                    newElement.style.left = `${x}px`;
+                    newElement.style.top = `${y}px`;
+                    console.log(newElement)
+                    editor.getDoc().body.appendChild(newElement);
+                }
+                if (classes=="icon draggable"){
+                    t= event.dataTransfer.getData('text/plain');
+                    const newElement = editor.dom.create('img', {
+                        class: 'div-resizable-draggable'
+                    });
+                    
+                    newElement.setAttribute("src",t)
+                    newElement.style.left = `${x}px`;
+                    newElement.style.top = `${y}px`;
+                    console.log(newElement)
+                    editor.getDoc().body.appendChild(newElement);
                 }
                 if (classes=="image draggable"){
-                    x= event.dataTransfer.getData('text/plain');
-                    editor.insertContent(`<img src="${x}" class="div-resizable-draggable">`);
-
+                    t= event.dataTransfer.getData('text/plain');
+                    const newElement = editor.dom.create('img', {
+                        class: 'div-resizable-draggable'
+                    });
+                    newElement.setAttribute("src",t)
+                    newElement.style.left = `${x}px`;
+                    newElement.style.top = `${y}px`;
+                    console.log(newElement)
+                    editor.getDoc().body.appendChild(newElement);
                 }
                 
             });
@@ -209,24 +299,21 @@
             }); 
                
             editor.on('keydown', function (e) {
-            if (e.keyCode == 13) { // 13 is the keycode for Enter
+            if (e.keyCode == 13) { 
                 e.preventDefault();
                 editor.execCommand('InsertLineBreak');
-              
             }
             });
             editor.ui.registry.addButton('deleteSelectedElement', {
                     text: 'Delete Element',
                     onAction: function () {
-                        // Get the selected node
                         var selectedNode = editor.selection.getNode();
-                        // Check if a node is selected
-                        while (selectedNode && (selectedNode.tagName !== "DIV" && selectedNode.tagName !== "HR" && selectedNode.tagName !== "TABLE" && selectedNode.tagName !== "IMG") ) {
-                            selectedNode = selectedNode.parentNode;
+                        if (selectedNode.tagName=="IMG"){
+                            while (selectedNode && (selectedNode.tagName !== "P" )){
+                                selectedNode = selectedNode.parentNode;
+                            }
                         }
                         if (selectedNode) {
-                            // Remove the selected node
-                            console.log("aditi")
                             selectedNode.remove();
                         }
                     }
@@ -238,14 +325,6 @@
         content_style: `html { height:100%; background-color:#F5EEF8;}body{height:100%;width:100%;line-height: 1;position:absolute; }`,
         
         });
-        /*
-        function ensureTrailingParagraph(editor) {
-                    const body = editor.getBody();
-                    const lastChild = body.lastChild;
-                    if (!lastChild || lastChild.nodeName !== 'P') {
-                        editor.setContent(editor.getContent() + '<p>End of the page</p>');
-                    }
-        }*/
         function editorfunc(y){
             const tochoose=document.getElementsByClassName("editor-choose-element");
             const closeChoose=document.getElementById("close-choose");
@@ -263,6 +342,7 @@
             }
             closeChoose.style.display="none";
         }
+        
         setTimeout(function(){
         const draggable = document.getElementsByClassName("draggable");
         for(var i=0; i<draggable.length;i++){
@@ -276,6 +356,10 @@
                 if (event.target.className=="image draggable"){
                     event.dataTransfer.setData('text/plain', event.target.src);
                 }
+                if (event.target.className=="icon draggable"){
+                    event.dataTransfer.setData('text/plain', event.target.src);
+                }
+                dragFromElements=true;
             });
         }
         },1000);
@@ -286,32 +370,21 @@
                         parentP.classList.add('uneditable');
                     }
                     });
-        }
+        }  
         function applyDraggableToDivs(editor,body,frame) {
                     const divs = body.querySelectorAll('.div-resizable-draggable');
                     divs.forEach(div => {
                         makeDraggable(div,editor,body,frame);
                     });
-                }
+        }
         
         function makeDraggable(div,editor,body,frame) {
-                    /*if (div.querySelector('.drag-handle')) return;
-
-                    // Create the drag handle
                    
-                    const dragHandle = document.createElement('div');
-        
-                    dragHandle.classList.add('drag-handle');
-
-                    // Append drag handle to the div
-                    div.appendChild(dragHandle);
-                    */
-                    // Add mouse event listeners for dragging
                     let isDragging = false;
                     let startX, startY, initialMouseX, initialMouseY;
-
+                    
                     div.addEventListener('mousedown', function (e) {
-                            //e.preventDefault();
+                            
                             
                             const rect = div.getBoundingClientRect();
                             startX = rect.left ;
@@ -321,6 +394,7 @@
                             
                             editor.getDoc().addEventListener('mousemove', onMouseMove);
                             editor.getDoc().addEventListener('mouseup', onMouseUp);
+                            
                     });
 
                     function onMouseMove(e) {
@@ -332,22 +406,27 @@
                             const newLeft = startX + dx;
                             const newTop = startY + dy;
 
-                            // Ensure the div stays within the bounds of the iframe
+                            
                             const maxLeft = iframeRect.width - div.offsetWidth;
                             const maxTop = iframeRect.height - div.offsetHeight;
 
-                            //div.style.position = 'absolute';
+                            
                             div.style.left = Math.min(Math.max(newLeft, 0), maxLeft) + 'px';
                             div.style.top = Math.min(Math.max(newTop, 0), maxTop) + 'px';
                         
                     }
 
 
-                    function onMouseUp() {
+                    function onMouseUp(e) {
                             
+                            e.stopPropagation();
+                            
+
                             isDragging = false;
+                            
                             editor.getDoc().removeEventListener('mousemove', onMouseMove);
                             editor.getDoc().removeEventListener('mouseup', onMouseUp);
+                            
                     }
                 }
             
@@ -473,16 +552,7 @@
         border:2px solid black;
         border-radius:20px;
     }
-    .column{
-        min-width:40%;
-        margin:5%;
-        height:120px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        border-radius:10px;
-        border:2px solid black;
-    }
+    
     .table{
         height:120px;
         min-width:40%;
@@ -503,6 +573,17 @@
         border-radius:10px;
         border:2px solid black;
     }
+    .icon{
+        height:100px;
+        min-width:40%;
+        margin:5%;
+        padding:20px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:10px;
+        border:2px solid black;
+    }
     .image{
         height:150px;
         min-width:90%;
@@ -513,18 +594,15 @@
         border-radius:10px;
         border:2px solid black;
     }
-    .image img{
-        width:100%;
-        height:100%;
-        border-radius:10px;
-    }
+    
     .tox{
         z-index:0 !important;
     }
-    .space{
-        height:20px;
+    .text{
+        height:40px;
         min-width:40%;
         margin:5%;
+        padding-top:10px;
         display:flex;
         align-items:center;
         justify-content:center;
@@ -564,55 +642,7 @@
         }
     }
 </style>
-{{--
-    <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-11">
-            <div class="card mt-5">
-                <div class="card-header">  <h3>Form One</h3></div>
-                <div class="card-body">
-                    <!-- Insert the blade containing the TinyMCE placeholder HTML element -->
-                    <form method="get" action="{{ route('export-pdf') }}">
-                        @csrf
-                        <textarea name="content" class="content">
-                            <p class="MsoNormal">&nbsp;</p>
 
-                            <table style="border-collapse: collapse; width: 100%; border-width: 0px;  border-style: none;" ><colgroup><col style="width: 50%;"><col style="width: 50%;"></colgroup>
-                                <tbody>
-                                <tr>
-                                <td style="border-width: 0px; "><strong>No. C&amp;W/Cons/NV/..... /23/A/B-.......&nbsp;</strong></td>
-                                <td style="border-width: 0px; text-align: right;"><strong></strong></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <p class="MsoNormal">&nbsp;</p>
-                            <p class="MsoNormal">The Ministry of Foreign Affairs of the Government of the People&rsquo;s Republic of Bangladesh presents its compliments to (*4.Name of the Embassy/High Commission: the High Commission of Canada) in Dhaka and has the honour to inform that the following officials/delegation/persons of (1. the organization name: Ministry of Information) Government of the People&rsquo;s Republic of Bangladesh would like to visit 3. Country: Canada from (8. date........) to (date...........) to attend the (6. &ldquo;name of the event...............................&rdquo;) to be held from (7. date ..... to date........) in 9. Event location , (3. country name: Canada):</p>
-                            <p class="MsoNormal">2*</p>
-                            <p class="MsoNormal">Sl. No.<span style="mso-tab-count: 1;">&nbsp;&nbsp; </span>Name &amp; Designation <span style="mso-tab-count: 1;">&nbsp;&nbsp;&nbsp;&nbsp; </span>Passport No.</p>
-                            <p class="MsoNormal">01.<span style="mso-tab-count: 1;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>( Address as per gender) Mr./Ms................<span style="mso-tab-count: 1;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
-                            <p class="MsoNormal">02.<span style="mso-tab-count: 1;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>( Address as per gender) Mr./Ms................<span style="mso-tab-count: 1;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p>
-                            <p class="MsoNormal">&nbsp;</p>
-                            <p class="MsoNormal">&nbsp;</p>
-                            <p class="MsoNormal">The Ministry would appreciate if the esteemed Embassy/High Commission could kindly endorse necessary visa in their favor.</p>
-                            <p class="MsoNormal">&nbsp;</p>
-                            <p class="MsoNormal">The Ministry of Foreign Affairs of the Government of the People&rsquo;s Republic of Bangladesh avails itself of this opportunity to renew to the (4*Embassy name High Commission of Canada) in Dhaka the assurances of its highest consideration.</p>
-                            <p class="MsoNormal">&nbsp;</p>
-                            <p class="MsoNormal">&nbsp;</p>
-                            <p class="MsoNormal">&nbsp;</p>
-                            <p class="MsoNormal"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Dhaka, (10*current date)</p>
-                            <p class="MsoNormal">(4*Embassy name: High Commission of Canada)</p>
-                            <p class="MsoNormal">Dhaka</p>
-                        </textarea>
-                        <button type="submit" class="btn btn-success btn-sm float-end">Download PDF</button>
-                    </form>
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
---}}
 <div style="display:flex;">
 <div id="editor-main">
 <div id="editor-option-block">
@@ -638,13 +668,15 @@
 </div>
 <div class="editor-choose-element">
     <div class="editor-choose-element-inner">
-    <div class="editor-heading">Spaces</div>
-    <div id="lines" class="editor-choose-option">
-        <div id="solid-space"class="space draggable" draggable="true"></div>
-        <div id="thick-space"class="space draggable" draggable="true"></div>
-        <div id="dotted-space"class="space draggable" draggable="true"></div>
-        <div id="dashed-space"class="space draggable" draggable="true"></div>
-        <div id="double-space"class="space draggable" draggable="true"></div>
+    <div class="editor-heading">Text</div>
+    <div id="texts" class="editor-choose-option">
+        <div id="h1-text"class="text draggable" draggable="true"><h1>H1</h1></div>
+        <div id="h2-text"class="text draggable" draggable="true"><h2>H2</h2></div>
+        <div id="h3-text"class="text draggable" draggable="true"><h3>H3</h3></div>
+        <div id="h4-text"class="text draggable" draggable="true"><h4>H4</h4></div>
+        <div id="h5-text"class="text draggable" draggable="true"><h5>H5</h5></div>
+        <div id="h6-text"class="text draggable" draggable="true"><h6>H6</h6></div>
+        <div id="p-text"class="text draggable" draggable="true"><p>Paragraph</p></div>
     </div>
     </div>
     <div class="editor-choose-element-inner">
@@ -655,16 +687,6 @@
         <div id="dotted-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:5px dotted black;"></div>
         <div id="dashed-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:5px dashed black;"></div>
         <div id="double-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:5px double black;"></div>
-    </div>
-    </div>
-    <div class="editor-choose-element-inner">
-    <div class="editor-heading">Columns</div>
-    <div id="columns" class="editor-choose-option">
-        <div id="two-simple-column"class="column draggable" draggable="true"></div>
-        <div id="three-simple-column"class="column draggable" draggable="true"></div>
-        <div id="-column"class="column draggable" draggable="true"></div>
-        <div id="-column"class="column draggable" draggable="true"></div>
-        <div id="double-column"class="column draggable" draggable="true"></div>
     </div>
     </div>
     <div class="editor-choose-element-inner">
@@ -683,14 +705,41 @@
     </div>
     </div>
     <div class="editor-choose-element-inner">
+    <div class="editor-heading">Icons</div>
+    <div id="icons" class="editor-choose-option">
+        <img id="info-icon"class="icon draggable" draggable="true"src="{{asset('/img/info.png')}}">
+        <img id="note-icon"class="icon draggable" draggable="true"src="{{asset('/img/message.png')}}">
+        <img id="success-icon"class="icon draggable" draggable="true"src="{{asset('/img/success.png')}}">
+        <img id="warning-icon"class="icon draggable" draggable="true"src="{{asset('/img/warning.png')}}">
+        <img id="error-icon"class="icon draggable" draggable="true"src="{{asset('/img/error.png')}}">
+        <img id="quote-icon"class="icon draggable" draggable="true"src="{{asset('/img/quote.png')}}">
+    </div>
+    </div>
+    
+    <div class="editor-choose-element-inner">
     <div class="editor-heading">Blocks</div>
     <div id="blocks" class="editor-choose-option">
-        <div id="info-block"class="block draggable" draggable="true" style="background-color:#B3E5FC;"><img src="{{asset('/img/info.png')}}"></div>
-        <div id="note-block"class="block draggable" draggable="true" style="background-color:#CFD8DC;"><img src="{{asset('/img/message.png')}}"></div>
-        <div id="warning-block"class="block draggable" draggable="true" style="background-color:#FFECB3;"><img src="{{asset('/img/warning.png')}}"></div>
-        <div id="success-block"class="block draggable" draggable="true" style="background-color:#DCEDC8;"><img src="{{asset('/img/success.png')}}"></div>
-        <div id="error-block"class="block draggable" draggable="true" style="background-color:#FFCCBC;"><img src="{{asset('/img/error.png')}}"></div>
-        <div id="quotation-block"class="block draggable" draggable="true" style="background-color:#D1C4E9;"><img src="{{asset('/img/quote.png')}}"></div>
+        <div id="1:1-blue-block"class="block draggable" draggable="true" style="background-color:#B3E5FC;">1:1</div>
+        <div id="1:1-grey-block"class="block draggable" draggable="true" style="background-color:#CFD8DC;">1:1</div>
+        <div id="1:1-yellow-block"class="block draggable" draggable="true" style="background-color:#FFECB3;">1:1</div>
+        <div id="1:1-green-block"class="block draggable" draggable="true" style="background-color:#DCEDC8;">1:1</div>
+        <div id="1:1-pink-block"class="block draggable" draggable="true" style="background-color:#FFCCBC;">1:1</div>
+        <div id="1:1-purple-block"class="block draggable" draggable="true" style="background-color:#D1C4E9;">1:1</div>
+
+        <div id="4:5-blue-block"class="block draggable" draggable="true" style="background-color:#B3E5FC;">4:5</div>
+        <div id="4:5-grey-block"class="block draggable" draggable="true" style="background-color:#CFD8DC;">4:5</div>
+        <div id="4:5-yellow-block"class="block draggable" draggable="true" style="background-color:#FFECB3;">4:5</div>
+        <div id="4:5-green-block"class="block draggable" draggable="true" style="background-color:#DCEDC8;">4:5</div>
+        <div id="4:5-pink-block"class="block draggable" draggable="true" style="background-color:#FFCCBC;">4:5</div>
+        <div id="4:5-purple-block"class="block draggable" draggable="true" style="background-color:#D1C4E9;">4:5</div>
+
+        <div id="9:16-blue-block"class="block draggable" draggable="true" style="background-color:#B3E5FC;">9:16</div>
+        <div id="9:16-grey-block"class="block draggable" draggable="true" style="background-color:#CFD8DC;">9:16</div>
+        <div id="9:16-yellow-block"class="block draggable" draggable="true" style="background-color:#FFECB3;">9:16</div>
+        <div id="9:16-green-block"class="block draggable" draggable="true" style="background-color:#DCEDC8;">9:16</div>
+        <div id="9:16-pink-block"class="block draggable" draggable="true" style="background-color:#FFCCBC;">9:16</div>
+        <div id="9:16-purple-block"class="block draggable" draggable="true" style="background-color:#D1C4E9;">9:16</div>
+
     </div>
     </div>
     @php
@@ -734,10 +783,13 @@
             <img src="{{asset('/img/select-image1.jpg')}}">
             --}}
             {!!$form->content!!}
+            
+            <img class="div-resizable-draggable"style=""src="{{asset('/img/select-image4.jpg')}}">
             {{--
+            <div  class="div-resizable-draggable"contentEditable="false"style="width:200px;height:200px;background-color:blue"></div>
             
             <div style="background-color:blue;width:200px;height:200px;"><div>aditi</div><div>vijay</div></div>
-            <div style="border:2px solid black;">aditi </div>
+            <div class="div-resizable div-resizable-draggable"style="border:2px solid black;">aditi </div>
             
             <img class="div-resizable-draggable"style=""src="{{asset('/img/select-image4.jpg')}}">
             <p  class="div-resizable-draggable">aditi</p>

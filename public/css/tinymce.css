@@ -8,15 +8,6 @@ img{
 div{
     
 }
-.uneditable{
-    content:"";
-    pointer-events:none;
-    user-select:none;
-}
-.uneditable img {
-    pointer-events: auto;
-    user-select: auto; /* Ensure images remain clickable and editable */
-  }
 .selected-node{
     background-color: rgb(255,0,0,.1);
 }
@@ -27,7 +18,6 @@ div{
     border:2px solid blue;
     resize: both;
 }
-
 .div-resizable-draggable {
     resize:none;
     position:absolute;
@@ -37,27 +27,7 @@ div{
     min-width:max-content;
     min-height:max-content !important;
 */
-}/*
-.drag-handle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 10px;
-    height: 10px;
-    background-color: blue;
-    cursor: move;
-    display:none;
 }
-
-.resize-handle {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 10px;
-    height: 10px;
-    background-color: blue;
-    cursor: se-resize;
-}*/
 td{
     text-align:center;
     padding:10px;
