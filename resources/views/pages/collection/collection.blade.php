@@ -20,7 +20,7 @@
                         <div class="column">
                                 @foreach($results as $result)
                                 @if($result->sid < $j * 24 + $i * 6 + 6 && $result->sid > $j * 24 + $i * 6)
-                                <a href="{{ route('form.any',['id' => $result->sid]) }}"><abbr title="{{$result->paper_size}}"><img src="{{ asset($result->background_image) }}" alt="Template Image"></abbr></a>
+                                <a href="{{ route('form.any',['id' => $result->sid]) }}"><abbr title="{{$result->paper_size}}"><img src="{{ asset($result->template_type) }}" alt="Template Image"></abbr></a>
                                 @endif
                                 @endforeach
                         </div>
@@ -39,8 +39,8 @@
                                 @for ($i = 0; $i < 4; $i++)
                                 <div class="column">
                                         @foreach($forms as $form)
-                                        @if($form->sid < $j * 24 + $i * 6 + 6 && $form->sid > $j * 24 + $i * 6)
-                                        <a href="{{ route('form.any',['id' => $form->sid]) }}"><abbr title="{{$form->paper_size}}"><img src="{{ asset($form->background_image) }}" alt="Template Image"></abbr></a>
+                                        @if($form->sid < $j * 24 + ($i * 6) + 7 && $form->sid >= $j * 24 + ( $i *6) +1)
+                                        <a href="{{ route('form.any',['id' => $form->sid]) }}"><abbr title="{{$form->paper_size}}"><img src="{{ asset($form->template_type) }}" alt="Template Image"></abbr></a>
                                         @endif
                                         @endforeach
                                 </div>

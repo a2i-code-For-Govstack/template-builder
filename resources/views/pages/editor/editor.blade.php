@@ -5,24 +5,79 @@
 
 <script>
     var form= @json($form);
-    height=((500/form.paper_size.split('X')[0])*form.paper_size.split('X')[1])+100;
+    if (form.background_image=="none"){
+    height=((700/form.paper_size.split('X')[0])*form.paper_size.split('X')[1])+160;
+    width=700;
+    }
+    else{
+        height=(Number(form.paper_size.split('X')[1])+Number(200)).toString();
+        
+        width=(Number(form.paper_size.split('X')[0])+Number(100)).toString();
+    }
     address="url('"+form.background_image+"')";
     tinymce.init({
         selector: '.content',
-        width:500,
-        height:height,
         content_css: "/css/tinymce.css",
         resize:"both",
+        height:height,
+        width:width,
+        valid_children: '-p[img]',
+        focus:false,
         setup: function (editor) { 
             
             editor.on('init', function () {
-                editor.getDoc().body.style.backgroundImage = "none";
-                editor.getDoc().body.style.backgroundColor= "white";
+                editor.getDoc().body.style.backgroundImage =address;
+                editor.getDoc().body.style.backgroundColor= "none";
                 editor.getDoc().body.style.backgroundSize = "cover";
                 editor.getDoc().body.style.backgroundRepeat = "no-repeat"; 
                 editor.getDoc().body.style.overflow = "hidden"; 
-
-            });    
+                editor.getDoc().body.style.margin= "0 !important"; 
+                //editor.getDoc().body.style.border = "5px solid black";
+                //applyResizableToDivs(editor.getDoc().body);
+                
+                //ensureTrailingParagraph(editor)
+                // Re-apply resizable handles whenever content changes 
+                
+                
+                children=editor.getDoc().body.childNodes
+                
+                /*for(var i=0;i<children.length;i++){
+                    children[i].classList.add('div-resizable-draggable');
+                }*/
+                setTimeout(applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement),1000);
+                //uneditableP(editor)
+            });  
+            editor.on('NodeChange', function (e) {
+                    //applyResizableToDivs(editor.getDoc().body);
+                    //uneditableP(editor)
+                    console.log(editor.getDoc().body.querySelectorAll('.div-resizable-draggable'))
+                    applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
+                    tinymce.activeEditor.dom.select('.selected-node').forEach(function(node) {
+                        node.classList.remove('selected-node');
+                    });
+                    if (e.element) {
+                            e.element.classList.add('selected-node');
+                    }
+                    //ensureTrailingParagraph(editor)
+                    
+            });  
+            
+            editor.on('setContent', function () {
+                    //applyResizableToDivs(editor.getDoc().body);
+                    applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
+                    //ensureTrailingParagraph(editor)
+            });
+            
+            editor.on('click', function (e) {
+                
+                //console.log(editor.selection.getStart(), editor.getDoc().body)
+                if (e.target === editor.getDoc().body) {
+                    e.preventDefault()
+                    first=editor.getBody().firstChild
+                    editor.selection.select(first,true)
+                    editor.selection.collapse(true);
+                }
+            });
             editor.on('drop', function(event) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -31,11 +86,31 @@
                 const id=information.id
                 const classes=information.classes
                 const dropPosition = editor.selection.getRng().startOffset;
+                console.log(dropPosition)
+                if (dropPosition){
                 editor.selection.setCursorLocation(editor.selection.getNode(), dropPosition);
-
                 
+                }
+                if (classes=="space draggable"){
+                    const selectedElement = editor.selection.getNode();
+                    const hrElement = editor.dom.create('br');
+                    selectedElement.insertAdjacentElement('afterend', hrElement);
+                }
                 if (id=="solid-line"){
-                    editor.insertContent('<hr style="border:none;border-top:2px solid black;">');
+                    //const hrElement = '<hr>';
+                    //editor.insertContent(hrElement);
+                    //hrElement.classList.add("div-resizable-draggable");
+                    const newElement = editor.dom.create('hr', { class: 'div-resizable-draggable' });
+                    //editor.insertContent(editor.dom.getOuterHTML(hrElement));
+                    const rect = editor.getDoc().body.getBoundingClientRect();
+                    editor.getDoc().body.position="absolute";
+                    const x = event.clientX ;
+                    const y = event.clientY;
+
+                    newElement.style.left = `${x}px`;
+                    newElement.style.top = `${y}px`;
+
+                    editor.getDoc().body.appendChild(newElement);
                 }
                 if (id=="thick-line"){
                     editor.insertContent('<hr style="border:none;border-top:5px solid black;">');
@@ -96,51 +171,81 @@
 
                 }
                 if (id=="info-block"){
-                    editor.insertContent('<div style="background-color:#B3E5FC ;"class="block-div"><div class="block-icon"><img class="block-img"src="{{asset("/img/info.png")}}"></div><div class="block-content"><div class="block-title">Info</div><div >Write your content here.</div></div></div>')
+                    editor.insertContent('<div style="background-color:#B3E5FC ;"class="block-div"><img class="block-img"src="{{asset("/img/info.png")}}"><div class="block-content"><div class="block-title">Info</div><div >Write your content here.</div></div></div>')
                 }
                 if (id=="note-block"){
-                    editor.insertContent('<div  style="background-color:#CFD8DC ;"class="block-div"><div class="block-icon"><img class="block-img" src="{{asset("/img/message.png")}}"></div><div class="block-content"><div class="block-title">Note</div><div>Write your content here.</div></div></div>')
+                    editor.insertContent('<div  style="background-color:#CFD8DC ;"class="block-div"><img class="block-img" src="{{asset("/img/message.png")}}"><div class="block-content"><div class="block-title">Note</div><div>Write your content here.</div></div></div>')
                 
                 }
                 if (id=="warning-block"){
-                    editor.insertContent('<div  style="background-color:#FFECB3 ;"class="block-div"><div class="block-icon"><img class="block-img" src="{{asset("/img/warning.png")}}"></div><div class="block-content"><div class="block-title">Warning</div><div>Write your content here.</div></div></div>')
+                    editor.insertContent('<div  style="background-color:#FFECB3 ;"class="block-div"><img class="block-img" src="{{asset("/img/warning.png")}}"><div class="block-content"><div class="block-title">Warning</div><div>Write your content here.</div></div></div>')
                 
                 }
                 if (id=="success-block"){
-                    editor.insertContent('<div  style="background-color:#DCEDC8;"class="block-div"><div class="block-icon"><img class="block-img"src="{{asset("/img/success.png")}}"></div><div class="block-content"><div class="block-title">Success</div><div>Write your content here.</div></div></div>')
+                    editor.insertContent('<div  style="background-color:#DCEDC8;"class="block-div"><img class="block-img"src="{{asset("/img/success.png")}}"><div class="block-content"><div class="block-title">Success</div><div>Write your content here.</div></div></div>')
                 
                 }
                 if (id=="error-block"){
-                    editor.insertContent('<div  style="background-color:#FFCCBC;" class="block-div"><div class="block-icon"><img class="block-img"src="{{asset("/img/error.png")}}"></div><div class="block-content"><div class="block-title">Error</div><div>Write your content here.</div></div></div>')
+                    editor.insertContent('<div  style="background-color:#FFCCBC;" class="block-div"><img class="block-img"src="{{asset("/img/error.png")}}"><div class="block-content"><div class="block-title">Error</div><div>Write your content here.</div></div></div>')
                 
                 }
                 if (id=="quotation-block"){
-                    editor.insertContent('<div  style="background-color:#D1C4E9 ;" class="block-div"><div class="block-icon"><img class="block-img"src="{{asset("/img/quote.png")}}"></div><div class="block-content"><div class="block-title">Quotation</div><div>Write your content here.</div></div></div>');
+                    editor.insertContent('<div  style="background-color:#D1C4E9 ;" class="block-div"><img class="block-img"src="{{asset("/img/quote.png")}}"><div class="block-content"><div class="block-title">Quotation</div><div>Write your content here.</div></div></div>');
                 
                 }
                 if (id=="upload-image"){
                     
                 }
                 if (classes=="image draggable"){
-                    x=""
-                    editor.insertContent(`<img src="${x}">`);
+                    x= event.dataTransfer.getData('text/plain');
+                    editor.insertContent(`<img src="${x}" class="div-resizable-draggable">`);
 
                 }
-            
+                
             });
-
+            
             editor.on('dragover', function(event) {
                 event.preventDefault();
-            });    
-            
+            }); 
+               
+            editor.on('keydown', function (e) {
+            if (e.keyCode == 13) { // 13 is the keycode for Enter
+                e.preventDefault();
+                editor.execCommand('InsertLineBreak');
+              
+            }
+            });
+            editor.ui.registry.addButton('deleteSelectedElement', {
+                    text: 'Delete Element',
+                    onAction: function () {
+                        // Get the selected node
+                        var selectedNode = editor.selection.getNode();
+                        // Check if a node is selected
+                        while (selectedNode && (selectedNode.tagName !== "DIV" && selectedNode.tagName !== "HR" && selectedNode.tagName !== "TABLE" && selectedNode.tagName !== "IMG") ) {
+                            selectedNode = selectedNode.parentNode;
+                        }
+                        if (selectedNode) {
+                            // Remove the selected node
+                            console.log("aditi")
+                            selectedNode.remove();
+                        }
+                    }
+            });
         },
         plugins: 'noneditable code table lists insertdatetime link',
-        toolbar: 'undo redo|deleteButton| bold italic  underline forecolor |formatselect| alignleft aligncenter alignright alignjustify| indent outdent | bullist numlist | table | tableprops ',
+        toolbar: 'deleteSelectedElement undo redo|deleteButton| bold italic  underline forecolor |formatselect| alignleft aligncenter alignright alignjustify| indent outdent | bullist numlist | table | tableprops ',
         insertdatetime_dateformat: '%d-%m-%Y',
-        content_style: `html { height: 100%; }body{height:100%;line-height: 1.5; }`,
+        content_style: `html { height:100%; background-color:#F5EEF8;}body{height:100%;width:100%;line-height: 1;position:absolute; }`,
         
         });
-        
+        /*
+        function ensureTrailingParagraph(editor) {
+                    const body = editor.getBody();
+                    const lastChild = body.lastChild;
+                    if (!lastChild || lastChild.nodeName !== 'P') {
+                        editor.setContent(editor.getContent() + '<p>End of the page</p>');
+                    }
+        }*/
         function editorfunc(y){
             const tochoose=document.getElementsByClassName("editor-choose-element");
             const closeChoose=document.getElementById("close-choose");
@@ -168,11 +273,88 @@
                 };
                 const jsonData = JSON.stringify(data);
                 event.dataTransfer.setData('application/json', jsonData)
+                if (event.target.className=="image draggable"){
+                    event.dataTransfer.setData('text/plain', event.target.src);
+                }
             });
         }
         },1000);
+        function uneditableP(editor){
+            editor.getBody().querySelectorAll('img').forEach(function (img) {
+                    var parentP = img.closest('p');
+                    if (parentP && !parentP.classList.contains('uneditable')) {
+                        parentP.classList.add('uneditable');
+                    }
+                    });
+        }
+        function applyDraggableToDivs(editor,body,frame) {
+                    const divs = body.querySelectorAll('.div-resizable-draggable');
+                    divs.forEach(div => {
+                        makeDraggable(div,editor,body,frame);
+                    });
+                }
+        
+        function makeDraggable(div,editor,body,frame) {
+                    /*if (div.querySelector('.drag-handle')) return;
+
+                    // Create the drag handle
+                   
+                    const dragHandle = document.createElement('div');
+        
+                    dragHandle.classList.add('drag-handle');
+
+                    // Append drag handle to the div
+                    div.appendChild(dragHandle);
+                    */
+                    // Add mouse event listeners for dragging
+                    let isDragging = false;
+                    let startX, startY, initialMouseX, initialMouseY;
+
+                    div.addEventListener('mousedown', function (e) {
+                            //e.preventDefault();
+                            
+                            const rect = div.getBoundingClientRect();
+                            startX = rect.left ;
+                            startY = rect.top ;
+                            initialMouseX = e.clientX;
+                            initialMouseY = e.clientY;
+                            
+                            editor.getDoc().addEventListener('mousemove', onMouseMove);
+                            editor.getDoc().addEventListener('mouseup', onMouseUp);
+                    });
+
+                    function onMouseMove(e) {
+                            
+                            const iframeRect = frame.getBoundingClientRect();
+                            const dx = e.clientX - initialMouseX;
+                            const dy = e.clientY - initialMouseY;
+
+                            const newLeft = startX + dx;
+                            const newTop = startY + dy;
+
+                            // Ensure the div stays within the bounds of the iframe
+                            const maxLeft = iframeRect.width - div.offsetWidth;
+                            const maxTop = iframeRect.height - div.offsetHeight;
+
+                            //div.style.position = 'absolute';
+                            div.style.left = Math.min(Math.max(newLeft, 0), maxLeft) + 'px';
+                            div.style.top = Math.min(Math.max(newTop, 0), maxTop) + 'px';
+                        
+                    }
+
+
+                    function onMouseUp() {
+                            
+                            isDragging = false;
+                            editor.getDoc().removeEventListener('mousemove', onMouseMove);
+                            editor.getDoc().removeEventListener('mouseup', onMouseUp);
+                    }
+                }
+            
+                
 </script>
 <style>
+    
     #editor-main{
         display:flex;
         width:fit-content;
@@ -336,13 +518,27 @@
         height:100%;
         border-radius:10px;
     }
-    @media(max-width:1050px){
+    .tox{
+        z-index:0 !important;
+    }
+    .space{
+        height:20px;
+        min-width:40%;
+        margin:5%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:10px;
+        border:2px solid black;
+    }
+    @media(max-width:1000px){
+
         #editor-main{
             flex-direction:column-reverse;
             width:100%;
             position:fixed;
             bottom:0;
-            z-index:200;
+            z-index:5;
             margin:0;
         }
         #editor-option-block{
@@ -353,13 +549,14 @@
             
         }
         .editor-block{
-        margin:0;
+            margin:0;
         }
         .editor-choose-element{
             width:100%;
             height:400px;
         }
         .card{
+            width:100%;
             
         }
         #close-choose{
@@ -441,6 +638,16 @@
 </div>
 <div class="editor-choose-element">
     <div class="editor-choose-element-inner">
+    <div class="editor-heading">Spaces</div>
+    <div id="lines" class="editor-choose-option">
+        <div id="solid-space"class="space draggable" draggable="true"></div>
+        <div id="thick-space"class="space draggable" draggable="true"></div>
+        <div id="dotted-space"class="space draggable" draggable="true"></div>
+        <div id="dashed-space"class="space draggable" draggable="true"></div>
+        <div id="double-space"class="space draggable" draggable="true"></div>
+    </div>
+    </div>
+    <div class="editor-choose-element-inner">
     <div class="editor-heading">Lines</div>
     <div id="lines" class="editor-choose-option">
         <div id="solid-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:2px solid black;"></div>
@@ -521,10 +728,20 @@
         <form id="form" method="get" action="{{route('export-pdf')}}">
         @csrf
             <textarea class="content " name="editor-div"id="editor-div">
-            {{--<div  style="background-color:#FFCCBC;" class="block-div"><div class="block-icon"><img class="block-img"src="{{asset('/img/error.png')}}"></div><div class="block-content"><div class="block-title">Error</div><div>Write your content here.</div></div></div>
+            {{--<div  style="background-color:#FFCCBC;" class="block-div"><img class="block-img"src="{{asset('/img/error.png')}}"></div><div class="block-content"><div class="block-title">Error</div><div>Write your content here.</div></div></div>
             <div></div>
             <table class="firstrowfirstcolumnolivetable"width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>
             <img src="{{asset('/img/select-image1.jpg')}}">
-            <div style="border:2px solid black;">aditi</div>--}}
+            --}}
+            {!!$form->content!!}
+            {{--
+            
+            <div style="background-color:blue;width:200px;height:200px;"><div>aditi</div><div>vijay</div></div>
+            <div style="border:2px solid black;">aditi </div>
+            
+            <img class="div-resizable-draggable"style=""src="{{asset('/img/select-image4.jpg')}}">
+            <p  class="div-resizable-draggable">aditi</p>
+            --}}
             </textarea>
+
 @endsection
