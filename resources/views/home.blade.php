@@ -445,21 +445,44 @@
                 </div>
                 </div>
                 
-                <div id="home-heading-templates"><center>We hope you fall, but in love with these templates!</center></div>
+                <div id="home-heading-templates"><center>Use any of these backgrounds and create.</center></div>
                 
                 <div id="home-options">
                     
                     @foreach ($forms as $form)
                     @if ($form->page_type=="vertical")
+                    @if(substr($form->background_image, 0, 1) !== '#')
                         <div class="home-sliding-option">
-                            <a href="{{ route('form.any',['id' => $form->sid]) }}"><x-box source="{{ $form->background_image}}" title="" size="{{$form->paper_size}}"/></a>
+                            <a href="{{ route('form.background-only',['id' => $form->sid]) }}"><x-box source="{{ $form->background_image}}" title="" size="{{$form->paper_size}}"/></a>
                         </div>
+                    @endif
                     @endif
                     @endforeach
                     
                 </div>
                 
+                <div class="w3-row w3-padding-64" id="about">
+                    <div class="w3-col m6 w3-padding-large w3-hide-small">
+                    <a href="{{route('collection')}}">
+                    <img src="/img/home-page1.png" class="w3-round w3-image" style="border:1px solid black;"alt="img" width="700" height="800">
+                    </a>
+                    </div>
+
+                    <div class="w3-col m6 w3-padding-large">
+                    <h1 style="text-align:center;font-family:Times New Roman;background-color:#D7BDE2;font-weight:bolder;">Collection</h1><br>
+                    <h5 class="w3-center" style="font-family:Times New Roman;">Use variety of Templates</h5>
+                    <p class="w3-large">Unleash your creativity with A2I template Builder, the perfect tool for crafting stunning templates effortlessly. Whether you're a seasoned designer or just starting out, our intuitive drag-and-drop editor, rich text formatting, and customizable templates make designing a breeze. Seamlessly integrate with popular tools like
+                         TinyMCE and Font Awesome to enhance your 
+                         <span class="w3-tag w3-light-grey">creations</span>.</p>
+                    <p class="w3-large w3-text-grey w3-hide-medium">Collaborate in real-time with your team, making it easy to share ideas and make instant changes together. Export your templates in various formats, including PDF, PNG, JPEG, and HTML, ensuring they meet all your needs. Join our community of satisfied users and elevate your design process today.</p>
+                    </div>
+                </div>
                 
+                <hr>
+                
+               
+                 
+                        
                   
 {{--
 

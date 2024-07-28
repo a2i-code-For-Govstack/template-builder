@@ -4,7 +4,7 @@
     <div class="component-option-box">
         <img class="option-box-image" src={{$source}}>
         <div class="option-box-cover">
-            <div class="box-use">{{$size}}</div>
+            <div class="box-use">USE</div>
         </div>
     </div>
 </div>

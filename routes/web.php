@@ -72,6 +72,7 @@ Route::group([
     ], function () {
         Route::get('/', [CollectionController::class, 'index'])->name('collection')->middleware('auth', 'verified');
         Route::get('/search', [CollectionController::class, 'search'])->name('search');
+        Route::get('/select/{id}', [CollectionController::class, 'select'])->name('collection.select');
 });
 Route::middleware(['auth'])->group(function () {
 
@@ -109,7 +110,7 @@ Route::middleware(['auth'])->group(function () {
         'namespace' => 'App\Http\Controllers\Pdf',
         'prefix' => '/pdf',
         ], function () {
-            Route::get('/export-pdf', ['uses'=>'PDFController@exportPdf'])->name('export-pdf');
+            Route::get('/export-pdf', ['uses'=>'PDFController@downloadPdf'])->name('export-pdf');
     });
 
     // Route::get('generate-pdf/{id}', [FormController::class, 'generatePDF']);
@@ -149,6 +150,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/pdf/show/{id}', ['uses'=>'FormController@FormPdfShow'])->name('pdf.show');
             Route::get('/form-any', ['uses'=>'FormAnyController@editor'])->name('form.editor');
             Route::get('/form-any/{id}', ['uses'=>'FormAnyController@any'])->name('form.any');
+            Route::get('/background-only/{id}', ['uses'=>'FormAnyController@background'])->name('form.background-only');
     });
 
 

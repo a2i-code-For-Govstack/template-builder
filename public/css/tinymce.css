@@ -1,39 +1,47 @@
 img{
     
     resize: both;
-    
+    max-width:90%;
     
 }
 
+
 div{
-    
+    /*
+    overflow:hidden;
+    resize:both;*/
 }
 .selected-node{
     background-color: rgb(255,0,0,.1);
+    border:1px solid blue;
 }
-.custom-border {
-    border: 2px solid blue;  /* Adjust the style as needed */
+.selected-node .handle{
+    display:block;
 }
-.div-resizable-draggable:hover{
-    border:2px solid blue;
-    resize: both;
+.handle {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top:-10px;
+    left: -10px;
+    cursor:move;
+    background-color:blue;
+    display:none;
 }
 .div-resizable-draggable {
-    resize:none;
+    
     position:absolute;
-    /*overflow:hidden;*/
     padding: 20px;
-    /*
-    min-width:max-content;
-    min-height:max-content !important;
-*/
+    
 }
 td{
-    text-align:center;
-    padding:10px;
+    border:1px solid blue;
+    min-height:auto;
+    padding:5px;
 }
-.hidden-button{
-    display:none;
+table{
+    max-width: 95% ;
+   
 }
 .pinktable td{
     background-color: pink;

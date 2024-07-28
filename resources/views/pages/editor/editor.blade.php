@@ -5,21 +5,17 @@
 
 <script>
     var form= @json($form);
-    if (form.background_image=="none"){
-    height=((700/form.paper_size.split('X')[0])*form.paper_size.split('X')[1])+160;
-    width=700;
-    }
-    else{
-        height=(Number(form.paper_size.split('X')[1])+Number(200)).toString();
-        
-        width=(Number(form.paper_size.split('X')[0])+Number(100)).toString();
-    }
+    
+    height=((600/form.paper_size.split('X')[0])*form.paper_size.split('X')[1]);
+    width=540;
+    
     address="url('"+form.background_image+"')";
     tinymce.init({
         selector: '.content',
         content_css: "/css/tinymce.css",
         resize:"both",
         height:height,
+        margin:0,
         width:width,
         valid_children: '-p[img]',
         focus:false,
@@ -27,14 +23,14 @@
             
             editor.on('init', function () {
                 editor.getDoc().body.style.backgroundImage =address;
-                editor.getDoc().body.style.backgroundColor= "none";
+                editor.getDoc().body.style.backgroundColor= form.background_image;
                 editor.getDoc().body.style.backgroundSize = "cover";
                 editor.getDoc().body.style.backgroundRepeat = "no-repeat"; 
                 editor.getDoc().body.style.overflow = "hidden"; 
-                editor.getDoc().body.style.margin= "0 !important"; 
+                editor.getDoc().body.style.margin= "20px !important"; 
                 
                 setTimeout(applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement),1000);
-                
+                unEditabledivs(editor)
                 
             });  
             editor.on('dragstart', function (e) {
@@ -46,21 +42,28 @@
             
             });
             editor.on('NodeChange', function (e) {
+                    
                     applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
                     tinymce.activeEditor.dom.select('.selected-node').forEach(function(node) {
                         node.classList.remove('selected-node');
                     });
-                    
+                    if( e.element.tagName!=="BODY"){
                     e.element.classList.add('selected-node');
-                    
+                    }
+                    unEditabledivs(editor)
             });  
             
-            editor.on('setContent', function () {
+            editor.on('setContent', function (e) {
+                    
                     applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
+                    unEditabledivs(editor)
             });
             
             editor.on('click', function (e) {
                 
+            });
+            editor.on('change', function () {
+                //tinymce.triggerSave();
             });
             editor.on('drop', function(event) {
                 
@@ -293,11 +296,9 @@
                 }
                 
             });
-            
             editor.on('dragover', function(event) {
                 event.preventDefault();
-            }); 
-               
+            });  
             editor.on('keydown', function (e) {
             if (e.keyCode == 13) { 
                 e.preventDefault();
@@ -305,7 +306,7 @@
             }
             });
             editor.ui.registry.addButton('deleteSelectedElement', {
-                    text: 'Delete Element',
+                    text: 'Delete',
                     onAction: function () {
                         var selectedNode = editor.selection.getNode();
                         if (selectedNode.tagName=="IMG"){
@@ -318,13 +319,18 @@
                         }
                     }
             });
+            
         },
-        plugins: 'noneditable code table lists insertdatetime link',
-        toolbar: 'deleteSelectedElement undo redo|deleteButton| bold italic  underline forecolor |formatselect| alignleft aligncenter alignright alignjustify| indent outdent | bullist numlist | table | tableprops ',
+        plugins: 'noneditable code table lists insertdatetime link textcolor print preview',
+        /*
+        menubar:'file',*/
+        toolbar: 'deleteSelectedElement | undo redo| bold italic underline forecolor backcolor fontselect| alignleft aligncenter alignright alignjustify | bullist numlist | table ',
         insertdatetime_dateformat: '%d-%m-%Y',
-        content_style: `html { height:100%; background-color:#F5EEF8;}body{height:100%;width:100%;line-height: 1;position:absolute; }`,
+        content_style: `html { height:100%; background-color:;}body{height:100%;width:100%;margin:0 !important;line-height: 1;position:absolute; }`,
         
         });
+        
+        
         function editorfunc(y){
             const tochoose=document.getElementsByClassName("editor-choose-element");
             const closeChoose=document.getElementById("close-choose");
@@ -363,30 +369,35 @@
             });
         }
         },1000);
-        function uneditableP(editor){
-            editor.getBody().querySelectorAll('img').forEach(function (img) {
-                    var parentP = img.closest('p');
-                    if (parentP && !parentP.classList.contains('uneditable')) {
-                        parentP.classList.add('uneditable');
-                    }
-                    });
-        }  
-        function applyDraggableToDivs(editor,body,frame) {
-                    const divs = body.querySelectorAll('.div-resizable-draggable');
+        function unEditabledivs(editor) {
+                    const divs = editor.getDoc().body.querySelectorAll('div');
                     divs.forEach(div => {
-                        makeDraggable(div,editor,body,frame);
+                        div.setAttribute("contentEditable","false")
+                       
                     });
         }
-        
-        function makeDraggable(div,editor,body,frame) {
-                   
+        function applyDraggableToDivs(editor,body,frame) {
+                    const elements = body.querySelectorAll('.div-resizable-draggable');
+                    elements.forEach(element => {
+                        makeDraggable(element,editor,body,frame);
+                       
+                    });
+        }
+        function makeDraggable(element,editor,body,frame) {
+                    
+                    const handle = document.createElement('div');
+                    handle.className = 'handle';
+                    handle.setAttribute("contentEditable","false")
+                    element.appendChild(handle);
+                    
                     let isDragging = false;
                     let startX, startY, initialMouseX, initialMouseY;
                     
-                    div.addEventListener('mousedown', function (e) {
+                    
+                    handle.addEventListener('mousedown', function (e) {
                             
-                            
-                            const rect = div.getBoundingClientRect();
+                            console.log(element)
+                            const rect = element.getBoundingClientRect();
                             startX = rect.left ;
                             startY = rect.top ;
                             initialMouseX = e.clientX;
@@ -396,8 +407,9 @@
                             editor.getDoc().addEventListener('mouseup', onMouseUp);
                             
                     });
-
+                    
                     function onMouseMove(e) {
+                            
                             
                             const iframeRect = frame.getBoundingClientRect();
                             const dx = e.clientX - initialMouseX;
@@ -407,12 +419,12 @@
                             const newTop = startY + dy;
 
                             
-                            const maxLeft = iframeRect.width - div.offsetWidth;
-                            const maxTop = iframeRect.height - div.offsetHeight;
+                            const maxLeft = iframeRect.width - element.offsetWidth;
+                            const maxTop = iframeRect.height - element.offsetHeight;
 
                             
-                            div.style.left = Math.min(Math.max(newLeft, 0), maxLeft) + 'px';
-                            div.style.top = Math.min(Math.max(newTop, 0), maxTop) + 'px';
+                            element.style.left = Math.min(Math.max(newLeft, 0), maxLeft) + 'px';
+                            element.style.top = Math.min(Math.max(newTop, 0), maxTop) + 'px';
                         
                     }
 
@@ -420,8 +432,8 @@
                     function onMouseUp(e) {
                             
                             e.stopPropagation();
-                            
-
+                 
+                            element.classList.add('selected-node')
                             isDragging = false;
                             
                             editor.getDoc().removeEventListener('mousemove', onMouseMove);
@@ -429,11 +441,13 @@
                             
                     }
                 }
-            
+        
                 
 </script>
 <style>
-    
+    textarea{
+        width:100%;
+    }
     #editor-main{
         display:flex;
         width:fit-content;
@@ -456,7 +470,7 @@
         width:fit-content;
         height:fit-content;
         padding:40px;
-        background-color:;
+        background-color:blue;
     }
     #template-place{
         margin:auto;
@@ -774,20 +788,23 @@
 <div class="card">
     <div class="card-header">{{ $form->title }}</div>
     <div class="card-body">
-        <form id="form" method="get" action="{{route('export-pdf')}}">
+        <form id="form"  method="GET"  action="{{ route('export-pdf') }}">
         @csrf
-            <textarea class="content " name="editor-div"id="editor-div">
+            <textarea class="content " name="content"id="editor-div">
             {{--<div  style="background-color:#FFCCBC;" class="block-div"><img class="block-img"src="{{asset('/img/error.png')}}"></div><div class="block-content"><div class="block-title">Error</div><div>Write your content here.</div></div></div>
             <div></div>
             <table class="firstrowfirstcolumnolivetable"width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>
             <img src="{{asset('/img/select-image1.jpg')}}">
             --}}
+            @if($isContent==true)
             {!!$form->content!!}
             
-            <img class="div-resizable-draggable"style=""src="{{asset('/img/select-image4.jpg')}}">
-            {{--
-            <div  class="div-resizable-draggable"contentEditable="false"style="width:200px;height:200px;background-color:blue"></div>
+            @else
             
+            @endif
+            
+            
+            {{--
             <div style="background-color:blue;width:200px;height:200px;"><div>aditi</div><div>vijay</div></div>
             <div class="div-resizable div-resizable-draggable"style="border:2px solid black;">aditi </div>
             
@@ -795,5 +812,10 @@
             <p  class="div-resizable-draggable">aditi</p>
             --}}
             </textarea>
+            <button type="submit" class="btn btn-success btn-sm float-end">Download PDF</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 @endsection
