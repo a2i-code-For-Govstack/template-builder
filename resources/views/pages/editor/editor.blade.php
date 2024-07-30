@@ -5,10 +5,17 @@
 
 <script>
     var form= @json($form);
-    
-    height=((600/form.paper_size.split('X')[0])*form.paper_size.split('X')[1]);
-    width=540;
-    
+
+        if ((form.paper_size.split('X')[0])<=(form.paper_size.split('X')[1])){
+            height=1000;
+            width=580;
+            bodyWidth=564;
+            bodyHeight=846;
+        }
+        else{
+            height=((780/form.paper_size.split('X')[0])*form.paper_size.split('X')[1]);
+            width=600;
+        }
     address="url('"+form.background_image+"')";
     tinymce.init({
         selector: '.content',
@@ -17,17 +24,16 @@
         height:height,
         margin:0,
         width:width,
-        valid_children: '-p[img]',
-        focus:false,
         setup: function (editor) { 
             
             editor.on('init', function () {
                 editor.getDoc().body.style.backgroundImage =address;
                 editor.getDoc().body.style.backgroundColor= form.background_image;
-                editor.getDoc().body.style.backgroundSize = "cover";
+                editor.getDoc().body.style.backgroundSize = "contain";
                 editor.getDoc().body.style.backgroundRepeat = "no-repeat"; 
-                editor.getDoc().body.style.overflow = "hidden"; 
-                editor.getDoc().body.style.margin= "20px !important"; 
+                editor.getDoc().body.style.width= bodyWidth+"px"; 
+                editor.getDoc().body.style.height= bodyHeight+"px"; 
+
                 
                 setTimeout(applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement),1000);
                 unEditabledivs(editor)
@@ -48,7 +54,14 @@
                         node.classList.remove('selected-node');
                     });
                     if( e.element.tagName!=="BODY"){
-                    e.element.classList.add('selected-node');
+                        if(e.element.tagName=="IMG"){
+                            parent=e.element.closest("p")
+                            parent.classList.add('selected-node');
+                        }
+                        else{
+                            e.element.classList.add('selected-node');
+                        }
+                        
                     }
                     unEditabledivs(editor)
             });  
@@ -130,21 +143,23 @@
                     editor.getDoc().body.appendChild(newElement);
                 }
                 if(classes=="table draggable"){
-                    const newElement = editor.dom.create('table', {
+                    const newElement = editor.dom.create('p', {
                         class: 'div-resizable-draggable'
                     });
-                    newElement.setAttribute('width',"100%")
+                   
+                    const table=editor.dom.create('table')
+                    editor.dom.add(newElement,table)
                     const colgroup = editor.dom.create('colGroup');
                     const col1 = editor.dom.create('col');
                     const col2 = editor.dom.create('col');
                     const col3 = editor.dom.create('col');
-                    editor.dom.add(newElement,colgroup)
+                    editor.dom.add(table,colgroup)
                     editor.dom.add(colgroup,col1)
                     editor.dom.add(colgroup,col2)
                     editor.dom.add(colgroup,col3)
                     // Create and append the tbody and rows
                     const tbody = editor.dom.create('tbody');
-                    editor.dom.add(newElement,tbody)
+                    editor.dom.add(table,tbody)
                     const tr1 = editor.dom.create('tr');
                     editor.dom.add(tbody,tr1)
                     const tr2 = editor.dom.create('tr');
@@ -208,7 +223,7 @@
                     const newElement = editor.dom.create('div', {
                         class: 'div-resizable-draggable'
                     });
-                    newElement.setAttribute("contentEditable","false")
+                    //newElement.setAttribute("contentEditable","false")
                     if (id=="1:1-blue-block"){
                         newElement.setAttribute("style","background-color:#B3E5FC;width:100px;height:100px;")
                     }
@@ -271,29 +286,20 @@
                     console.log(newElement)
                     editor.getDoc().body.appendChild(newElement);
                 }
-                if (classes=="icon draggable"){
+                if (classes=="icon draggable" || classes=="image draggable"){
                     t= event.dataTransfer.getData('text/plain');
-                    const newElement = editor.dom.create('img', {
+                    const newElement = editor.dom.create('p', {
                         class: 'div-resizable-draggable'
                     });
-                    
-                    newElement.setAttribute("src",t)
+                    const image=editor.dom.create('img')
+                    image.setAttribute("src",t)
+                    editor.dom.add(newElement,image)
+                    image.style.maxWidth="100%";
                     newElement.style.left = `${x}px`;
                     newElement.style.top = `${y}px`;
-                    console.log(newElement)
                     editor.getDoc().body.appendChild(newElement);
                 }
-                if (classes=="image draggable"){
-                    t= event.dataTransfer.getData('text/plain');
-                    const newElement = editor.dom.create('img', {
-                        class: 'div-resizable-draggable'
-                    });
-                    newElement.setAttribute("src",t)
-                    newElement.style.left = `${x}px`;
-                    newElement.style.top = `${y}px`;
-                    console.log(newElement)
-                    editor.getDoc().body.appendChild(newElement);
-                }
+                
                 
             });
             editor.on('dragover', function(event) {
@@ -326,7 +332,7 @@
         menubar:'file',*/
         toolbar: 'deleteSelectedElement | undo redo| bold italic underline forecolor backcolor fontselect| alignleft aligncenter alignright alignjustify | bullist numlist | table ',
         insertdatetime_dateformat: '%d-%m-%Y',
-        content_style: `html { height:100%; background-color:;}body{height:100%;width:100%;margin:0 !important;line-height: 1;position:absolute; }`,
+        content_style: `html { height:100%; background-color:;}body{height:100%;width:100%;margin:0 !important;line-height: 1;overflow:scroll;position:absolute; }`,
         
         });
         
@@ -375,28 +381,42 @@
                         div.setAttribute("contentEditable","false")
                        
                     });
+
         }
         function applyDraggableToDivs(editor,body,frame) {
-                    const elements = body.querySelectorAll('.div-resizable-draggable');
+                    let elements = body.querySelectorAll('.div-resizable-draggable');
                     elements.forEach(element => {
+                        
+                        if(!element.querySelector('.handle'))
+                        {
+                            const handle = document.createElement('div');
+                            handle.className = 'handle';
+                            handle.setAttribute("contentEditable","false")
+                            if (element.tagName=="TABLE"){
+                                const firstRow = element.querySelector('tr');
+                                const firstTd=firstRow.querySelector('td');
+                                firstTd.appendChild(handle)
+                            }
+                            else{
+                                element.appendChild(handle);
+                            }
+                            
+                        }
                         makeDraggable(element,editor,body,frame);
                        
                     });
         }
         function makeDraggable(element,editor,body,frame) {
                     
-                    const handle = document.createElement('div');
-                    handle.className = 'handle';
-                    handle.setAttribute("contentEditable","false")
-                    element.appendChild(handle);
+                    
                     
                     let isDragging = false;
                     let startX, startY, initialMouseX, initialMouseY;
                     
                     
-                    handle.addEventListener('mousedown', function (e) {
+                    element.querySelector('.handle').addEventListener('mousedown', function (e) {
                             
-                            console.log(element)
+                            
                             const rect = element.getBoundingClientRect();
                             startX = rect.left ;
                             startY = rect.top ;
@@ -460,17 +480,17 @@
         width:fit-content;
         height:fit-content;
         margin:auto;
-        
+        margin-top:30px;
     }
     .card-header{
-        background-color:white;
+        background-color:#bb8fce ;
         height:40px;
     }
     .card-body{
         width:fit-content;
         height:fit-content;
         padding:40px;
-        background-color:blue;
+        background-color:#d7bde2;
     }
     #template-place{
         margin:auto;
@@ -486,7 +506,7 @@
         flex-direction:column;
         border-radius: 0 20px  20px 0;
         color:black;
-        background-color:white ;
+        background-color:#C8E9FF ;
         box-shadow:0px 0px 10px 10px #CFD8DC ;
         z-index:1;
         
@@ -509,15 +529,18 @@
         font-size:25px;
         border-radius:10px;
         box-shadow:2px 2px 2px 2px black;
+        background-color:#ECF6FD;
     }
     .editor-choose-element{
         width:400px;
         height:100%;
-        background-color:white ;
+        background-color:#ECF6FD ;
         display:none;
         box-shadow:5px 5px 10px 10px #CFD8DC ;
         color:black;
         overflow-y:scroll;
+        scrollbar-width: thin;
+        scrollbar-color: grey white;
     }
     #close-choose{
         width:25px;
@@ -526,17 +549,17 @@
         align-items:center;
         justify-content:center;
         font-size:20px;
-        background-color:white ;
+        background-color: #ECF6FD;
         border-radius:50%;
         display:none;
-        border:2px solid black;
+        border:2px solid grey;
         margin: 0 0 0 10px;
-        color:black;
+        color:grey;
     }
     .written-option{
         margin:5px 0 5px 0;
     }
-    hr{
+    .line hr{
         color:white;
         width: 100px;
         opacity:1;
@@ -545,7 +568,28 @@
         width:100%;
         display:flex;
         overflow-x:scroll;
+        background-color:white;
+        scrollbar-width: thin;
+        scrollbar-color: grey #e5e8e8 ;
         border:2px solid black;
+    }
+    .editor-heading{
+        font-size:22px;
+        font-weight:bolder;
+    }
+    .editor-choose-element-inner{
+        margin:20px;
+        padding:20px;
+        /*border:2px solid black;*/
+        border-radius:20px;
+        background-color:#C8E9FF;
+    }
+    .editor-choose-option::-webkit-scrollbar {
+            
+    }
+    .draggable{
+        border:none !important;
+        background-color:#ECF6FD;
     }
     .line{
         min-width:40%;
@@ -557,16 +601,6 @@
         border-radius:10px;
         border:2px solid black;
     }
-    .editor-heading{
-        font-size:22px;
-    }
-    .editor-choose-element-inner{
-        margin:20px;
-        padding:20px;
-        border:2px solid black;
-        border-radius:20px;
-    }
-    
     .table{
         height:120px;
         min-width:40%;
@@ -616,15 +650,20 @@
         height:40px;
         min-width:40%;
         margin:5%;
-        padding-top:10px;
         display:flex;
         align-items:center;
         justify-content:center;
         border-radius:10px;
-        border:2px solid black;
+        
+    }
+     
+    @media(max-width:700px){
+        .tox-tinymce{
+            width:100% !important;
+            height:600px !important;
+        }
     }
     @media(max-width:1000px){
-
         #editor-main{
             flex-direction:column-reverse;
             width:100%;
@@ -648,12 +687,13 @@
             height:400px;
         }
         .card{
-            width:100%;
+            width:100% !important;
             
         }
         #close-choose{
             margin:5px 0 5px 0;
         }
+        
     }
 </style>
 
@@ -690,7 +730,7 @@
         <div id="h4-text"class="text draggable" draggable="true"><h4>H4</h4></div>
         <div id="h5-text"class="text draggable" draggable="true"><h5>H5</h5></div>
         <div id="h6-text"class="text draggable" draggable="true"><h6>H6</h6></div>
-        <div id="p-text"class="text draggable" draggable="true"><p>Paragraph</p></div>
+        <div id="p-text"class="text draggable" draggable="true">Paragraph</div>
     </div>
     </div>
     <div class="editor-choose-element-inner">
@@ -797,8 +837,8 @@
             <img src="{{asset('/img/select-image1.jpg')}}">
             --}}
             @if($isContent==true)
+                
             {!!$form->content!!}
-            
             @else
             
             @endif

@@ -1,14 +1,16 @@
 img{
     
     resize: both;
-    max-width:90%;
-    
+    /*max-width:90%;
+    */
+}
+p{
+   
 }
 
-
 div{
-    /*
-    overflow:hidden;
+    
+    /*overflow:hidden;
     resize:both;*/
 }
 .selected-node{
@@ -22,17 +24,15 @@ div{
     width: 10px;
     height: 10px;
     position: absolute;
-    top:-10px;
-    left: -10px;
+    top:0px;
+    left: 0px;
     cursor:move;
     background-color:blue;
-    display:none;
+    display: none;
 }
 .div-resizable-draggable {
-    
+    padding:10px;
     position:absolute;
-    padding: 20px;
-    
 }
 td{
     border:1px solid blue;
@@ -40,8 +40,7 @@ td{
     padding:5px;
 }
 table{
-    max-width: 95% ;
-   
+    
 }
 .pinktable td{
     background-color: pink;

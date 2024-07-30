@@ -259,6 +259,7 @@
             overflow:hidden;
             align-items:center;
             padding:40px 0 40px 0;
+            background-color:white;
         }
         .home-sliding-option{
             min-width:12.5%;
@@ -271,14 +272,42 @@
             transition: all 1s ease-in-out ;
         }
         #home-heading-templates{
+            
             padding:20px;
-            margin:50px 0 0 0;
-            background-color:#9AF96F ;
-            display:flex;
-            align-items:center;
-            justify-content:center;
+            margin-top:50px;
+            background-color:#D7BDE2 ;
             font-weight:bolder;
             font-size:20px;
+        }
+        #home-collection-hr{
+                margin-top:50px;
+                background-color:#f48fb1    ;
+                margin-bottom:20px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                flex-wrap:wrap;
+        }
+        #home-collection-hr span{
+                padding:10px;
+                margin: 20px;
+                width:70px;
+                height:70px;
+                background-color:#fce4ec;
+                font-weight:bolder;
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                justify-content:center;
+                font-size:13px;
+                border-radius:10px ;
+        }
+        #home-collection-hr img{
+                width:40px;
+                height:40px;
+        }
+        #home-collection-hr a{
+                text-decoration:none;
         }
         @media(max-width:1000px ){
             #home-tagline-min{
@@ -444,8 +473,70 @@
                         </div>
                 </div>
                 </div>
-                
-                <div id="home-heading-templates"><center>Use any of these backgrounds and create.</center></div>
+
+                <div id="home-collection-hr">
+        
+                <a href="{{ route('collection.select',['id' => 'all']) }}">
+                        <span>
+                        <img src="/img/all-icon.png">
+                        <div>All</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'invitation']) }}">
+                        <span>
+                        <img src="/img/invitation-icon.png">
+                        <div>Invitations</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'official']) }}">
+                        <span>
+                        <img src="/img/official-icon.png">
+                        <div>Officials</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'resume']) }}">
+                        <span>
+                        <img src="/img/resume-icon.png">
+                        <div>Resume</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'letter']) }}">
+                        <span>
+                        <img src="/img/letter-icon.png">
+                        <div>Letter</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'certificate']) }}">
+                        <span>
+                        <img src="/img/certificate-icon.png">
+                        <div>Certificate</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'advertisement']) }}">
+                        <span>
+                        <img src="/img/advertisement-icon.png">
+                        <div>Advertise</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'poster']) }}">
+                        <span>
+                        <img src="/img/poster-icon.png">
+                        <div>Poster</div>   
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'media']) }}">
+                        <span>
+                        <img src="/img/media-icon.png">
+                        <div>Media</div>   
+                        </span>
+                </a>
+            </div>
+
+
+
+
+
+                <div id="home-heading-templates"><center>Use any of these backgrounds and start creating.</center></div>
                 
                 <div id="home-options">
                     
@@ -460,7 +551,7 @@
                     @endforeach
                     
                 </div>
-                
+                <hr>
                 <div class="w3-row w3-padding-64" id="about">
                     <div class="w3-col m6 w3-padding-large w3-hide-small">
                     <a href="{{route('collection')}}">
@@ -472,7 +563,7 @@
                     <h1 style="text-align:center;font-family:Times New Roman;background-color:#D7BDE2;font-weight:bolder;">Collection</h1><br>
                     <h5 class="w3-center" style="font-family:Times New Roman;">Use variety of Templates</h5>
                     <p class="w3-large">Unleash your creativity with A2I template Builder, the perfect tool for crafting stunning templates effortlessly. Whether you're a seasoned designer or just starting out, our intuitive drag-and-drop editor, rich text formatting, and customizable templates make designing a breeze. Seamlessly integrate with popular tools like
-                         TinyMCE and Font Awesome to enhance your 
+                         TinyMCE to enhance your 
                          <span class="w3-tag w3-light-grey">creations</span>.</p>
                     <p class="w3-large w3-text-grey w3-hide-medium">Collaborate in real-time with your team, making it easy to share ideas and make instant changes together. Export your templates in various formats, including PDF, PNG, JPEG, and HTML, ensuring they meet all your needs. Join our community of satisfied users and elevate your design process today.</p>
                     </div>

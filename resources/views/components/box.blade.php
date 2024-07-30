@@ -29,7 +29,7 @@
         justify-content:center;
         align-items:center;
         position:absolute;
-        background-color:#9AF96F  ;
+        background-color:#e8daef;
         opacity:0.3;
         
     }

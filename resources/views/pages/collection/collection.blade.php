@@ -103,7 +103,7 @@
                         <div class="collection-collect-horizontal">
                         @foreach ($chunk as $result)
                                 
-                                <a href="{{ route('form.any',['id' => $result->sid]) }}"><abbr title="{{$result->paper_size}}"><img style="margin:10px;width:250px;height:150px;border-radius:10px;" src="{{ asset($result->template_type) }}" alt="Template Image"></abbr></a>
+                                <a href="{{ route('form.any',['id' => $result->sid]) }}"><abbr title="{{$result->paper_size}}"><img style="margin:10px;width:300px;height:180px;border-radius:10px;" src="{{ asset($result->template_type) }}" alt="Template Image"></abbr></a>
                                 
                         @endforeach
                         </div>
@@ -148,7 +148,7 @@
                         <div class="collection-collect-horizontal">
                         @foreach ($chunk as $form)
                                 
-                                <a href="{{ route('form.any',['id' => $form->sid]) }}"><abbr title="{{$form->paper_size}}"><img style="margin:10px;width:250px;height:150px;border-radius:10px;" src="{{ asset($form->template_type) }}" alt="Template Image"></abbr></a>
+                                <a href="{{ route('form.any',['id' => $form->sid]) }}"><abbr title="{{$form->paper_size}}"><img style="margin:10px;width:300px;height:180px;border-radius:10px;" src="{{ asset($form->template_type) }}" alt="Template Image"></abbr></a>
                                 
                         @endforeach
                         </div>
@@ -259,17 +259,24 @@
         }
         /* Responsive layout - makes a two column-layout instead of four columns */
         @media(max-width:1100px){
-        .collection-collect{
+        .collection-collect-vertical{
                 width:100%;
         }
-
+        .collection-collect-horizontal{
+                width:100%;
+        }
         }
         @media(max-width:900px){
-        .collection-collect{
+        .collection-collect-vertical{
                 justify-content: space-evenly;
         }
+        @media(max-width:900px){
+        .collection-collect-horizontal{
+                justify-content: space-evenly;
+        }
+        }
         /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-        @media screen and (max-width: 600px) {
+        @media(max-width: 600px) {
         #collection-searchbar{
         width:200px;
         }

@@ -12,7 +12,7 @@ use Dompdf\Options;
 class PDFController extends Controller{
     
 
-    public function exportPdf(Request $request)
+    public function downloadPdf(Request $request)
     {
         $content = $request->input('content');
         $html="
@@ -22,7 +22,7 @@ class PDFController extends Controller{
             <style>
                 
                 .pdf-container {
-                    background-image:url('/img/info.png');
+                    
                     position: relative;
                     width: 100%;
                     height: 98%;
@@ -35,7 +35,6 @@ class PDFController extends Controller{
         </head>
         <body>
             <div class='pdf-container'>
-                    <img src='/img/image1.jpg'>
                     {$content}
                 
             </div>
