@@ -199,14 +199,15 @@
                 width:400px;
                 height:40px;
                 border-radius:20px 0 0 20px;
-                border:5px solid black;
+                border:4px solid black;
         }
         #collection-search-button{
                 height:40px;
                 width:80px;
                 border-radius:0 20px 20px 0;
                 background-color:#BB8FCE;
-                border:5px solid black;
+                border:4px solid black;
+                font-weight:bolder;
         }
         #collection-hr{
                 

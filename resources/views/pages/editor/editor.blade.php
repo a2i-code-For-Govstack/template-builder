@@ -24,6 +24,7 @@
         height:height,
         margin:0,
         width:width,
+        
         setup: function (editor) { 
             
             editor.on('init', function () {
@@ -50,20 +51,14 @@
             editor.on('NodeChange', function (e) {
                     
                     applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
+                    
                     tinymce.activeEditor.dom.select('.selected-node').forEach(function(node) {
-                        node.classList.remove('selected-node');
+                    node.classList.remove('selected-node');
                     });
-                    if( e.element.tagName!=="BODY"){
-                        if(e.element.tagName=="IMG"){
-                            parent=e.element.closest("p")
-                            parent.classList.add('selected-node');
-                        }
-                        else{
-                            e.element.classList.add('selected-node');
-                        }
-                        
-                    }
+                    selectedNode = editor.selection.getNode();
+                    selectedNode.classList.add('selected-node');
                     unEditabledivs(editor)
+                    
             });  
             
             editor.on('setContent', function (e) {
@@ -73,7 +68,7 @@
             });
             
             editor.on('click', function (e) {
-                
+                e.preventDefault()
             });
             editor.on('change', function () {
                 //tinymce.triggerSave();
@@ -121,9 +116,10 @@
                     editor.getDoc().body.appendChild(newElement);
                 }
                 if(classes=="line draggable"){
-                    const newElement = editor.dom.create('hr', { class: 'div-resizable-draggable' });
+                    const newElement = editor.dom.create('div', { class: 'div-resizable-draggable' });
+                    newElement.style.overflow="visible"
                     if (id=="solid-line"){
-                        newElement.setAttribute("style","width:100%;border:none;border-top:2px solid black;");
+                        newElement.setAttribute("style","width:100%;height:2px;border:none;border-bottom:2px solid black;");
                     }
                     if (id=="thick-line"){
                         newElement.setAttribute("style","width:100%;border:none;border-top:5px solid black;");
@@ -143,23 +139,21 @@
                     editor.getDoc().body.appendChild(newElement);
                 }
                 if(classes=="table draggable"){
-                    const newElement = editor.dom.create('p', {
+                    const newElement = editor.dom.create('table', {
                         class: 'div-resizable-draggable'
                     });
-                   
-                    const table=editor.dom.create('table')
-                    editor.dom.add(newElement,table)
+                    
                     const colgroup = editor.dom.create('colGroup');
                     const col1 = editor.dom.create('col');
                     const col2 = editor.dom.create('col');
                     const col3 = editor.dom.create('col');
-                    editor.dom.add(table,colgroup)
+                    editor.dom.add(newElement,colgroup)
                     editor.dom.add(colgroup,col1)
                     editor.dom.add(colgroup,col2)
                     editor.dom.add(colgroup,col3)
                     // Create and append the tbody and rows
                     const tbody = editor.dom.create('tbody');
-                    editor.dom.add(table,tbody)
+                    editor.dom.add(newElement,tbody)
                     const tr1 = editor.dom.create('tr');
                     editor.dom.add(tbody,tr1)
                     const tr2 = editor.dom.create('tr');
@@ -216,7 +210,6 @@
                     }
                     newElement.style.left = `${x}px`;
                     newElement.style.top = `${y}px`;
-                    console.log(newElement)
                     editor.getDoc().body.appendChild(newElement);
                 }
                 if (classes=="block draggable"){
@@ -283,32 +276,37 @@
                     
                     newElement.style.left = `${x}px`;
                     newElement.style.top = `${y}px`;
-                    console.log(newElement)
+                    
                     editor.getDoc().body.appendChild(newElement);
                 }
                 if (classes=="icon draggable" || classes=="image draggable"){
                     t= event.dataTransfer.getData('text/plain');
-                    const newElement = editor.dom.create('p', {
+                    const newElement = editor.dom.create('img', {
                         class: 'div-resizable-draggable'
                     });
-                    const image=editor.dom.create('img')
-                    image.setAttribute("src",t)
-                    editor.dom.add(newElement,image)
-                    image.style.maxWidth="100%";
+                    newElement.setAttribute("src",t)
+                    newElement.style.maxWidth="100%";
                     newElement.style.left = `${x}px`;
                     newElement.style.top = `${y}px`;
                     editor.getDoc().body.appendChild(newElement);
+                    
                 }
                 
-                
+                applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
+                unEditabledivs(editor)
             });
             editor.on('dragover', function(event) {
                 event.preventDefault();
             });  
             editor.on('keydown', function (e) {
+            
             if (e.keyCode == 13) { 
                 e.preventDefault();
                 editor.execCommand('InsertLineBreak');
+            }
+            if (e.keyCode === 32) {  // Space key
+                e.preventDefault();  
+                editor.insertContent('&nbsp;');
             }
             });
             editor.ui.registry.addButton('deleteSelectedElement', {
@@ -335,7 +333,6 @@
         content_style: `html { height:100%; background-color:;}body{height:100%;width:100%;margin:0 !important;line-height: 1;overflow:scroll;position:absolute; }`,
         
         });
-        
         
         function editorfunc(y){
             const tochoose=document.getElementsByClassName("editor-choose-element");
@@ -377,31 +374,18 @@
         },1000);
         function unEditabledivs(editor) {
                     const divs = editor.getDoc().body.querySelectorAll('div');
+                    
                     divs.forEach(div => {
+                        if (div.classList.contains('div-resizable-draggable')) {
                         div.setAttribute("contentEditable","false")
-                       
+                        }
                     });
+                    
 
         }
         function applyDraggableToDivs(editor,body,frame) {
                     let elements = body.querySelectorAll('.div-resizable-draggable');
                     elements.forEach(element => {
-                        
-                        if(!element.querySelector('.handle'))
-                        {
-                            const handle = document.createElement('div');
-                            handle.className = 'handle';
-                            handle.setAttribute("contentEditable","false")
-                            if (element.tagName=="TABLE"){
-                                const firstRow = element.querySelector('tr');
-                                const firstTd=firstRow.querySelector('td');
-                                firstTd.appendChild(handle)
-                            }
-                            else{
-                                element.appendChild(handle);
-                            }
-                            
-                        }
                         makeDraggable(element,editor,body,frame);
                        
                     });
@@ -414,7 +398,7 @@
                     let startX, startY, initialMouseX, initialMouseY;
                     
                     
-                    element.querySelector('.handle').addEventListener('mousedown', function (e) {
+                    element.addEventListener('mousedown', function (e) {
                             
                             
                             const rect = element.getBoundingClientRect();
@@ -571,7 +555,7 @@
         background-color:white;
         scrollbar-width: thin;
         scrollbar-color: grey #e5e8e8 ;
-        border:2px solid black;
+        
     }
     .editor-heading{
         font-size:22px;
@@ -590,6 +574,7 @@
     .draggable{
         border:none !important;
         background-color:#ECF6FD;
+        border:2px solid black;
     }
     .line{
         min-width:40%;

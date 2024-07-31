@@ -17,30 +17,19 @@ div{
     background-color: rgb(255,0,0,.1);
     border:1px solid blue;
 }
-.selected-node .handle{
-    display:block;
-}
-.handle {
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    top:0px;
-    left: 0px;
-    cursor:move;
-    background-color:blue;
-    display: none;
-}
+
 .div-resizable-draggable {
-    padding:10px;
     position:absolute;
+    
 }
 td{
     border:1px solid blue;
     min-height:auto;
-    padding:5px;
+    
 }
 table{
-    
+    min-width:200px;
+    min-height:200px;
 }
 .pinktable td{
     background-color: pink;

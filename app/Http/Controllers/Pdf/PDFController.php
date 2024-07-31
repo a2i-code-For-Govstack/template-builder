@@ -42,6 +42,7 @@ class PDFController extends Controller{
        
         </html>
         ";
+        
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isPhpEnabled', true);
@@ -50,7 +51,7 @@ class PDFController extends Controller{
         //$dompdf = new Dompdf();
         //echo $html;
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('A5', 'portrait');
+        $dompdf->setPaper([0,0,564,846], 'portrait');
         $dompdf->render();
         return $dompdf->stream('test.pdf');
         

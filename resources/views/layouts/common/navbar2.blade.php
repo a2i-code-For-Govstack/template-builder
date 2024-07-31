@@ -46,7 +46,7 @@
                 EDITOR
             </span>
         </a>
-        <a  class="nav2-ref"href="{{ route('home') }}" >
+        <a  class="nav2-ref"href="" >
             <span style="padding:5px;">
                 COLLABORATION
             </span>

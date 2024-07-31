@@ -213,7 +213,7 @@
             width:80%;
             margin:auto;
             height:550px;
-            background-image:url("/img/background4.avif");
+            background-image:url("/img/background4.png");
             background-position:1500px center;
             display:flex;
             overflow:hidden;
@@ -242,7 +242,7 @@
             align-items:center;
             justify-content:center;
             /*background-image:url("/img/background2.jpg"); */
-            background-color:#C486F8;
+            background-color:#bb8fce;
         }
         #home-tagline-min{
             width:300px;
@@ -551,8 +551,8 @@
                     @endforeach
                     
                 </div>
-                <hr>
-                <div class="w3-row w3-padding-64" id="about">
+                
+                <div class="w3-row w3-padding-64" id="about" style="background-color:#f5eef8;">
                     <div class="w3-col m6 w3-padding-large w3-hide-small">
                     <a href="{{route('collection')}}">
                     <img src="/img/home-page1.png" class="w3-round w3-image" style="border:1px solid black;"alt="img" width="700" height="800">
@@ -560,7 +560,7 @@
                     </div>
 
                     <div class="w3-col m6 w3-padding-large">
-                    <h1 style="text-align:center;font-family:Times New Roman;background-color:#D7BDE2;font-weight:bolder;">Collection</h1><br>
+                    <h1 style="text-align:center;font-family:Times New Roman;background-color:#bb8fce;font-weight:bolder;">Collection</h1><br>
                     <h5 class="w3-center" style="font-family:Times New Roman;">Use variety of Templates</h5>
                     <p class="w3-large">Unleash your creativity with A2I template Builder, the perfect tool for crafting stunning templates effortlessly. Whether you're a seasoned designer or just starting out, our intuitive drag-and-drop editor, rich text formatting, and customizable templates make designing a breeze. Seamlessly integrate with popular tools like
                          TinyMCE to enhance your 
@@ -569,7 +569,7 @@
                     </div>
                 </div>
                 
-                <hr>
+               
                 
                
                  
