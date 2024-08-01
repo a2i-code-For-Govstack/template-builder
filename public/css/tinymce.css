@@ -20,7 +20,7 @@ div{
 
 .div-resizable-draggable {
     position:absolute;
-    
+    cursor:move;
 }
 td{
     border:1px solid blue;

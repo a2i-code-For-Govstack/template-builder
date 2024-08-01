@@ -56,6 +56,9 @@
                     node.classList.remove('selected-node');
                     });
                     selectedNode = editor.selection.getNode();
+                    if (selectedNode.querySelector("img") !==null){
+                        editor.selection.select(selectedNode.querySelector("img"));
+                    }
                     selectedNode.classList.add('selected-node');
                     unEditabledivs(editor)
                     
@@ -299,15 +302,37 @@
                 event.preventDefault();
             });  
             editor.on('keydown', function (e) {
-            
-            if (e.keyCode == 13) { 
-                e.preventDefault();
-                editor.execCommand('InsertLineBreak');
-            }
-            if (e.keyCode === 32) {  // Space key
-                e.preventDefault();  
-                editor.insertContent('&nbsp;');
-            }
+                if( editor.selection.getNode().tagName=="IMG"){
+                    e.preventDefault()
+                }
+                else if (e.keyCode == 13) { 
+                    e.preventDefault();
+                    editor.execCommand('InsertLineBreak');
+                }
+                else if (e.keyCode === 32) {  // Space key
+                    e.preventDefault();  
+                    editor.insertContent('&nbsp;');
+                }
+                else{
+
+                }
+            });
+            editor.on('mousedown',function(e){
+                e.preventDefault()
+                //e.stopPropagation();
+                let x = event.clientX;
+                let y = event.clientY;
+
+                
+                let range = editor.selection.dom.createRng();
+                let caretPosition = editor.getDoc().caretRangeFromPoint(x, y);
+                
+                if(caretPosition) {
+                range.setStart(caretPosition.startContainer, caretPosition.startOffset);
+                range.setEnd(caretPosition.startContainer, caretPosition.startOffset);
+                editor.selection.setRng(range);
+                } 
+                editor.focus();
             });
             editor.ui.registry.addButton('deleteSelectedElement', {
                     text: 'Delete',
@@ -385,7 +410,9 @@
         }
         function applyDraggableToDivs(editor,body,frame) {
                     let elements = body.querySelectorAll('.div-resizable-draggable');
+                    
                     elements.forEach(element => {
+                
                         makeDraggable(element,editor,body,frame);
                        
                     });
@@ -407,12 +434,13 @@
                             initialMouseX = e.clientX;
                             initialMouseY = e.clientY;
                             
-                            editor.getDoc().addEventListener('mousemove', onMouseMove);
-                            editor.getDoc().addEventListener('mouseup', onMouseUp);
+                            editor.getDoc().addEventListener('mousemove', on_MouseMove);
+                            editor.getDoc().addEventListener('mouseup', on_MouseUp);
                             
                     });
                     
-                    function onMouseMove(e) {
+                    function on_MouseMove(e) {
+                            
                             
                             
                             const iframeRect = frame.getBoundingClientRect();
@@ -433,15 +461,15 @@
                     }
 
 
-                    function onMouseUp(e) {
+                    function on_MouseUp(e) {
+                            
                             
                             e.stopPropagation();
                  
-                            element.classList.add('selected-node')
                             isDragging = false;
                             
-                            editor.getDoc().removeEventListener('mousemove', onMouseMove);
-                            editor.getDoc().removeEventListener('mouseup', onMouseUp);
+                            editor.getDoc().removeEventListener('mousemove', on_MouseMove);
+                            editor.getDoc().removeEventListener('mouseup', on_MouseUp);
                             
                     }
                 }
