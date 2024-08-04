@@ -8,7 +8,7 @@
 
         if ((form.paper_size.split('X')[0])<=(form.paper_size.split('X')[1])){
             height=1000;
-            width=580;
+            width=564;
             bodyWidth=564;
             bodyHeight=846;
         }
@@ -524,6 +524,33 @@
                         link.href = imgData;
                         link.download = `template.jpg`;
                         link.click();
+                    } catch (err) {
+                        console.error("Error:", err);
+                    }
+                }
+                async function downloadpdf() {
+                    
+
+                    try {
+                        const editor = tinymce.get('editor-div'); // Replace with your TinyMCE editor ID
+                        const contentElement = editor.getBody();
+                        const canvas = await html2canvas(contentElement, {
+                            logging: true,
+                            useCORS: true,
+                            allowTaint: true,
+                            scrollX: 0,
+                            scrollY: -window.scrollY
+                        });
+
+                        
+
+                        // Convert the canvas to an image data URL
+                        let imgData = canvas.toDataURL("image/jpg");
+                        const pdf = new jsPDF('p', 'mm', 'a4');
+                        const imgWidth = 210;
+                        const imgHeight = canvas.height * imgWidth / canvas.width;
+                        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                        pdf.save('template.pdf');
                     } catch (err) {
                         console.error("Error:", err);
                     }
