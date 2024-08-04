@@ -13,7 +13,11 @@ class PDFController extends Controller{
     
 
     public function downloadPdf(Request $request)
-    {
+    {   
+
+
+        
+        /*
         $content = $request->input('content');
         $html="
         <!DOCTYPE html>
@@ -49,12 +53,13 @@ class PDFController extends Controller{
         $options->set('baseDir', realpath(public_path())); 
         $dompdf = new Dompdf($options);
         //$dompdf = new Dompdf();
-        //echo $html;
+        echo $html;
+        
         $dompdf->loadHtml($html);
         $dompdf->setPaper([0,0,564,846], 'portrait');
         $dompdf->render();
         return $dompdf->stream('test.pdf');
-        
+        */
     }
 
     

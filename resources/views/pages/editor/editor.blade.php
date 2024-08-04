@@ -351,9 +351,9 @@
             
         },
         plugins: 'noneditable code table lists insertdatetime link textcolor print preview',
-        /*
-        menubar:'file',*/
-        toolbar: 'deleteSelectedElement | undo redo| bold italic underline forecolor backcolor fontselect| alignleft aligncenter alignright alignjustify | bullist numlist | table ',
+        
+        menubar:'file',
+        toolbar: 'deleteSelectedElement | undo redo| bold italic underline forecolor backcolor fontselect| alignleft aligncenter alignright alignjustify | bullist numlist ',
         insertdatetime_dateformat: '%d-%m-%Y',
         content_style: `html { height:100%; background-color:;}body{height:100%;width:100%;margin:0 !important;line-height: 1;overflow:scroll;position:absolute; }`,
         
@@ -473,10 +473,82 @@
                             
                     }
                 }
-        
-                
+                async function downloadpng() {
+                    
+
+                    try {
+                        const editor = tinymce.get('editor-div'); // Replace with your TinyMCE editor ID
+                        const contentElement = editor.getBody();
+                        const canvas = await html2canvas(contentElement, {
+                            logging: true,
+                            useCORS: true,
+                            allowTaint: true,
+                            scrollX: 0,
+                            scrollY: -window.scrollY
+                        });
+                        // Convert the canvas to an image data URL
+                        let imgData = canvas.toDataURL("image/png");
+                        
+
+                        // Create a link element to trigger the download
+                        const link = document.createElement('a');
+                        link.href = imgData;
+                        link.download = `template.png`;
+                        link.click();
+                    } catch (err) {
+                        console.error("Error:", err);
+                    }
+                }
+                async function downloadjpg() {
+                    
+
+                    try {
+                        const editor = tinymce.get('editor-div'); // Replace with your TinyMCE editor ID
+                        const contentElement = editor.getBody();
+                        const canvas = await html2canvas(contentElement, {
+                            logging: true,
+                            useCORS: true,
+                            allowTaint: true,
+                            scrollX: 0,
+                            scrollY: -window.scrollY
+                        });
+
+                        
+
+                        // Convert the canvas to an image data URL
+                        let imgData = canvas.toDataURL("image/jpg");
+                        
+
+                        // Create a link element to trigger the download
+                        const link = document.createElement('a');
+                        link.href = imgData;
+                        link.download = `template.jpg`;
+                        link.click();
+                    } catch (err) {
+                        console.error("Error:", err);
+                    }
+                }
+                document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('capturepng').addEventListener('click', async () => {
+                    await downloadpng();
+                });
+                document.getElementById('capturejpg').addEventListener('click', async () => {
+                    await downloadjpg();
+                });
+                document.getElementById('capturepdf').addEventListener('click', async () => {
+                    await downloadpdf();
+                });
+                });
+ 
 </script>
+
 <style>
+    .content{
+        width:100px;
+        height:100px;
+        display:block;
+        visibility:visible;
+    }
     textarea{
         width:100%;
     }
@@ -841,16 +913,17 @@
 <div class="card">
     <div class="card-header">{{ $form->title }}</div>
     <div class="card-body">
-        <form id="form"  method="GET"  action="{{ route('export-pdf') }}">
+        <form id="form">
         @csrf
             <textarea class="content " name="content"id="editor-div">
             {{--<div  style="background-color:#FFCCBC;" class="block-div"><img class="block-img"src="{{asset('/img/error.png')}}"></div><div class="block-content"><div class="block-title">Error</div><div>Write your content here.</div></div></div>
             <div></div>
             <table class="firstrowfirstcolumnolivetable"width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>
             <img src="{{asset('/img/select-image1.jpg')}}">
+            method="GET"  action="{{ route('export-pdf') }}"
             --}}
             @if($isContent==true)
-                
+            
             {!!$form->content!!}
             @else
             
@@ -865,10 +938,17 @@
             <p  class="div-resizable-draggable">aditi</p>
             --}}
             </textarea>
-            <button type="submit" class="btn btn-success btn-sm float-end">Download PDF</button>
+            <button  type="button" id="capturepng" class="btn btn-success btn-sm float-end">Download PNG</button>
+            <button  type="button" id="capturejpg" class="btn btn-success btn-sm float-end">Download JPG</button>
+            <button  type="button" id="capturepdf" class="btn btn-success btn-sm float-end">Download PDF</button>
             </form>
         </div>
     </div>
 </div>
-
+{{--
+    node change - always select image and not its parent p 
+    keydown- when image is choosen keys stopped working
+    mousedown-cutomized because its dragging the image was stoping the resizable option of table 
+    (to make elements draggable, used mousedown, mousemove and mouse up)
+--}}
 @endsection
