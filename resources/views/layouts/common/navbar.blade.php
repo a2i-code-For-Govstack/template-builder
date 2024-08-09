@@ -3,13 +3,13 @@
         box-sizing:border-box;
     }
     #navbar{
-        background-color:#ECF6FD ;
+        background-color:white ;
     }
     li:hover{
         background-color:none ;
     }
     #navbar-main{
-        background-color:#ECF6FD ;
+        background-color:white ;
         display:flex;
         justify-content:space-between;
         align-items:center;
@@ -112,7 +112,7 @@
                                 <a class="nav2-a " href="#" role="button"
                                 data-bs-toggle="dropdown">
                                     <span >
-                                    <i class='bx bxs-user-circle' style='color:#33AFFF;font-size: 40px' ></i>
+                                    <i class='bx bxs-user-circle' style='color:#4caf50 ;font-size: 40px' ></i>
                                     </span>
                                 </a>
 

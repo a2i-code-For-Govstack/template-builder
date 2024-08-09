@@ -150,8 +150,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/pdf/show/{id}', ['uses'=>'FormController@FormPdfShow'])->name('pdf.show');
             Route::get('/form-any', ['uses'=>'FormAnyController@editor'])->name('form.editor');
             Route::get('/form-any/{id}', ['uses'=>'FormAnyController@any'])->name('form.any');
-            Route::get('/background-only/{id}', ['uses'=>'FormAnyController@background'])->name('form.background-only');
-    });
+            Route::get('/form-any/background-only/{id}', ['uses'=>'FormAnyController@background'])->name('form.background-only');
+        });
 
 
 

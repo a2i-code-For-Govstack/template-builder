@@ -2,7 +2,7 @@
 <style>
     #nav2{
         width:100%;
-        background-color:#C8E9FF  ;
+        background-color:#4caf50  ;
         padding:5px 0 5px 0;
         display:flex;
         align-items:center;
@@ -46,11 +46,7 @@
                 EDITOR
             </span>
         </a>
-        <a  class="nav2-ref"href="" >
-            <span style="padding:5px;">
-                COLLABORATION
-            </span>
-        </a>
+        
         
         @canany(['log-index', 'log-show', 'log-update', 'log-edit'])
             <a  class="nav2-ref"href="{{ route('log.info') }}" >

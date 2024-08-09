@@ -4,11 +4,12 @@
 
 
 <script>
+    
     var form= @json($form);
-
-        if ((form.paper_size.split('X')[0])<=(form.paper_size.split('X')[1])){
-            height=1000;
-            width=564;
+    
+        if (form.page_type=="vertical"){
+            height=980;
+            width=580;
             bodyWidth=564;
             bodyHeight=846;
         }
@@ -16,7 +17,8 @@
             height=((780/form.paper_size.split('X')[0])*form.paper_size.split('X')[1]);
             width=600;
         }
-    address="url('"+form.background_image+"')";
+        address="url('"+form.background_image+"')";
+    
     tinymce.init({
         selector: '.content',
         content_css: "/css/tinymce.css",
@@ -28,16 +30,17 @@
         setup: function (editor) { 
             
             editor.on('init', function () {
+                
                 editor.getDoc().body.style.backgroundImage =address;
                 editor.getDoc().body.style.backgroundColor= form.background_image;
-                editor.getDoc().body.style.backgroundSize = "contain";
-                editor.getDoc().body.style.backgroundRepeat = "no-repeat"; 
+                editor.getDoc().body.style.backgroundRepeat= "no-repeat";
+                
                 editor.getDoc().body.style.width= bodyWidth+"px"; 
                 editor.getDoc().body.style.height= bodyHeight+"px"; 
 
                 
                 setTimeout(applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement),1000);
-                unEditabledivs(editor)
+                
                 
             });  
             editor.on('dragstart', function (e) {
@@ -56,18 +59,19 @@
                     node.classList.remove('selected-node');
                     });
                     selectedNode = editor.selection.getNode();
+                    
                     if (selectedNode.querySelector("img") !==null){
                         editor.selection.select(selectedNode.querySelector("img"));
                     }
                     selectedNode.classList.add('selected-node');
-                    unEditabledivs(editor)
+                    
                     
             });  
             
             editor.on('setContent', function (e) {
                     
                     applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
-                    unEditabledivs(editor)
+                   
             });
             
             editor.on('click', function (e) {
@@ -85,7 +89,19 @@
                 const information= JSON.parse(jsonData);
                 const id=information.id
                 const classes=information.classes
-               
+
+                if (classes=="templateV draggable" || classes=="templateH draggable"){
+                    
+                    window.location.href = `/form/form-any/${id}`;
+                }
+                if (classes=="backgroundV draggable" || classes=="backgroundH draggable"){
+                    
+                    window.location.href = `/form/form-any/background-only/${id}`;
+                }
+                if(classes=="blankH draggable" || classes=="blankV draggable"){
+                    window.location.href = `/form/form-any/background-only/${id}`;
+                }
+
                 const rect = editor.getDoc().body.getBoundingClientRect();
                 editor.getDoc().body.position="absolute";
                 const x = event.clientX ;
@@ -215,73 +231,7 @@
                     newElement.style.top = `${y}px`;
                     editor.getDoc().body.appendChild(newElement);
                 }
-                if (classes=="block draggable"){
-                    const newElement = editor.dom.create('div', {
-                        class: 'div-resizable-draggable'
-                    });
-                    //newElement.setAttribute("contentEditable","false")
-                    if (id=="1:1-blue-block"){
-                        newElement.setAttribute("style","background-color:#B3E5FC;width:100px;height:100px;")
-                    }
-                    if (id=="1:1-grey-block"){
-                        newElement.setAttribute("style","background-color:#CFD8DC;width:100px;height:100px;")
-                    }
-                    if (id=="1:1-yellow-block"){
-                        newElement.setAttribute("style","background-color:#FFECB3;width:100px;height:100px;")
-                    }
-                    if (id=="1:1-green-block"){
-                        newElement.setAttribute("style","background-color:#DCEDC8;width:100px;height:100px;")
-                    }
-                    if (id=="1:1-pink-block"){
-                        newElement.setAttribute("style","background-color:#FFCCBC;width:100px;height:100px;")
-                    }
-                    if (id=="1:1-purple-block"){
-                        newElement.setAttribute("style","background-color:#D1C4E9;width:100px;height:100px;")
-                    }
-
-                    if (id=="4:5-blue-block"){
-                        newElement.setAttribute("style","background-color:#B3E5FC;width:200px;height:250px;")
-                    }
-                    if (id=="4:5-grey-block"){
-                        newElement.setAttribute("style","background-color:#CFD8DC;width:200px;height:250px;")
-                    }
-                    if (id=="4:5-yellow-block"){
-                        newElement.setAttribute("style","background-color:#FFECB3;width:200px;height:250px;")
-                    }
-                    if (id=="4:5-green-block"){
-                        newElement.setAttribute("style","background-color:#DCEDC8;width:200px;height:250px;")
-                    }
-                    if (id=="4:5-pink-block"){
-                        newElement.setAttribute("style","background-color:#FFCCBC;width:200px;height:250px;")
-                    }
-                    if (id=="4:5-purple-block"){
-                        newElement.setAttribute("style","background-color:#D1C4E9;width:200px;height:250px;")
-                    }
-
-                    if (id=="9:16-blue-block"){
-                        newElement.setAttribute("style","background-color:#B3E5FC;width:90px;height:160px;")
-                    }
-                    if (id=="9:16-grey-block"){
-                        newElement.setAttribute("style","background-color:#CFD8DC;width:90px;height:160px;")
-                    }
-                    if (id=="9:16-yellow-block"){
-                        newElement.setAttribute("style","background-color:#FFECB3;width:90px;height:160px;")
-                    }
-                    if (id=="9:16-green-block"){
-                        newElement.setAttribute("style","background-color:#DCEDC8;width:90px;height:160px;")
-                    }
-                    if (id=="9:16-pink-block"){
-                        newElement.setAttribute("style","background-color:#FFCCBC;width:90px;height:160px;")
-                    }
-                    if (id=="9:16-purple-block"){
-                        newElement.setAttribute("style","background-color:#D1C4E9;width:90px;height:160px;")
-                    }
-                    
-                    newElement.style.left = `${x}px`;
-                    newElement.style.top = `${y}px`;
-                    
-                    editor.getDoc().body.appendChild(newElement);
-                }
+                
                 if (classes=="icon draggable" || classes=="image draggable"){
                     t= event.dataTransfer.getData('text/plain');
                     const newElement = editor.dom.create('img', {
@@ -296,13 +246,15 @@
                 }
                 
                 applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
-                unEditabledivs(editor)
+                
             });
             editor.on('dragover', function(event) {
                 event.preventDefault();
             });  
             editor.on('keydown', function (e) {
-                if( editor.selection.getNode().tagName=="IMG"){
+                //editor.selection.getNode().tagName=="IMG"
+                node=editor.selection.getNode()
+                if( node.tagName=="IMG"|| (!node.classList.contains("div-resizable-draggable")&& node.tagName=="P") ||(node.tagName=="BODY")){
                     e.preventDefault()
                 }
                 else if (e.keyCode == 13) { 
@@ -343,19 +295,21 @@
                                 selectedNode = selectedNode.parentNode;
                             }
                         }
-                        if (selectedNode) {
+                        if (selectedNode && selectedNode.tagName!=="BODY") {
                             selectedNode.remove();
                         }
                     }
             });
             
         },
-        plugins: 'noneditable code table lists insertdatetime link textcolor print preview',
+        plugins: 'noneditable code table lists insertdatetime link textcolor print preview textshadow',
         
-        menubar:'file',
-        toolbar: 'deleteSelectedElement | undo redo| bold italic underline forecolor backcolor fontselect| alignleft aligncenter alignright alignjustify | bullist numlist ',
+        menubar:'file insert format textshadow',
+        
+        toolbar: 'deleteSelectedElement textshadow | undo redo| bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist ',
+        
         insertdatetime_dateformat: '%d-%m-%Y',
-        content_style: `html { height:100%; background-color:;}body{height:100%;width:100%;margin:0 !important;line-height: 1;overflow:scroll;position:absolute; }`,
+        content_style: `html { height:100%; overflow:scroll;}body{height:100%;width:100%;margin:0 !important;line-height: 1;position:absolute; }`,
         
         });
         
@@ -397,17 +351,7 @@
             });
         }
         },1000);
-        function unEditabledivs(editor) {
-                    const divs = editor.getDoc().body.querySelectorAll('div');
-                    
-                    divs.forEach(div => {
-                        if (div.classList.contains('div-resizable-draggable')) {
-                        div.setAttribute("contentEditable","false")
-                        }
-                    });
-                    
-
-        }
+       
         function applyDraggableToDivs(editor,body,frame) {
                     let elements = body.querySelectorAll('.div-resizable-draggable');
                     
@@ -473,7 +417,7 @@
                             
                     }
                 }
-                async function downloadpng() {
+        async function downloadpng() {
                     
 
                     try {
@@ -499,7 +443,7 @@
                         console.error("Error:", err);
                     }
                 }
-                async function downloadjpg() {
+        async function downloadjpg() {
                     
 
                     try {
@@ -528,7 +472,7 @@
                         console.error("Error:", err);
                     }
                 }
-                async function downloadpdf() {
+        async function downloadpdf() {
                     
 
                     try {
@@ -570,14 +514,12 @@
 </script>
 
 <style>
+    
     .content{
-        width:100px;
-        height:100px;
-        display:block;
-        visibility:visible;
+        
     }
     textarea{
-        width:100%;
+        
     }
     #editor-main{
         display:flex;
@@ -592,23 +534,24 @@
         height:fit-content;
         margin:auto;
         margin-top:30px;
+        margin-bottom:30px;
     }
     .card-header{
-        background-color:#bb8fce ;
+        background-color:#4caf50;
         height:40px;
     }
     .card-body{
         width:fit-content;
         height:fit-content;
         padding:40px;
-        background-color:#d7bde2;
+        background-color:#aed581;
     }
     #template-place{
         margin:auto;
        
     }
     #editor-option-block{
-        height:100%;
+        height:97%;
         width:100px;
         padding:15px;
         display:inline-flex;
@@ -617,10 +560,9 @@
         flex-direction:column;
         border-radius: 0 20px  20px 0;
         color:black;
-        background-color:#C8E9FF ;
-        box-shadow:0px 0px 10px 10px #CFD8DC ;
+        background-color: #aed581 ;
         z-index:1;
-        
+       
     }
     .editor-block{
         display:flex;
@@ -640,18 +582,19 @@
         font-size:25px;
         border-radius:10px;
         box-shadow:2px 2px 2px 2px black;
-        background-color:#ECF6FD;
+        background-color:white;
     }
     .editor-choose-element{
         width:400px;
-        height:100%;
-        background-color:#ECF6FD ;
+        height:97%;
+        background-color:white;
         display:none;
-        box-shadow:5px 5px 10px 10px #CFD8DC ;
         color:black;
         overflow-y:scroll;
         scrollbar-width: thin;
-        scrollbar-color: grey white;
+        scrollbar-color: #4caf50 #aed581 ;
+        border: 5px solid #4caf50;
+        border-left:none;
     }
     #close-choose{
         width:25px;
@@ -660,12 +603,12 @@
         align-items:center;
         justify-content:center;
         font-size:20px;
-        background-color: #ECF6FD;
+        background-color: #4caf50;
         border-radius:50%;
         display:none;
-        border:2px solid grey;
+        border:2px solid black;
         margin: 0 0 0 10px;
-        color:grey;
+        color:black;
     }
     .written-option{
         margin:5px 0 5px 0;
@@ -681,8 +624,8 @@
         overflow-x:scroll;
         background-color:white;
         scrollbar-width: thin;
-        scrollbar-color: grey #e5e8e8 ;
-        
+        scrollbar-color:  #aed581 white ;
+        border:2px solid #aed581;
     }
     .editor-heading{
         font-size:22px;
@@ -691,18 +634,21 @@
     .editor-choose-element-inner{
         margin:20px;
         padding:20px;
-        /*border:2px solid black;*/
+        border:2px solid  #4caf50;
+        box-shadow:5px 5px 5px #aed581;
         border-radius:20px;
-        background-color:#C8E9FF;
+        background-color:white;
+
     }
-    .editor-choose-option::-webkit-scrollbar {
-            
+    .editor-choose-option::-webkit-scrollbar-track{
+        
     }
     .draggable{
-        border:none !important;
-        background-color:#ECF6FD;
-        border:2px solid black;
+        box-shadow:5px 5px 5px  #aed581;
+        background-color:white;
+        border:2px solid #aed581;
     }
+    
     .line{
         min-width:40%;
         margin:5%;
@@ -711,7 +657,7 @@
         align-items:center;
         justify-content:center;
         border-radius:10px;
-        border:2px solid black;
+        
     }
     .table{
         height:120px;
@@ -721,7 +667,7 @@
         align-items:center;
         justify-content:center;
         border-radius:10px;
-        border:2px solid black;
+        
     }
     .block{
         height:80px;
@@ -731,7 +677,7 @@
         align-items:center;
         justify-content:center;
         border-radius:10px;
-        border:2px solid black;
+        
     }
     .icon{
         height:100px;
@@ -742,7 +688,7 @@
         align-items:center;
         justify-content:center;
         border-radius:10px;
-        border:2px solid black;
+        
     }
     .image{
         height:150px;
@@ -752,7 +698,7 @@
         align-items:center;
         justify-content:center;
         border-radius:10px;
-        border:2px solid black;
+        
     }
     
     .tox{
@@ -768,11 +714,47 @@
         border-radius:10px;
         
     }
-     
+    .templateV{
+        height:170px;
+        min-width:40%;
+        margin:5%;
+        border-radius:10px;
+    }
+    .templateH{
+        height:80px;
+        min-width:40%;
+        margin:5%;
+        border-radius:10px;
+    }
+    .backgroundH{
+        height:80px;
+        min-width:40%;
+        margin:5%;
+        border-radius:10px;
+    }
+    .backgroundV{
+        height:170px;
+        min-width:40%;
+        margin:5%;
+        border-radius:10px;
+    }
+    .blankV{
+        height:170px;
+        min-width:40%;
+        margin:5%;
+        border-radius:10px;
+    }
+    .blankH{
+        height:80px;
+        min-width:40%;
+        margin:5%;
+        border-radius:10px;
+    }
     @media(max-width:700px){
         .tox-tinymce{
             width:100% !important;
-            height:600px !important;
+            height:500px !important;
+            
         }
     }
     @media(max-width:1000px){
@@ -797,6 +779,7 @@
         .editor-choose-element{
             width:100%;
             height:400px;
+            
         }
         .card{
             width:100% !important;
@@ -809,7 +792,7 @@
     }
 </style>
 
-<div style="display:flex;">
+<div style="display:flex;background-color: ;">
 <div id="editor-main">
 <div id="editor-option-block">
     <div class="editor-block" onClick="editorfunc(0)">
@@ -826,11 +809,73 @@
     </div>
     <div class="editor-block" onClick="editorfunc(3)">
     <div class="editor-options"><i class="fa-brands fa-elementor"></i></div>
-    <div class="written-option">More</div>
+    <div class="written-option">Help</div>
     </div>
 </div>
 <div class="editor-choose-element">
+    <div class="editor-choose-element-inner">
+    <div class="editor-heading">Blank Pages(vertical)</div>
+    <div id="blanksV" class="editor-choose-option">
+    @foreach ($forms as $template)
+        @if($template->page_type=="vertical" && strpos($template->background_image, '#')=== 0)
+            <div id="{{$template->sid}}" draggable="true" class="backgroundV draggable" style="background-color:{{$template->background_image}};" ></div>
+        @endif
+    @endforeach
+    </div>
+    </div>
+    <div class="editor-choose-element-inner">
+    <div class="editor-heading">Blank Pages(horizontal)</div>
+    <div id="blanksH" class="editor-choose-option">
+        @foreach ($forms as $template)
+        @if($template->page_type=="horizontal" && strpos($template->background_image, '#')=== 0)
+            <div id="{{$template->sid}}" draggable="true" class="backgroundH draggable" style="background-color:{{$template->background_image}};"></div>
+        @endif
+        @endforeach
+    </div>
+    </div>
+    <div class="editor-choose-element-inner">
+    <div class="editor-heading">Back Images(vertical)</div>
+    <div id="backgroundsV" class="editor-choose-option">
+        @foreach ($forms as $template)
+        @if($template->page_type=="vertical" && strpos($template->background_image, '#')=== false)
+            <img id="{{$template->sid}}" draggable="true" class="backgroundV draggable" src="{{ asset($template->background_image)}}">
+        @endif
+        @endforeach
+    </div>
+    </div>
 
+    <div class="editor-choose-element-inner">
+    <div class="editor-heading">back Images(horizontal)</div>
+    <div id="backgroundsH" class="editor-choose-option">
+        @foreach ($forms as $template)
+        @if($template->page_type=="horizontal" && strpos($template->background_image, '#')=== false)
+            <img id="{{$template->sid}}" draggable="true" class="backgroundH draggable" src="{{ asset($template->background_image)}}">
+        @endif
+        @endforeach
+    </div>
+    </div>
+
+    <div class="editor-choose-element-inner">
+    <div class="editor-heading">Templates(vertical)</div>
+    <div id="templatesV" class="editor-choose-option">
+        @foreach ($forms as $template)
+        @if($template->page_type=="vertical")
+            <img id="{{$template->sid}}"draggable="true" class="templateV draggable" src="{{ asset($template->template_type)}}">
+        @endif
+        @endforeach
+    </div>
+    </div>
+
+    <div class="editor-choose-element-inner">
+    <div class="editor-heading">Templates(horizontal)</div>
+    <div id="templatesH" class="editor-choose-option">
+        @foreach ($forms as $template)
+        @if($template->page_type=="horizontal")
+            <img id="{{$template->sid}}"draggable="true" class="templateH draggable" src="{{ asset($template->template_type)}}">
+        @endif
+        @endforeach
+    </div>
+    </div>
 </div>
 <div class="editor-choose-element">
     <div class="editor-choose-element-inner">
@@ -848,11 +893,11 @@
     <div class="editor-choose-element-inner">
     <div class="editor-heading">Lines</div>
     <div id="lines" class="editor-choose-option">
-        <div id="solid-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:2px solid black;"></div>
-        <div id="thick-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:5px solid black;"></div>
-        <div id="dotted-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:5px dotted black;"></div>
-        <div id="dashed-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:5px dashed black;"></div>
-        <div id="double-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:5px double black;"></div>
+        <div id="solid-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:2px solid black;background-color:#aed581;"></div>
+        <div id="thick-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:5px solid black;background-color:#aed581;"></div>
+        <div id="dotted-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:5px dotted black;background-color:#aed581;"></div>
+        <div id="dashed-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:5px dashed black;background-color:#aed581;"></div>
+        <div id="double-line"class="line draggable" draggable="true"><hr style="border:none;border-bottom:5px double black;background-color:#aed581;"></div>
     </div>
     </div>
     <div class="editor-choose-element-inner">
@@ -882,32 +927,6 @@
     </div>
     </div>
     
-    <div class="editor-choose-element-inner">
-    <div class="editor-heading">Blocks</div>
-    <div id="blocks" class="editor-choose-option">
-        <div id="1:1-blue-block"class="block draggable" draggable="true" style="background-color:#B3E5FC;">1:1</div>
-        <div id="1:1-grey-block"class="block draggable" draggable="true" style="background-color:#CFD8DC;">1:1</div>
-        <div id="1:1-yellow-block"class="block draggable" draggable="true" style="background-color:#FFECB3;">1:1</div>
-        <div id="1:1-green-block"class="block draggable" draggable="true" style="background-color:#DCEDC8;">1:1</div>
-        <div id="1:1-pink-block"class="block draggable" draggable="true" style="background-color:#FFCCBC;">1:1</div>
-        <div id="1:1-purple-block"class="block draggable" draggable="true" style="background-color:#D1C4E9;">1:1</div>
-
-        <div id="4:5-blue-block"class="block draggable" draggable="true" style="background-color:#B3E5FC;">4:5</div>
-        <div id="4:5-grey-block"class="block draggable" draggable="true" style="background-color:#CFD8DC;">4:5</div>
-        <div id="4:5-yellow-block"class="block draggable" draggable="true" style="background-color:#FFECB3;">4:5</div>
-        <div id="4:5-green-block"class="block draggable" draggable="true" style="background-color:#DCEDC8;">4:5</div>
-        <div id="4:5-pink-block"class="block draggable" draggable="true" style="background-color:#FFCCBC;">4:5</div>
-        <div id="4:5-purple-block"class="block draggable" draggable="true" style="background-color:#D1C4E9;">4:5</div>
-
-        <div id="9:16-blue-block"class="block draggable" draggable="true" style="background-color:#B3E5FC;">9:16</div>
-        <div id="9:16-grey-block"class="block draggable" draggable="true" style="background-color:#CFD8DC;">9:16</div>
-        <div id="9:16-yellow-block"class="block draggable" draggable="true" style="background-color:#FFECB3;">9:16</div>
-        <div id="9:16-green-block"class="block draggable" draggable="true" style="background-color:#DCEDC8;">9:16</div>
-        <div id="9:16-pink-block"class="block draggable" draggable="true" style="background-color:#FFCCBC;">9:16</div>
-        <div id="9:16-purple-block"class="block draggable" draggable="true" style="background-color:#D1C4E9;">9:16</div>
-
-    </div>
-    </div>
     @php
     $imageArray=[];
     for ($i = 0; $i < 50; $i++) {
@@ -953,9 +972,8 @@
             
             {!!$form->content!!}
             @else
-            
+            <h1 class="div-resizable-draggable" style="position:absolute;top:200px;left:80px;">Start creating your template</h1>
             @endif
-            
             
             {{--
             <div style="background-color:blue;width:200px;height:200px;"><div>aditi</div><div>vijay</div></div>
@@ -974,8 +992,27 @@
 </div>
 {{--
     node change - always select image and not its parent p 
-    keydown- when image is choosen keys stopped working
+    keydown- when image is choosen keys stopped working and also if node doesn't has class div-resizable-draggable and is p and also if body is choosen
     mousedown-cutomized because its dragging the image was stoping the resizable option of table 
     (to make elements draggable, used mousedown, mousemove and mouse up)
+    --blank page will have a h1 to not have a by default p(we could have p with class div-resizable-draggable but then all p generated itself would have class div-resizable-draggable)
 --}}
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
