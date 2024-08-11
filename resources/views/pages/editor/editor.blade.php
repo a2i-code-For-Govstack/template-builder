@@ -21,7 +21,12 @@
     
     tinymce.init({
         selector: '.content',
-        content_css: "/css/tinymce.css",
+        content_css: [
+            "/css/tinymce.css",
+            "/assets/css/bangali-fonts.css",
+            'https://fonts.googleapis.com/css?family=Roboto|Open+Sans|Lato&display=swap',
+            'https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;700&display=swap'
+        ],
         resize:"both",
         height:height,
         margin:0,
@@ -30,7 +35,6 @@
         setup: function (editor) { 
             
             editor.on('init', function () {
-                
                 editor.getDoc().body.style.backgroundImage =address;
                 editor.getDoc().body.style.backgroundColor= form.background_image;
                 editor.getDoc().body.style.backgroundRepeat= "no-repeat";
@@ -232,7 +236,7 @@
                     editor.getDoc().body.appendChild(newElement);
                 }
                 
-                if (classes=="icon draggable" || classes=="image draggable"){
+                if (classes=="icon draggable" || classes=="image draggable" || classes=="upload draggable"){
                     t= event.dataTransfer.getData('text/plain');
                     const newElement = editor.dom.create('img', {
                         class: 'div-resizable-draggable'
@@ -244,7 +248,7 @@
                     editor.getDoc().body.appendChild(newElement);
                     
                 }
-                
+                console.log(classes)
                 applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
                 
             });
@@ -288,6 +292,7 @@
             });
             editor.ui.registry.addButton('deleteSelectedElement', {
                     text: 'Delete',
+                    //icon: 'fa-solid fa-trash',
                     onAction: function () {
                         var selectedNode = editor.selection.getNode();
                         if (selectedNode.tagName=="IMG"){
@@ -302,15 +307,16 @@
             });
             
         },
-        plugins: 'noneditable code table lists insertdatetime link textcolor print preview textshadow',
+        
+        plugins: ' advlist noneditable code table lists insertdatetime link textcolor print preview textshadow',
         
         menubar:'file insert format textshadow',
         
-        toolbar: 'deleteSelectedElement textshadow | undo redo| bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist ',
+        toolbar: 'deleteSelectedElement fontfamily bold italic underline strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify' ,
         
         insertdatetime_dateformat: '%d-%m-%Y',
+        font_family_formats: 'Arial=arial,helvetica,sans-serif; Times New Roman=times new roman,times; Courier New=courier new,courier; Open Sans=open sans,sans-serif; Roboto=roboto,sans-serif; Lato=lato,sans-serif;'+ ' Noto Serif Bengali=Noto Serif Bengali,sans-serif;',
         content_style: `html { height:100%; overflow:scroll;}body{height:100%;width:100%;margin:0 !important;line-height: 1;position:absolute; }`,
-        
         });
         
         function editorfunc(y){
@@ -331,7 +337,9 @@
             closeChoose.style.display="none";
         }
         
-        setTimeout(function(){
+        setTimeout(draggableItems,1000);
+
+        function draggableItems(){
         const draggable = document.getElementsByClassName("draggable");
         for(var i=0; i<draggable.length;i++){
             draggable[i].addEventListener('dragstart', function(event) {
@@ -341,17 +349,37 @@
                 };
                 const jsonData = JSON.stringify(data);
                 event.dataTransfer.setData('application/json', jsonData)
-                if (event.target.className=="image draggable"){
+                /*if (event.target.className=="image draggable"){
                     event.dataTransfer.setData('text/plain', event.target.src);
                 }
                 if (event.target.className=="icon draggable"){
+                    event.dataTransfer.setData('text/plain', event.target.src);
+                }*/
+                if(event.target.tagName=="IMG"){
                     event.dataTransfer.setData('text/plain', event.target.src);
                 }
                 dragFromElements=true;
             });
         }
+        }
+        setTimeout(function(){
+        document.getElementById('imageUpload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.draggable="true";
+                img.id="a";
+                img.classList.add('upload');
+                img.classList.add('draggable');
+                document.getElementById('imageGallery').appendChild(img);
+                draggableItems()
+            };
+            reader.readAsDataURL(file);
+            
+        });
         },1000);
-       
         function applyDraggableToDivs(editor,body,frame) {
                     let elements = body.querySelectorAll('.div-resizable-draggable');
                     
@@ -944,7 +972,8 @@
     </div>
 </div>
 <div class="editor-choose-element">
-<div id="upload-image" class="draggable"draggable="true">upload image</div>
+<input type="file" id="imageUpload" accept="image/*">
+<div id="imageGallery"></div>
 </div>
 <div class="editor-choose-element">
 
@@ -969,7 +998,6 @@
             method="GET"  action="{{ route('export-pdf') }}"
             --}}
             @if($isContent==true)
-            
             {!!$form->content!!}
             @else
             <h1 class="div-resizable-draggable" style="position:absolute;top:200px;left:80px;">Start creating your template</h1>

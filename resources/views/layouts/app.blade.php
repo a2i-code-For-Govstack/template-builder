@@ -3,11 +3,14 @@
 <head>
     @include('layouts.common.head')
     @stack('styles')
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ asset('nikosh.css') }}">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&family=Lobster&family=Merriweather:wght@400;700&family=Oswald:wght@400;700&family=Raleway:wght@400;700&family=Montserrat:wght@400;700&family=Pacifico&family=Lora:wght@400;700&family=Quicksand:wght@400;700&family=Poppins:wght@400;700&family=Nunito:wght@400;700&family=Dancing+Script&family=Bebas+Neue&family=Cabin:wght@400;700&family=Josefin+Sans:wght@400;700&family=Great+Vibes&family=Ubuntu:wght@400;700&family=Crimson+Text:wght@400;700&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;700&display=swap" rel="stylesheet">
+
 </head>
 
 
