@@ -156,6 +156,7 @@
                     if (id=="double-line"){
                         newElement.setAttribute("style","width:100%;border:none;border-top:5px solid black;");
                     }
+                    newElement.contentEditable="false";
                     newElement.style.left = `${x}px`;
                     newElement.style.top = `${y}px`;
                     console.log(newElement)
@@ -236,7 +237,7 @@
                     editor.getDoc().body.appendChild(newElement);
                 }
                 
-                if (classes=="icon draggable" || classes=="image draggable" || classes=="upload draggable"){
+                if (classes=="icon draggable" || classes=="image draggable" || classes=="upload draggable" || classes=="sign draggable"){
                     t= event.dataTransfer.getData('text/plain');
                     const newElement = editor.dom.create('img', {
                         class: 'div-resizable-draggable'
@@ -248,7 +249,6 @@
                     editor.getDoc().body.appendChild(newElement);
                     
                 }
-                console.log(classes)
                 applyDraggableToDivs(editor,editor.getDoc().body,editor.iframeElement);
                 
             });
@@ -316,7 +316,7 @@
         
         insertdatetime_dateformat: '%d-%m-%Y',
         font_family_formats: 'Arial=arial,helvetica,sans-serif; Times New Roman=times new roman,times; Courier New=courier new,courier; Open Sans=open sans,sans-serif; Roboto=roboto,sans-serif; Lato=lato,sans-serif;'+ ' Noto Serif Bengali=Noto Serif Bengali,sans-serif;',
-        content_style: `html { height:100%; overflow:scroll;}body{height:100%;width:100%;margin:0 !important;line-height: 1;position:absolute; }`,
+        content_style: `html { height:100%;}body{height:100%;width:100%;margin:0 !important;overflow:scroll;line-height: 1;position:absolute; }`,
         });
         
         function editorfunc(y){
@@ -357,6 +357,9 @@
                 }*/
                 if(event.target.tagName=="IMG"){
                     event.dataTransfer.setData('text/plain', event.target.src);
+                }
+                if(event.target.tagName=="CANVAS"){
+                    event.dataTransfer.setData('text/plain', event.target.toDataURL('image/png'));
                 }
                 dragFromElements=true;
             });
@@ -445,20 +448,76 @@
                             
                     }
                 }
+        
+        setTimeout(function(){
+            const canvas = document.getElementById('drawing-canvas');
+            const clear_canvas= document.getElementById('clear-canvas');
+            const save_canvas= document.getElementById('save-canvas')
+
+            const ctx = canvas.getContext('2d');
+            let drawing = false;
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseleave', stopDrawing);
+            clear_canvas.addEventListener('click',clearDrawing)
+            save_canvas.addEventListener('click',saveDrawing)
+
+            function startDrawing(e) {
+                drawing = true;
+                ctx.beginPath();
+                ctx.moveTo(e.offsetX, e.offsetY);
+            }
+
+            function stopDrawing() {
+                drawing = false;
+                ctx.closePath();
+            }
+
+            function draw(e) {
+                if (!drawing) return;
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+            }
+        
+            function clearDrawing() {
+                canvas.setAttribute('draggable', 'false');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseleave', stopDrawing);
+            }
+            function saveDrawing(){
+                canvas.removeEventListener('mousedown', startDrawing);
+                canvas.removeEventListener('mouseup', stopDrawing);
+                canvas.removeEventListener('mousemove', draw);
+                canvas.removeEventListener('mouseleave', stopDrawing);
+                canvas.setAttribute('draggable', 'true');
+                
+            }
+        },1000);
+
+
         async function downloadpng() {
                     
 
                     try {
                         const editor = tinymce.get('editor-div'); // Replace with your TinyMCE editor ID
                         const contentElement = editor.getBody();
+
+                        contentElement.scrollIntoView(true);
+                        
                         const canvas = await html2canvas(contentElement, {
                             logging: true,
                             useCORS: true,
                             allowTaint: true,
                             scrollX: 0,
-                            scrollY: -window.scrollY
+                            scrollY:-window.scrollY
                         });
                         // Convert the canvas to an image data URL
+                        
                         let imgData = canvas.toDataURL("image/png");
                         
 
@@ -467,6 +526,7 @@
                         link.href = imgData;
                         link.download = `template.png`;
                         link.click();
+                        
                     } catch (err) {
                         console.error("Error:", err);
                     }
@@ -477,6 +537,7 @@
                     try {
                         const editor = tinymce.get('editor-div'); // Replace with your TinyMCE editor ID
                         const contentElement = editor.getBody();
+                        contentElement.scrollIntoView(true);
                         const canvas = await html2canvas(contentElement, {
                             logging: true,
                             useCORS: true,
@@ -506,6 +567,8 @@
                     try {
                         const editor = tinymce.get('editor-div'); // Replace with your TinyMCE editor ID
                         const contentElement = editor.getBody();
+                        contentElement.scrollIntoView(true);
+                        
                         const canvas = await html2canvas(contentElement, {
                             logging: true,
                             useCORS: true,
@@ -671,12 +734,49 @@
     .editor-choose-option::-webkit-scrollbar-track{
         
     }
+    #upload-image-input{
+        width:90%;
+        height:200px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border:2px solid #aed581;
+        border-radius:20px;
+        margin:20px 5% 20px 5%;
+        
+    }
+    #imageUpload{
+        display:none;
+    }
+    #upload-btn{
+        border:2px solid #aed581;
+        padding:12px;
+    }
+    #imageGallery{
+        width:90%;
+        border:2px solid #aed581;
+        border-radius:20px;
+        margin:20px 5% 20px 5%;
+    }
+    #imageGallery img{
+        width:90%;
+        margin:5%;
+    }
     .draggable{
         box-shadow:5px 5px 5px  #aed581;
         background-color:white;
         border:2px solid #aed581;
     }
-    
+    .canvas-btn{
+        background-color:#aed581;
+        width:120px;
+        height:30px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:20px;
+        margin: 5px 0 5px 0;
+    }
     .line{
         min-width:40%;
         margin:5%;
@@ -728,7 +828,12 @@
         border-radius:10px;
         
     }
-    
+    #drawing-canvas{
+        margin:5%;
+        width:90%;
+        height:150px;
+        background-color:transparent;
+    }
     .tox{
         z-index:0 !important;
     }
@@ -777,6 +882,24 @@
         min-width:40%;
         margin:5%;
         border-radius:10px;
+    }
+    #capturejpg{
+        padding:10px;
+        margin:10px;
+        background-color:#4caf50;
+        font-size:18px;
+    }
+    #capturepng{
+        padding:10px;
+        margin:10px;
+        background-color:#4caf50;
+        font-size:18px;
+    }
+    #capturepdf{
+        padding:10px;
+        margin:10px;
+        background-color:#4caf50;
+        font-size:18px;
     }
     @media(max-width:700px){
         .tox-tinymce{
@@ -954,7 +1077,6 @@
         <img id="quote-icon"class="icon draggable" draggable="true"src="{{asset('/img/quote.png')}}">
     </div>
     </div>
-    
     @php
     $imageArray=[];
     for ($i = 0; $i < 50; $i++) {
@@ -970,10 +1092,21 @@
     @endforeach
     </div>
     </div>
+    <div class="editor-choose-element-inner">
+    <div class="editor-heading">Signature</div>
+    <div id="signature" class="editor-choose-option">
+        <canvas id="drawing-canvas" class="sign draggable"></canvas>
+    </div>
+        <div id="clear-canvas" class="canvas-btn">clear</div>
+        <div id="save-canvas" class="canvas-btn">save</div>
+    </div>
 </div>
 <div class="editor-choose-element">
-<input type="file" id="imageUpload" accept="image/*">
-<div id="imageGallery"></div>
+    <div id="upload-image-input">
+    <label for="imageUpload" id="upload-btn">Upload Image</label>
+    <input type="file" id="imageUpload" accept="image/*">
+    </div>
+    <div id="imageGallery"></div>
 </div>
 <div class="editor-choose-element">
 
