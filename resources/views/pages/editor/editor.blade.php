@@ -908,7 +908,7 @@
             
         }
     }
-    @media(max-width:1000px){
+    @media(max-width:1000px){   
         #editor-main{
             flex-direction:column-reverse;
             width:100%;
@@ -928,18 +928,23 @@
             margin:0;
         }
         .editor-choose-element{
-            width:100%;
-            height:400px;
-            
+            width:400px;
+            height:300px;
+            border:10px solid #aed581 ;
         }
         .card{
             width:100% !important;
             
         }
         #close-choose{
-            margin:5px 0 5px 0;
+            margin-bottom:0;
         }
         
+    }
+    @media(max-width:400px){ 
+        .editor-choose-element{
+            width:100%;
+        }
     }
 </style>
 
@@ -1109,7 +1114,7 @@
     <div id="imageGallery"></div>
 </div>
 <div class="editor-choose-element">
-
+help
 </div>
 <div id="close-choose" onClick="closingfunc()"><i class="fa-solid fa-xmark"></i></div>
 </div>
