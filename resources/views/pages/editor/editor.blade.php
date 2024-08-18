@@ -8,14 +8,16 @@
     var form= @json($form);
     
         if (form.page_type=="vertical"){
-            height=980;
-            width=580;
+            height=955;
+            width=564;
             bodyWidth=564;
             bodyHeight=846;
         }
         else{
-            height=((780/form.paper_size.split('X')[0])*form.paper_size.split('X')[1]);
+            height=500;
             width=600;
+            bodyWidth=600;
+            bodyHeight=400;
         }
         address="url('"+form.background_image+"')";
     
@@ -94,15 +96,15 @@
                 const id=information.id
                 const classes=information.classes
 
-                if (classes=="templateV draggable" || classes=="templateH draggable"){
+                if (classes=="templateV draggable vertical" || classes=="templateH draggable horizontal"){
                     
                     window.location.href = `/form/form-any/${id}`;
                 }
-                if (classes=="backgroundV draggable" || classes=="backgroundH draggable"){
+                if (classes=="backgroundV draggable vertical" || classes=="backgroundH draggable horizontal"){
                     
                     window.location.href = `/form/form-any/background-only/${id}`;
                 }
-                if(classes=="blankH draggable" || classes=="blankV draggable"){
+                if(classes=="blankH draggable horizontal" || classes=="blankV draggable vertical"){
                     window.location.href = `/form/form-any/background-only/${id}`;
                 }
 
@@ -276,19 +278,21 @@
             editor.on('mousedown',function(e){
                 e.preventDefault()
                 //e.stopPropagation();
-                let x = event.clientX;
-                let y = event.clientY;
+                
+                    let x = event.clientX;
+                    let y = event.clientY;
 
+                    
+                    let range = editor.selection.dom.createRng();
+                    let caretPosition = editor.getDoc().caretRangeFromPoint(x, y);
+                    
+                    if(caretPosition) {
+                    range.setStart(caretPosition.startContainer, caretPosition.startOffset);
+                    range.setEnd(caretPosition.startContainer, caretPosition.startOffset);
+                    editor.selection.setRng(range);
+                    } 
+                    editor.focus();
                 
-                let range = editor.selection.dom.createRng();
-                let caretPosition = editor.getDoc().caretRangeFromPoint(x, y);
-                
-                if(caretPosition) {
-                range.setStart(caretPosition.startContainer, caretPosition.startOffset);
-                range.setEnd(caretPosition.startContainer, caretPosition.startOffset);
-                editor.selection.setRng(range);
-                } 
-                editor.focus();
             });
             editor.ui.registry.addButton('deleteSelectedElement', {
                     text: 'Delete',
@@ -316,7 +320,7 @@
         
         insertdatetime_dateformat: '%d-%m-%Y',
         font_family_formats: 'Arial=arial,helvetica,sans-serif; Times New Roman=times new roman,times; Courier New=courier new,courier; Open Sans=open sans,sans-serif; Roboto=roboto,sans-serif; Lato=lato,sans-serif;'+ ' Noto Serif Bengali=Noto Serif Bengali,sans-serif;',
-        content_style: `html { height:100%;}body{height:100%;width:100%;margin:0 !important;overflow:scroll;line-height: 1;position:absolute; }`,
+        content_style: `html { height:100%;}body::-webkit-scrollbar{ display: none;}body{height:100%;width:100%;margin:0 !important;overflow:scroll;line-height: 1.2;position:absolute; }`,
         });
         
         function editorfunc(y){
@@ -514,8 +518,8 @@
                             useCORS: true,
                             allowTaint: true,
                             scrollX: 0,
-                            scrollY:-window.scrollY
-                        });
+                            scrollY:-window.scrollY,
+                          });
                         // Convert the canvas to an image data URL
                         
                         let imgData = canvas.toDataURL("image/png");
@@ -538,19 +542,17 @@
                         const editor = tinymce.get('editor-div'); // Replace with your TinyMCE editor ID
                         const contentElement = editor.getBody();
                         contentElement.scrollIntoView(true);
+                        
                         const canvas = await html2canvas(contentElement, {
                             logging: true,
                             useCORS: true,
                             allowTaint: true,
                             scrollX: 0,
-                            scrollY: -window.scrollY
-                        });
-
+                            scrollY: -window.scrollY,
+                          });
                         
-
                         // Convert the canvas to an image data URL
                         let imgData = canvas.toDataURL("image/jpg");
-                        
 
                         // Create a link element to trigger the download
                         const link = document.createElement('a');
@@ -574,16 +576,16 @@
                             useCORS: true,
                             allowTaint: true,
                             scrollX: 0,
-                            scrollY: -window.scrollY
-                        });
+                            scrollY: -window.scrollY,
+                            });
 
-                        
-
+                       
                         // Convert the canvas to an image data URL
                         let imgData = canvas.toDataURL("image/jpg");
-                        const pdf = new jsPDF('p', 'mm', 'a4');
+                        const pdf = new jsPDF('p', 'mm', [210, 318]);
                         const imgWidth = 210;
                         const imgHeight = canvas.height * imgWidth / canvas.width;
+                        
                         pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
                         pdf.save('template.pdf');
                     } catch (err) {
@@ -601,7 +603,13 @@
                     await downloadpdf();
                 });
                 });
- 
+        setTimeout(function () {
+            window.addEventListener('mousedown', function (e) {
+                tinymce.activeEditor.dom.select('.selected-node').forEach(function(node) {
+                    node.classList.remove('selected-node');
+                });
+            });
+        }, 100);
 </script>
 
 <style>
@@ -634,7 +642,7 @@
     .card-body{
         width:fit-content;
         height:fit-content;
-        padding:40px;
+        /*padding:40px;*/
         background-color:#aed581;
     }
     #template-place{
@@ -723,8 +731,9 @@
         font-weight:bolder;
     }
     .editor-choose-element-inner{
-        margin:20px;
-        padding:20px;
+        width:90%;
+        margin:5%;
+        padding:5%;
         border:2px solid  #4caf50;
         box-shadow:5px 5px 5px #aed581;
         border-radius:20px;
@@ -908,14 +917,45 @@
             
         }
     }
+    @media(max-width:1050px) and (min-width:1000px){
+        .editor-choose-element{
+            width:220px;
+            overflow-x:scroll;
+        }
+        .editor-choose-element-inner{
+            width:190px;
+            margin:15px;
+            padding:15px;
+        }
+        .editor-heading{
+            font-size:15px;
+        }
+        .editor-choose-option{
+            width:150px;
+        }
+        .draggable{
+            min-width:90% !important;
+        }
+        .image{
+            height:90px;
+        }
+        .vertical{
+            height:200px;
+        }
+        .horizontal{
+            height:90px;
+        }
+    }
     @media(max-width:1000px){   
         #editor-main{
             flex-direction:column-reverse;
-            width:100%;
+            width: 100%;
+            height:400px;
             position:fixed;
             bottom:0;
             z-index:5;
-            margin:0;
+            margin:auto;
+            top:auto;
         }
         #editor-option-block{
             width:100%;
@@ -928,9 +968,11 @@
             margin:0;
         }
         .editor-choose-element{
-            width:400px;
+            width:420px;
             height:300px;
             border:10px solid #aed581 ;
+            margin:auto;
+            margin-bottom:0;
         }
         .card{
             width:100% !important;
@@ -938,6 +980,7 @@
         }
         #close-choose{
             margin-bottom:0;
+            margin-left:200px;
         }
         
     }
@@ -973,8 +1016,8 @@
     <div class="editor-heading">Blank Pages(vertical)</div>
     <div id="blanksV" class="editor-choose-option">
     @foreach ($forms as $template)
-        @if($template->page_type=="vertical" && strpos($template->background_image, '#')=== 0)
-            <div id="{{$template->sid}}" draggable="true" class="backgroundV draggable" style="background-color:{{$template->background_image}};" ></div>
+        @if($template->page_type=="vertical" && $template->image_transparacy=="0")
+            <img id="{{$template->sid}}" draggable="true" class="backgroundV draggable vertical" src="{{ asset($template->background_image)}}" >
         @endif
     @endforeach
     </div>
@@ -983,8 +1026,8 @@
     <div class="editor-heading">Blank Pages(horizontal)</div>
     <div id="blanksH" class="editor-choose-option">
         @foreach ($forms as $template)
-        @if($template->page_type=="horizontal" && strpos($template->background_image, '#')=== 0)
-            <div id="{{$template->sid}}" draggable="true" class="backgroundH draggable" style="background-color:{{$template->background_image}};"></div>
+        @if($template->page_type=="horizontal" && $template->image_transparacy=="0")
+            <img id="{{$template->sid}}" draggable="true" class="backgroundH draggable horizontal" src="{{ asset($template->background_image)}}">
         @endif
         @endforeach
     </div>
@@ -993,8 +1036,8 @@
     <div class="editor-heading">Back Images(vertical)</div>
     <div id="backgroundsV" class="editor-choose-option">
         @foreach ($forms as $template)
-        @if($template->page_type=="vertical" && strpos($template->background_image, '#')=== false)
-            <img id="{{$template->sid}}" draggable="true" class="backgroundV draggable" src="{{ asset($template->background_image)}}">
+        @if($template->page_type=="vertical")
+            <img id="{{$template->sid}}" draggable="true" class="backgroundV draggable vertical" src="{{ asset($template->background_image)}}">
         @endif
         @endforeach
     </div>
@@ -1004,8 +1047,8 @@
     <div class="editor-heading">back Images(horizontal)</div>
     <div id="backgroundsH" class="editor-choose-option">
         @foreach ($forms as $template)
-        @if($template->page_type=="horizontal" && strpos($template->background_image, '#')=== false)
-            <img id="{{$template->sid}}" draggable="true" class="backgroundH draggable" src="{{ asset($template->background_image)}}">
+        @if($template->page_type=="horizontal")
+            <img id="{{$template->sid}}" draggable="true" class="backgroundH draggable horizontal" src="{{ asset($template->background_image)}}">
         @endif
         @endforeach
     </div>
@@ -1016,7 +1059,7 @@
     <div id="templatesV" class="editor-choose-option">
         @foreach ($forms as $template)
         @if($template->page_type=="vertical")
-            <img id="{{$template->sid}}"draggable="true" class="templateV draggable" src="{{ asset($template->template_type)}}">
+            <img id="{{$template->sid}}"draggable="true" class="templateV draggable vertical" src="{{ asset($template->template_type)}}">
         @endif
         @endforeach
     </div>
@@ -1027,7 +1070,7 @@
     <div id="templatesH" class="editor-choose-option">
         @foreach ($forms as $template)
         @if($template->page_type=="horizontal")
-            <img id="{{$template->sid}}"draggable="true" class="templateH draggable" src="{{ asset($template->template_type)}}">
+            <img id="{{$template->sid}}"draggable="true" class="templateH draggable horizontal" src="{{ asset($template->template_type)}}">
         @endif
         @endforeach
     </div>
@@ -1059,16 +1102,16 @@
     <div class="editor-choose-element-inner">
     <div class="editor-heading">Tables</div>
     <div id="tables" class="editor-choose-option">
-        <div id="plain-table"class="table draggable" draggable="true"></div>
-        <div id="pink-table"class="table draggable" draggable="true"></div>
-        <div id="blue-table"class="table draggable" draggable="true"></div>
-        <div id="olive-table"class="table draggable" draggable="true"></div>
-        <div id="first-row-pink-table"class="table draggable" draggable="true"></div>
-        <div id="first-row-blue-table"class="table draggable" draggable="true"></div>
-        <div id="first-row-olive-table"class="table draggable" draggable="true"></div>
-        <div id="first-row-first-column-pink-table"class="table draggable" draggable="true"></div>
-        <div id="first-row-first-column-blue-table"class="table draggable" draggable="true"></div>
-        <div id="first-row-first-column-olive-table"class="table draggable" draggable="true"></div>
+        <div id="plain-table"class="table draggable" draggable="true"><img draggable="false"width="80px"height="80px"src="{{asset('/img/0.png')}}" ></div>
+        <div id="pink-table"class="table draggable" draggable="true"><img draggable="false"width="80px"height="80px"src="{{asset('/img/1.png')}}" ></div>
+        <div id="blue-table"class="table draggable" draggable="true"><img draggable="false"width="80px"height="80px"src="{{asset('/img/2.png')}}" ></div>
+        <div id="olive-table"class="table draggable" draggable="true"><img draggable="false"width="80px"height="80px"src="{{asset('/img/3.png')}}" ></div>
+        <div id="first-row-pink-table"class="table draggable" draggable="true"><img draggable="false" width="80px"height="80px"src="{{asset('/img/4.png')}}" ></div>
+        <div id="first-row-blue-table"class="table draggable" draggable="true"><img draggable="false" width="80px"height="80px"src="{{asset('/img/5.png')}}" ></div>
+        <div id="first-row-olive-table"class="table draggable" draggable="true"><img draggable="false" width="80px"height="80px"src="{{asset('/img/6.png')}}" ></div>
+        <div id="first-row-first-column-pink-table"class="table draggable" draggable="true"><img draggable="false" width="80px"height="80px"src="{{asset('/img/7.png')}}" ></div>
+        <div id="first-row-first-column-blue-table"class="table draggable" draggable="true"><img draggable="false" width="80px"height="80px"src="{{asset('/img/8.png')}}" ></div>
+        <div id="first-row-first-column-olive-table"class="table draggable" draggable="true"><img draggable="false" width="80px"height="80px"src="{{asset('/img/9.png')}}" ></div>
     </div>
     </div>
     <div class="editor-choose-element-inner">
@@ -1138,7 +1181,7 @@ help
             @if($isContent==true)
             {!!$form->content!!}
             @else
-            <h1 class="div-resizable-draggable" style="position:absolute;top:200px;left:80px;">Start creating your template</h1>
+            <h1 class="div-resizable-draggable" style="position:absolute;top:150px;left:80px;">Start creating your template</h1>
             @endif
             
             {{--

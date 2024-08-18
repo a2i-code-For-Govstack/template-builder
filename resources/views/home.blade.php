@@ -321,7 +321,7 @@
             width:100%;
             background-color:#4caf50;
         }
-        @media(max-width:1000px ){
+        @media(max-width:760px ){
             #home-tagline-min{
                 display:flex;
                 width:400px;
