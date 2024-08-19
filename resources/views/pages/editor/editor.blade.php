@@ -8,7 +8,7 @@
     var form= @json($form);
     
         if (form.page_type=="vertical"){
-            height=955;
+            height=900;
             width=564;
             bodyWidth=564;
             bodyHeight=846;
@@ -295,7 +295,7 @@
                 
             });
             editor.ui.registry.addButton('deleteSelectedElement', {
-                    text: 'Delete',
+                    text: 'Del',
                     //icon: 'fa-solid fa-trash',
                     onAction: function () {
                         var selectedNode = editor.selection.getNode();
@@ -316,7 +316,7 @@
         
         menubar:'file insert format textshadow',
         
-        toolbar: 'deleteSelectedElement fontfamily bold italic underline strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify' ,
+        toolbar: 'deleteSelectedElement fontfamily bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify' ,
         
         insertdatetime_dateformat: '%d-%m-%Y',
         font_family_formats: 'Arial=arial,helvetica,sans-serif; Times New Roman=times new roman,times; Courier New=courier new,courier; Open Sans=open sans,sans-serif; Roboto=roboto,sans-serif; Lato=lato,sans-serif;'+ ' Noto Serif Bengali=Noto Serif Bengali,sans-serif;',
@@ -637,7 +637,21 @@
 </script>
 
 <style>
-    
+    .tox .tox-statusbar__resize-handle {
+        display:none !important;
+    }
+    .tox-menubar{
+        display:none !important;
+    }
+    .tox .tox-toolbar__primary {
+        border-radius:25px;
+    }
+    .tox .tox-toolbar-overlord{
+        border-radius:25px;
+    }
+    .tox .tox-promotion {
+        display:none !important;
+    }
     .content{
         
     }
@@ -667,7 +681,7 @@
         width:fit-content;
         height:fit-content;
         /*padding:40px;*/
-        background-color:#aed581;
+        background-color:#4caf50;
     }
     #template-place{
         margin:auto;
@@ -918,22 +932,31 @@
         border-radius:10px;
     }
     #capturejpg{
-        padding:10px;
+        width:55px;
+        height:55px;
         margin:10px;
-        background-color:#4caf50;
+        background-color:white;
         font-size:18px;
+        border-radius:50%;
+        color:black;
     }
     #capturepng{
-        padding:10px;
+        width:55px;
+        height:55px;
         margin:10px;
-        background-color:#4caf50;
+        background-color:white;
         font-size:18px;
+        border-radius:50%;
+        color:black;
     }
     #capturepdf{
-        padding:10px;
+        width:55px;
+        height:55px;
         margin:10px;
-        background-color:#4caf50;
+        background-color:white;
         font-size:18px;
+        border-radius:50%;
+        color:black;
     }
     #help{
         margin:auto;
@@ -1245,9 +1268,9 @@
             <p  class="div-resizable-draggable">aditi</p>
             --}}
             </textarea>
-            <button  type="button" id="capturepng" class="btn btn-success btn-sm float-end">Download PNG</button>
-            <button  type="button" id="capturejpg" class="btn btn-success btn-sm float-end">Download JPG</button>
-            <button  type="button" id="capturepdf" class="btn btn-success btn-sm float-end">Download PDF</button>
+            <button  type="button" id="capturepng" class="btn btn-success btn-sm float-end">PNG</button>
+            <button  type="button" id="capturejpg" class="btn btn-success btn-sm float-end">JPG</button>
+            <button  type="button" id="capturepdf" class="btn btn-success btn-sm float-end">PDF</button>
             </form>
         </div>
     </div>
