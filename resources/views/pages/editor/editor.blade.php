@@ -331,14 +331,26 @@
             }
             tochoose[y].style.display="block";
             closeChoose.style.display="flex";
+            if(window.innerWidth>1000 && window.innerWidth<1050){
+                
+                closeChoose.style.left="330px";
+                
+            }
+            if(window.innerWidth<1000 && window.innerWidth>400){
+                offsetleft=tochoose[y].offsetLeft;
+                closeChoose.style.left=offsetleft+"px";
+                closeChoose.style.bottom="400px";
+            }
         }
         function closingfunc(){
             const tochoose=document.getElementsByClassName("editor-choose-element");
             const closeChoose=document.getElementById("close-choose");
             for(var i=0; i<tochoose.length; i++){
                 tochoose[i].style.display="none";
+               
             }
             closeChoose.style.display="none";
+            
         }
         
         setTimeout(draggableItems,1000);
@@ -492,6 +504,7 @@
                 canvas.addEventListener('mouseup', stopDrawing);
                 canvas.addEventListener('mousemove', draw);
                 canvas.addEventListener('mouseleave', stopDrawing);
+                save_canvas.innerText="Save";
             }
             function saveDrawing(){
                 canvas.removeEventListener('mousedown', startDrawing);
@@ -499,7 +512,7 @@
                 canvas.removeEventListener('mousemove', draw);
                 canvas.removeEventListener('mouseleave', stopDrawing);
                 canvas.setAttribute('draggable', 'true');
-                
+                save_canvas.innerText="Saved";
             }
         },1000);
 
@@ -563,7 +576,7 @@
                         console.error("Error:", err);
                     }
                 }
-        async function downloadpdf() {
+        async function downloadpdf(x) {
                     
 
                     try {
@@ -579,15 +592,26 @@
                             scrollY: -window.scrollY,
                             });
 
-                       
                         // Convert the canvas to an image data URL
                         let imgData = canvas.toDataURL("image/jpg");
-                        const pdf = new jsPDF('p', 'mm', [210, 318]);
-                        const imgWidth = 210;
-                        const imgHeight = canvas.height * imgWidth / canvas.width;
                         
-                        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                        pdf.save('template.pdf');
+                        if(x==='vertical'){
+                            
+                            const pdf = new jsPDF('p', 'mm', [240, 340]);
+                            const imgWidth = 210;
+                            const imgHeight = canvas.height * imgWidth / canvas.width;
+                            
+                            pdf.addImage(imgData, 'PNG', 15, 15, imgWidth, imgHeight);
+                            pdf.save('template.pdf');
+                        }
+                        else{
+                            const pdf = new jsPDF('l', 'mm', [240,170]);
+                            const imgWidth = 210;
+                            const imgHeight = canvas.height * imgWidth / canvas.width;
+                            pdf.addImage(imgData, 'PNG', 15, 15, imgWidth, imgHeight);
+                            pdf.save('template.pdf');
+                        }
+                        
                     } catch (err) {
                         console.error("Error:", err);
                     }
@@ -600,7 +624,7 @@
                     await downloadjpg();
                 });
                 document.getElementById('capturepdf').addEventListener('click', async () => {
-                    await downloadpdf();
+                    await downloadpdf(form.page_type);
                 });
                 });
         setTimeout(function () {
@@ -698,7 +722,6 @@
     #close-choose{
         width:25px;
         height:25px;
-        display:flex;
         align-items:center;
         justify-content:center;
         font-size:20px;
@@ -706,8 +729,10 @@
         border-radius:50%;
         display:none;
         border:2px solid black;
-        margin: 0 0 0 10px;
         color:black;
+        position:absolute;
+        left:500px;
+        
     }
     .written-option{
         margin:5px 0 5px 0;
@@ -910,6 +935,27 @@
         background-color:#4caf50;
         font-size:18px;
     }
+    #help{
+        margin:auto;
+        width:90px;
+        height:30px;
+        background-color:#4caf50;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        font-size:20px;
+        margin-top:20px;
+        margin-bottom:20px;
+    }
+    #help-statements{
+        width:90%;
+        margin:auto;
+        text-align:justify;
+        padding:20px;
+        border:2px solid #4caf50;
+        border-radius:20px;
+        box-shadow: 5px 5px 5px #4caf50;
+    }
     @media(max-width:700px){
         .tox-tinymce{
             width:100% !important;
@@ -979,8 +1025,7 @@
             
         }
         #close-choose{
-            margin-bottom:0;
-            margin-left:200px;
+            
         }
         
     }
@@ -1036,7 +1081,7 @@
     <div class="editor-heading">Back Images(vertical)</div>
     <div id="backgroundsV" class="editor-choose-option">
         @foreach ($forms as $template)
-        @if($template->page_type=="vertical")
+        @if($template->page_type=="vertical" && $template->image_transparacy!="0")
             <img id="{{$template->sid}}" draggable="true" class="backgroundV draggable vertical" src="{{ asset($template->background_image)}}">
         @endif
         @endforeach
@@ -1047,7 +1092,7 @@
     <div class="editor-heading">back Images(horizontal)</div>
     <div id="backgroundsH" class="editor-choose-option">
         @foreach ($forms as $template)
-        @if($template->page_type=="horizontal")
+        @if($template->page_type=="horizontal" && $template->image_transparacy!="0")
             <img id="{{$template->sid}}" draggable="true" class="backgroundH draggable horizontal" src="{{ asset($template->background_image)}}">
         @endif
         @endforeach
@@ -1157,7 +1202,15 @@
     <div id="imageGallery"></div>
 </div>
 <div class="editor-choose-element">
-help
+<div id="help">Help</div>
+<div id="help-statements">
+    <ul>
+        <li>You can drag and drop any blank page, blank background or pre-built template to the editor from the template option given at the sidebar.</li>
+        <li>You can drag and drop any element (text, line, image, signature) to the template from the element option given at the sidebar.</li>
+        <li>If you want to add any image from your pc, you can go to the upload option given at the sidebar. Once image is uploaded, you can drag it to editor.</li>
+        
+    </ul>
+</div>
 </div>
 <div id="close-choose" onClick="closingfunc()"><i class="fa-solid fa-xmark"></i></div>
 </div>
