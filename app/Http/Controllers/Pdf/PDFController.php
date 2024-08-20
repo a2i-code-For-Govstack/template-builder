@@ -1,31 +1,72 @@
 <?php
-/*
+
 namespace App\Http\Controllers\Pdf;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use PDF;
-
-
+use Barryvdh\DomPDF\Facade as PDF;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 
 class PDFController extends Controller{
     
 
-    public function exportPdf(){
+    public function downloadPdf(Request $request)
+    {   
 
-        $data = [
-            'html' => request()->input('content') ,
-    ];
 
-        $pdf = PDF::loadView('export-pdf', $data);
-        return $pdf->download('download.pdf');
+        
+        /*
+        $content = $request->input('content');
+        $html="
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                
+                .pdf-container {
+                    
+                    position: relative;
+                    width: 100%;
+                    height: 98%;
+                    border:2px solid black;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+            </style>
+        </head>
+        <body>
+            <div class='pdf-container'>
+                    {$content}
+                
+            </div>
+        </body>
+       
+        </html>
+        ";
+        
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('baseDir', realpath(public_path())); 
+        $dompdf = new Dompdf($options);
+        //$dompdf = new Dompdf();
+        echo $html;
+        
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper([0,0,564,846], 'portrait');
+        $dompdf->render();
+        return $dompdf->stream('test.pdf');
+        */
+    }
 
     
 
 }
-}
-*/
+
+/*
 namespace App\Http\Controllers\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -48,12 +89,12 @@ class PDFController extends Controller
         return $pdf->download('download.pdf');
         //return $Url;
         //return view('pages.editor-any', compact('Url'));
-        */
+        
         $cacheKey = 'unique-pdf-key';
         $cacheDuration = now()->addMinutes(60);
 
         $pdf = Cache::remember($cacheKey, $cacheDuration, function () use ($request){
-            $content= $request->input('editor-div');
+            $content= $request->input('content');
             //$data = ['content' => $content];
             //$pdf = DomPDF::loadView('pages.editor-any', $data);
             //return $pdf->output();
@@ -66,4 +107,4 @@ class PDFController extends Controller
     
     
 }
-}
+}*/

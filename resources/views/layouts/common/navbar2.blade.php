@@ -2,7 +2,7 @@
 <style>
     #nav2{
         width:100%;
-        background-color:#C8E9FF  ;
+        background-color:#4caf50  ;
         padding:5px 0 5px 0;
         display:flex;
         align-items:center;
@@ -25,34 +25,32 @@
         font-size:12px;
     }
     .nav2-ref.active{
-        text-decoration:underline;
+        border-radius:5px;
+        background-color:white;
+        color:black;
     }
 </style>
 <div id="nav2" class="ms-auto">
         <a   class="nav2-ref"href="{{ route('home') }}" >
-            <span>
+            <span style="padding:5px;">
                 DASHBOARD
             </span>
         </a>
         <a  class="nav2-ref"href="{{ route('collection') }}" >
-            <span>
+            <span style="padding:5px;">
                 COLLECTION
             </span>
         </a>
         <a  class="nav2-ref"href="{{ route('form.editor') }}" >
-            <span>
+            <span style="padding:5px;">
                 EDITOR
             </span>
         </a>
-        <a  class="nav2-ref"href="{{ route('home') }}" >
-            <span>
-                COLLABORATION
-            </span>
-        </a>
+        
         
         @canany(['log-index', 'log-show', 'log-update', 'log-edit'])
             <a  class="nav2-ref"href="{{ route('log.info') }}" >
-                <span >
+                <span style="padding:5px;" >
                     API STORE LOG
                 </span>
             </a>
@@ -104,7 +102,7 @@
         const navLinks = document.querySelectorAll('.nav2-ref');
         currentPath="http://127.0.0.1:8000"+currentPath;
         navLinks.forEach(link => {
-            if (link.getAttribute('href') === currentPath) {
+            if (currentPath.includes(link.getAttribute('href'))) {
                 link.classList.add('active');
             }
         });

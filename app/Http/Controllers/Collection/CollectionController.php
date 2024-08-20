@@ -17,14 +17,59 @@ class CollectionController extends Controller
     public function index()
     {
         $forms= Form::all();
-        return view('pages.collection.collection', compact('forms'));
+        $searched="";
+        return view('pages.collection.collection',['forms'=>$forms] ,['searched'=> $searched]);
 
     }
     public function search(Request $request)
-    {
+    {   
+        $categoryMappings = [
+            'official' => 1,
+            'advertisement' => 2,
+            'resume' => 3,
+            'invitation' => 4,
+            'socialmedia'=>5,
+            'certificate'=>6,
+            'poster'=>7,
+            'letter'=>8
+        ];
         $query = $request->input('query');
+        $category = $categoryMappings[strtolower($query)] ?? null;
+        if ($category !== null) {
+            $results = Form::where('category', $category)->get();
+        } else {
+            $results = collect(); // Return an empty collection if no match is found
+        }
         $forms= Form::all();
-        $results = Form::where('category', 'LIKE', "%{$query}%")->get();
-        return view('pages.collection.collection', ['results' => $results],['forms'=>$forms]);
+        $searched=$query;
+        return view('pages.collection.collection', ['results' => $results,'forms'=>$forms,'searched'=> $searched]);
+        
+    }
+    public function select(Request $request, $id){
+        $categoryMappings = [
+            'official' => 1,
+            'advertisement' => 2,
+            'resume' => 3,
+            'invitation' => 4,
+            'socialmedia'=>5,
+            'certificate'=>6,
+            'poster'=>7,
+            'letter'=>8
+        ];
+   
+        $category = $categoryMappings[strtolower($id)] ?? null;
+        if($id=='all'){
+            $results = Form::all();
+        }
+        else if ($category !== null) {
+            $results = Form::where('category', $category)->get();
+        } 
+        else {
+            $results = collect(); // Return an empty collection if no match is found
+        }
+        $forms= Form::all();
+        $searched=$id;
+        return view('pages.collection.collection', ['results' => $results,'forms'=>$forms,'searched'=> $searched]);
+
     }
 }

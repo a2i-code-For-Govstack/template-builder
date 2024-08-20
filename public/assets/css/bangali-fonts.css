@@ -1,0 +1,27 @@
+/*@font-face {
+    font-family: 'Nikosh';
+    src:
+         url('./fonts/Nikosh.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kalpurush';
+    src: url('./fonts/kalpurush.woff') format('woff'),
+         url('./fonts/kalpurush.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Noto Serif Bengali';
+    src: url('/public/fonts/NotoSerifBengali-Regular.woff2') format('woff2'),
+         url('/public/fonts/NotoSerifBengali-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+*/
+
+
+
+/* Add additional Bengali fonts as needed */

@@ -11,11 +11,21 @@ class FormAnyController extends Controller
     //
     public function editor(){
         $form=Form::find(1);
-        return view('pages.editor.editor', ['form'=>$form]);
+        $forms= Form::all();
+        $isContent=true;
+        return view('pages.editor.editor', ['form'=>$form,'isContent'=>$isContent,'forms'=>$forms]);
     }
     public function any($id)
-    {   
+    {   $isContent=true;
+        $forms= Form::all();
         $form=Form::find($id);
-        return view('pages.editor.editor', ['form'=>$form]);
+        return view('pages.editor.editor', ['form'=>$form,'isContent'=>$isContent,'forms'=>$forms]);
     }
+    public function background($id){
+        $form=Form::find($id);
+        $isContent=false;
+        $forms= Form::all();
+        return view('pages.editor.editor', ['form'=>$form,'isContent'=>$isContent,'forms'=>$forms]);
+    }
+    
 }

@@ -193,7 +193,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         //'DomPDF' => Barryvdh\DomPDF\Facade::class,
-        'DomPDF' => Barryvdh\DomPDF\Facade\Pdf::class,
+        //'DomPDF' => Barryvdh\DomPDF\Facade\Pdf::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         //Munir
         //'PhantomPDF' => PhantomPdf\Laravel\PDFFacade::class,

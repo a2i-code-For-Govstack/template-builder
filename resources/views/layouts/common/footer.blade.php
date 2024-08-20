@@ -24,10 +24,10 @@
 <style>
     #footer{
         width:100%;
-        background-color:#ECF6FD ;
-        border-top: 20px solid #C8E9FF;
-        border-bottom: 20px solid #C8E9FF;
-        margin-top:30px;
+        background-color:white;
+        border-top: 20px solid #4caf50;
+        border-bottom: 20px solid #4caf50;
+        
     }
     
 </style>

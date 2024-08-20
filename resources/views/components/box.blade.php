@@ -4,7 +4,7 @@
     <div class="component-option-box">
         <img class="option-box-image" src={{$source}}>
         <div class="option-box-cover">
-            <div class="box-use">{{$size}}</div>
+            <div class="box-use">USE</div>
         </div>
     </div>
 </div>
@@ -29,7 +29,7 @@
         justify-content:center;
         align-items:center;
         position:absolute;
-        background-color:#9AF96F  ;
+        background-color:#9ccc65;
         opacity:0.3;
         
     }

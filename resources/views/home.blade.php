@@ -213,15 +213,14 @@
             width:80%;
             margin:auto;
             height:550px;
-            background-image:url("/img/background4.avif");
-            background-position:1500px center;
+            background-image:url("/img/homebackgroundnew.jpg");
             display:flex;
             overflow:hidden;
             background-size:cover;
         }
         #home-tagline{
-            margin-top:150px;
-            margin-left:180px;
+            margin-top:120px;
+            margin-left:150px;
             width:400px;
             color:black;
         }
@@ -231,9 +230,9 @@
             font-size:20px;
             font-weight:bolder;
             margin-top:20px;
-            background-color:black;
+            background-color:black ;
             color:white;
-            border:2px solid grey;
+            border:2px solid black;
             
         }
         #home-tagline-box{
@@ -241,12 +240,13 @@
             display:flex;
             align-items:center;
             justify-content:center;
-            /*background-image:url("/img/background2.jpg"); */
-            background-color:#C486F8;
+            background-image:url("/img/homebackgroundnewshort.jpg"); 
+            background-repeat:no-repeat;
+            background-position:center;
         }
         #home-tagline-min{
             width:300px;
-            height:300px;
+            height:400px;
             display:flex;
             flex-direction:column;     
             padding: 40px 0 0 20px;
@@ -259,6 +259,7 @@
             overflow:hidden;
             align-items:center;
             padding:40px 0 40px 0;
+            background-color:white;
         }
         .home-sliding-option{
             min-width:12.5%;
@@ -269,21 +270,62 @@
             border-radius:0 20px 20px 0;
             box-shadow: 8px 8px 8px 8px #d1d1d1;
             transition: all 1s ease-in-out ;
+            
         }
         #home-heading-templates{
+            
             padding:20px;
-            margin:50px 0 0 0;
-            background-color:#9AF96F ;
-            display:flex;
-            align-items:center;
-            justify-content:center;
+            background-color:#4caf50 ;
             font-weight:bolder;
             font-size:20px;
         }
-        @media(max-width:1000px ){
+        #home-collection-hr{
+                margin-top:10px;
+                background-color:#4caf50   ;
+                margin-bottom:20px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                flex-wrap:wrap;
+        }
+        #home-collection-hr span{
+                padding:10px;
+                margin: 20px;
+                width:70px;
+                height:70px;
+                background-color:#B7DA58;
+                font-weight:bolder;
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                justify-content:center;
+                font-size:13px;
+                border-radius:10px ;
+        }
+        #home-collection-hr img{
+                width:40px;
+                height:40px;
+        }
+        #home-collection-hr a{
+                text-decoration:none;
+        }
+        #library{
+            margin:auto;
+            margin-top:50px;
+            width:150px;
+            font-weight:bolder;
+            font-size:30px;
+        }
+        #div-hr{
+            height:5px;
+            width:100%;
+            background-color:#4caf50;
+        }
+        @media(max-width:760px ){
             #home-tagline-min{
                 display:flex;
                 width:400px;
+                
             }
             #home-background-main{
                 display:none;
@@ -444,22 +486,115 @@
                         </div>
                 </div>
                 </div>
+
                 
-                <div id="home-heading-templates"><center>We hope you fall, but in love with these templates!</center></div>
+            
+
+
+
+            <div class="w3-row w3-padding-64" id="about" style="background-color:white;">
+                    <div class="w3-col m6 w3-padding-large w3-hide-small">
+                    <a href="{{route('collection')}}">
+                    <img src="/img/home-collection.png" class="w3-round w3-image" style="border:1px solid black;"alt="img" width="700" height="800">
+                    </a>
+                    </div>
+
+                    <div class="w3-col m6 w3-padding-large">
+                    <h1 style="text-align:center;font-family:Times New Roman;background-color:#4caf50 ;font-weight:bolder;">Collection</h1><br>
+                    <h5 class="w3-center" style="font-family:Times New Roman;">Use variety of Templates</h5>
+                    <p class="w3-large">Unleash your creativity with A2I template Builder, the perfect tool for crafting stunning templates effortlessly. Whether you're a seasoned designer or just starting out, our intuitive drag-and-drop editor, rich text formatting, and customizable templates make designing a breeze. Seamlessly integrate with popular tools like
+                         TinyMCE to enhance your 
+                         <span class="w3-tag w3-light-grey">creations</span>.</p>
+                    <p class="w3-large w3-text-grey w3-hide-medium">Collaborate in real-time with your team, making it easy to share ideas and make instant changes together. Export your templates in various formats, including PDF, PNG, JPEG, and HTML, ensuring they meet all your needs. Join our community of satisfied users and elevate your design process today.</p>
+                    </div>
+            </div>
+
+            <div id="home-heading-templates"><center>Use any of these backgrounds and start creating.</center></div>
                 
                 <div id="home-options">
                     
                     @foreach ($forms as $form)
                     @if ($form->page_type=="vertical")
+                    @if(substr($form->background_image, 0, 1) !== '#')
                         <div class="home-sliding-option">
-                            <a href="{{ route('form.any',['id' => $form->sid]) }}"><x-box source="{{ $form->background_image}}" title="" size="{{$form->paper_size}}"/></a>
+                            <a href="{{ route('form.background-only',['id' => $form->sid]) }}"><x-box source="{{ $form->background_image}}" title="" size="{{$form->paper_size}}"/></a>
                         </div>
                     @endif
+                    @endif
                     @endforeach
-                    
+               
                 </div>
+
+            <div style="width:100%; height:1px;background-color:black;"></div>
+
+
                 
+
+
+                <div id="library">LIBRARY</div>
+                <div id="div-hr"></div>
+                <div id="home-collection-hr">
+        
+                <a href="{{ route('collection.select',['id' => 'all']) }}">
+                        <span>
+                        <img src="/img/all-icon.png">
+                        <div>All</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'invitation']) }}">
+                        <span>
+                        <img src="/img/invitation-icon.png">
+                        <div>Invitations</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'official']) }}">
+                        <span>
+                        <img src="/img/official-icon.png">
+                        <div>Officials</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'resume']) }}">
+                        <span>
+                        <img src="/img/resume-icon.png">
+                        <div>Resume</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'letter']) }}">
+                        <span>
+                        <img src="/img/letter-icon.png">
+                        <div>Letter</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'certificate']) }}">
+                        <span>
+                        <img src="/img/certificate-icon.png">
+                        <div>Certificate</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'advertisement']) }}">
+                        <span>
+                        <img src="/img/advertisement-icon.png">
+                        <div>Advertise</div>
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'poster']) }}">
+                        <span>
+                        <img src="/img/poster-icon.png">
+                        <div>Poster</div>   
+                        </span>
+                </a>
+                <a href="{{ route('collection.select',['id' => 'media']) }}">
+                        <span>
+                        <img src="/img/media-icon.png">
+                        <div>Media</div>   
+                        </span>
+                </a>
+            </div>
+               
                 
+            
+                 
+                        
                   
 {{--
 
