@@ -70,8 +70,44 @@
                         editor.selection.select(selectedNode.querySelector("img"));
                     }
                     selectedNode.classList.add('selected-node');
-                    
-                    
+                    const computedStyle = window.getComputedStyle(selectedNode);
+                    const button=editor.getContainer().getElementsByClassName('tox-tbtn');
+                    const propertyValue1= computedStyle.getPropertyValue('font-weight');
+                    const propertyValue2 = computedStyle.getPropertyValue('font-style');
+                    const propertyValue3 = computedStyle.getPropertyValue('text-decoration');
+                    const propertyValue4 = computedStyle.getPropertyValue('text-shadow');
+                    if (propertyValue1>400){
+                            
+                            button[2].classList.add('back-color');
+                    }
+                    else{
+                            
+                            button[2].classList.remove('back-color');
+                    }
+                    if (propertyValue2=="italic"){
+                            
+                            button[3].classList.add('back-color');
+                    }
+                    else{
+                            
+                            button[3].classList.remove('back-color');
+                    }
+                    if (propertyValue3=="underline solid rgb(0, 0, 0)"){
+                            
+                            button[4].classList.add('back-color');
+                    }
+                    else{
+                            
+                            button[4].classList.remove('back-color');
+                    }
+                    if (propertyValue4=="none"){
+                            
+                            button[5].classList.remove('back-color');
+                    }
+                    else{
+                            
+                            button[5].classList.add('back-color');
+                    }
             });  
             
             editor.on('setContent', function (e) {
@@ -294,6 +330,7 @@
                     editor.focus();
                 
             });
+            
             editor.ui.registry.addButton('deleteSelectedElement', {
                     text: 'Del',
                     //icon: 'fa-solid fa-trash',
@@ -309,14 +346,96 @@
                         }
                     }
             });
-            
+            editor.ui.registry.addButton('BoldLetters', {
+                    text: 'B',
+                    //icon: 'fa-solid fa-trash',
+                    onAction: function () {
+                        const element = editor.selection.getNode();
+                        const button = editor.getContainer().getElementsByClassName('tox-tbtn');
+                        const computedStyle = window.getComputedStyle(element);
+                        const propertyValue = computedStyle.getPropertyValue('font-weight');
+                        
+                        if (propertyValue>400){
+                            element.style.fontWeight="400";
+                            button[2].classList.remove('back-color');
+                        }
+                        else{
+                            element.style.fontWeight="700";
+                            button[2].classList.add('back-color');
+                        }
+                        console.log(propertyValue)
+                    }
+            });     
+            editor.ui.registry.addButton('ItalicLetters', {
+                    text: 'I',
+                    //icon: 'fa-solid fa-trash',
+                    onAction: function () {
+                        const element = editor.selection.getNode();
+                        const button = editor.getContainer().getElementsByClassName('tox-tbtn');
+                        const computedStyle = window.getComputedStyle(element);
+                        const propertyValue = computedStyle.getPropertyValue('font-style');
+                        
+                        if (propertyValue=="italic"){
+                            element.style.fontStyle="normal";
+                            button[3].classList.remove('back-color');
+                        }
+                        else{
+                            element.style.fontStyle="italic";
+                            button[3].classList.add('back-color');
+                        }
+                        console.log(propertyValue)
+                    }
+            });      
+            editor.ui.registry.addButton('UnderlinedLetters', {
+                    text: 'U',
+                    //icon: 'fa-solid fa-trash',
+                    onAction: function () {
+                        const element = editor.selection.getNode();
+                        const button = editor.getContainer().getElementsByClassName('tox-tbtn');
+                        const computedStyle = window.getComputedStyle(element);
+                        const propertyValue = computedStyle.getPropertyValue('text-decoration');
+                        
+                        if (propertyValue=="underline solid rgb(0, 0, 0)"){
+                            element.style.textDecoration="none solid rgb(0,0,0)";
+                            button[4].classList.remove('back-color');
+                        }
+                        else{
+                            element.style.textDecoration="underline solid rgb(0, 0, 0)";
+                            button[4].classList.add('back-color');
+                        }
+                        console.log(propertyValue)
+                    }
+            });     
+            editor.ui.registry.addButton('ShadowLetters', {
+                    text: 'S',
+                    //icon: 'fa-solid fa-trash',
+                    onAction: function () {
+                        const element = editor.selection.getNode();
+                        const button = editor.getContainer().getElementsByClassName('tox-tbtn');
+                        const computedStyle = window.getComputedStyle(element);
+                        const propertyValue = computedStyle.getPropertyValue('text-shadow');
+                        console.log(button)
+                        
+                            
+                        
+                        if (propertyValue=="none"){
+                            element.style.textShadow="3px 3px 0px grey";
+                            button[5].classList.add('back-color');
+                        }
+                        else{
+                            element.style.textShadow="none";
+                            button[5].classList.remove('back-color');
+                        }
+                        
+                    }
+            });                        
         },
         
         plugins: ' advlist noneditable code table lists insertdatetime link textcolor print preview textshadow',
         
         menubar:'file insert format textshadow',
         
-        toolbar: 'deleteSelectedElement fontfamily bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify' ,
+        toolbar: 'deleteSelectedElement fontfamily BoldLetters ItalicLetters UnderlinedLetters ShadowLetters forecolor backcolor | alignleft aligncenter alignright alignjustify' ,
         
         insertdatetime_dateformat: '%d-%m-%Y',
         font_family_formats: 'Arial=arial,helvetica,sans-serif; Times New Roman=times new roman,times; Courier New=courier new,courier; Open Sans=open sans,sans-serif; Roboto=roboto,sans-serif; Lato=lato,sans-serif;'+ ' Noto Serif Bengali=Noto Serif Bengali,sans-serif;',
@@ -521,6 +640,9 @@
                     
 
                     try {
+                        tinymce.activeEditor.dom.select('.selected-node').forEach(function(node) {
+                            node.classList.remove('selected-node');
+                        });
                         const editor = tinymce.get('editor-div'); // Replace with your TinyMCE editor ID
                         const contentElement = editor.getBody();
 
@@ -552,6 +674,9 @@
                     
 
                     try {
+                        tinymce.activeEditor.dom.select('.selected-node').forEach(function(node) {
+                            node.classList.remove('selected-node');
+                        });
                         const editor = tinymce.get('editor-div'); // Replace with your TinyMCE editor ID
                         const contentElement = editor.getBody();
                         contentElement.scrollIntoView(true);
@@ -580,6 +705,9 @@
                     
 
                     try {
+                        tinymce.activeEditor.dom.select('.selected-node').forEach(function(node) {
+                            node.classList.remove('selected-node');
+                        });
                         const editor = tinymce.get('editor-div'); // Replace with your TinyMCE editor ID
                         const contentElement = editor.getBody();
                         contentElement.scrollIntoView(true);
@@ -627,13 +755,6 @@
                     await downloadpdf(form.page_type);
                 });
                 });
-        setTimeout(function () {
-            window.addEventListener('mousedown', function (e) {
-                tinymce.activeEditor.dom.select('.selected-node').forEach(function(node) {
-                    node.classList.remove('selected-node');
-                });
-            });
-        }, 100);
 </script>
 
 <style>
@@ -651,6 +772,12 @@
     }
     .tox .tox-promotion {
         display:none !important;
+    }
+    .tox-tbtn:hover{
+        background-color:green !important;
+    }
+    .back-color{
+        background-color:green !important;
     }
     .content{
         

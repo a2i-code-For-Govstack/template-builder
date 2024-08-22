@@ -12,6 +12,7 @@ div{
     /*overflow:hidden;
     resize:both;*/
 }
+
 .selected-node{
     background-color: rgb(255,0,0,.1);
     border:1px solid blue;
