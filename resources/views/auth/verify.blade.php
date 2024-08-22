@@ -5,9 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+                <div class="card-header"style="background-color:#4caf50;">{{ __('Verify Your Email Address') }}</div>
 
-                <div class="card-body">
+                <div class="card-body"style="background-color:#aed581;">
                     @if (session('resent'))
                         <div class="alert alert-success" role="alert">
                             {{ __('A fresh verification link has been sent to your email address.') }}
@@ -23,14 +23,14 @@
                         </div>
                     @endif
                     @if (session('status'))
-                        <div class="alert alert-success">
+                        <div class="alert alert-success"style="background-color:white;" >
                             {{ session('status') }}
                         </div>
                     @endif
 
                     {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
                     
+                    {{ __('If you did not receive the email') }},
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf
                         <div class="row mb-3 mt-3 ">
@@ -49,6 +49,7 @@
                                     @enderror
                                 </div>
                             </div>
+                            
                         <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
                     </form>
                     

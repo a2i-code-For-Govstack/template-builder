@@ -53,7 +53,8 @@ class VerificationController extends Controller
             Auth::login($user);
         }
 
-        return redirect($this->redirectPath())->with('verified', true);
+        //return redirect($this->redirectPath())->with('verified', true);
+        return redirect("/home")->with('verified', true);
     }
     
     /**
