@@ -78,21 +78,13 @@
                     const propertyValue4 = computedStyle.getPropertyValue('text-shadow');
                     if (propertyValue1>400){
                             
-                            button[2].classList.add('back-color');
-                    }
-                    else{
-                            
-                            button[2].classList.remove('back-color');
-                    }
-                    if (propertyValue2=="italic"){
-                            
                             button[3].classList.add('back-color');
                     }
                     else{
                             
                             button[3].classList.remove('back-color');
                     }
-                    if (propertyValue3=="underline solid rgb(0, 0, 0)"){
+                    if (propertyValue2=="italic"){
                             
                             button[4].classList.add('back-color');
                     }
@@ -100,13 +92,21 @@
                             
                             button[4].classList.remove('back-color');
                     }
-                    if (propertyValue4=="none"){
+                    if (propertyValue3=="underline solid rgb(0, 0, 0)"){
                             
-                            button[5].classList.remove('back-color');
+                            button[5].classList.add('back-color');
                     }
                     else{
                             
-                            button[5].classList.add('back-color');
+                            button[5].classList.remove('back-color');
+                    }
+                    if (propertyValue4=="none"){
+                            
+                            button[6].classList.remove('back-color');
+                    }
+                    else{
+                            
+                            button[6].classList.add('back-color');
                     }
             });  
             
@@ -332,7 +332,7 @@
             });
             
             editor.ui.registry.addButton('deleteSelectedElement', {
-                    text: 'Del',
+                    text: 'Delete',
                     //icon: 'fa-solid fa-trash',
                     onAction: function () {
                         var selectedNode = editor.selection.getNode();
@@ -357,11 +357,11 @@
                         
                         if (propertyValue>400){
                             element.style.fontWeight="400";
-                            button[2].classList.remove('back-color');
+                            button[3].classList.remove('back-color');
                         }
                         else{
                             element.style.fontWeight="700";
-                            button[2].classList.add('back-color');
+                            button[3].classList.add('back-color');
                         }
                         console.log(propertyValue)
                     }
@@ -377,11 +377,11 @@
                         
                         if (propertyValue=="italic"){
                             element.style.fontStyle="normal";
-                            button[3].classList.remove('back-color');
+                            button[4].classList.remove('back-color');
                         }
                         else{
                             element.style.fontStyle="italic";
-                            button[3].classList.add('back-color');
+                            button[4].classList.add('back-color');
                         }
                         console.log(propertyValue)
                     }
@@ -397,11 +397,11 @@
                         
                         if (propertyValue=="underline solid rgb(0, 0, 0)"){
                             element.style.textDecoration="none solid rgb(0,0,0)";
-                            button[4].classList.remove('back-color');
+                            button[5].classList.remove('back-color');
                         }
                         else{
                             element.style.textDecoration="underline solid rgb(0, 0, 0)";
-                            button[4].classList.add('back-color');
+                            button[5].classList.add('back-color');
                         }
                         console.log(propertyValue)
                     }
@@ -420,28 +420,92 @@
                         
                         if (propertyValue=="none"){
                             element.style.textShadow="3px 3px 0px grey";
-                            button[5].classList.add('back-color');
+                            button[6].classList.add('back-color');
                         }
                         else{
                             element.style.textShadow="none";
-                            button[5].classList.remove('back-color');
+                            button[6].classList.remove('back-color');
                         }
                         
                     }
-            });                        
+            }); 
+            editor.ui.registry.addSplitButton('customForecolor', {
+                text: 'color',
+                onAction: function (value) {
+                },
+                onItemAction: function (api, value) {
+                    runCustomFunction(value); // Call your custom function with the selected color
+                },
+                fetch: function (callback) {
+                    var colors = [
+                    { type: 'choiceitem', text: 'Red', value: '#FF0000' },
+                    { type: 'choiceitem', text: 'Green', value: '#00FF00' },
+                    { type: 'choiceitem', text: 'Blue', value: '#0000FF' },
+                    // Add more colors as needed
+                        ];
+                callback(colors);
+                }
+            });           
+            editor.ui.registry.addSplitButton('customFontFamily', {
+                text: 'Font',
+                onAction: function () {
+                    // Default action when the button is clicked (optional)
+                },
+                onItemAction: function (api, value) {
+                    applyFontFamily(value); // Call your custom function to apply the selected font family
+                },
+                fetch: function (callback) {
+                    var fontFamilies = [
+                        { type: 'choiceitem', text: 'Arial', value: 'Arial, sans-serif' },
+                        { type: 'choiceitem', text: 'Times New Roman', value: '"Times New Roman", serif' },
+                        { type: 'choiceitem', text: 'Courier New', value: '"Courier New", monospace' },
+                        { type: 'choiceitem', text: 'Georgia', value: 'Georgia, serif' },
+                        { type: 'choiceitem', text: 'Verdana', value: 'Verdana, sans-serif' },
+                        // Add more font families as needed
+                    ];
+                    callback(fontFamilies);
+                }
+            });            
         },
         
         plugins: ' advlist noneditable code table lists insertdatetime link textcolor print preview textshadow',
         
         menubar:'file insert format textshadow',
         
-        toolbar: 'deleteSelectedElement fontfamily BoldLetters ItalicLetters UnderlinedLetters ShadowLetters forecolor backcolor | alignleft aligncenter alignright alignjustify' ,
+        toolbar: ' | deleteSelectedElement | customFontFamily | BoldLetters ItalicLetters UnderlinedLetters ShadowLetters | customForecolor | alignleft aligncenter alignright alignjustify' ,
         
         insertdatetime_dateformat: '%d-%m-%Y',
         font_family_formats: 'Arial=arial,helvetica,sans-serif; Times New Roman=times new roman,times; Courier New=courier new,courier; Open Sans=open sans,sans-serif; Roboto=roboto,sans-serif; Lato=lato,sans-serif;'+ ' Noto Serif Bengali=Noto Serif Bengali,sans-serif;',
         content_style: `html { height:100%;}body::-webkit-scrollbar{ display: none;}body{height:100%;width:100%;margin:0 !important;overflow:scroll;line-height: 1.2;position:absolute; }`,
         });
-        
+        function applyFontFamily(value){
+            const element = tinymce.activeEditor.selection.getNode();
+            element.style.fontFamily=value;
+            const computedStyle = window.getComputedStyle(element);
+            const button=tinymce.activeEditor.getContainer().getElementsByClassName('tox-tbtn');
+            const propertyValue1= computedStyle.getPropertyValue('font-weight');
+            const propertyValue2 = computedStyle.getPropertyValue('font-style');
+            if (propertyValue1>400){
+                            
+                            button[3].classList.add('back-color');
+            }
+            else{
+                            
+                            button[3].classList.remove('back-color');
+            }
+            if (propertyValue2=="italic"){
+                            
+                            button[4].classList.add('back-color');
+            }
+            else{
+                            
+                            button[4].classList.remove('back-color');
+            }
+        }
+        function runCustomFunction(value){
+            const element = tinymce.activeEditor.selection.getNode();
+            element.style.color=value;
+        }
         function editorfunc(y){
             const tochoose=document.getElementsByClassName("editor-choose-element");
             const closeChoose=document.getElementById("close-choose");
@@ -774,10 +838,10 @@
         display:none !important;
     }
     .tox-tbtn:hover{
-        background-color:green !important;
+        background-color:#aed6f1 !important;
     }
     .back-color{
-        background-color:green !important;
+        background-color:#aed6f1 !important;
     }
     .content{
         
