@@ -25,9 +25,8 @@
         selector: '.content',
         content_css: [
             "/css/tinymce.css",
-            "/assets/css/bangali-fonts.css",
-            'https://fonts.googleapis.com/css?family=Roboto|Open+Sans|Lato&display=swap',
-            'https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;700&display=swap'
+            //'https://fonts.googleapis.com/css?family=Roboto|Open+Sans|Lato&display=swap',
+            //'https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;700&display=swap'
         ],
         resize:"both",
         height:height,
@@ -438,9 +437,17 @@
                 },
                 fetch: function (callback) {
                     var colors = [
-                    { type: 'choiceitem', text: 'Red', value: '#FF0000' },
-                    { type: 'choiceitem', text: 'Green', value: '#00FF00' },
-                    { type: 'choiceitem', text: 'Blue', value: '#0000FF' },
+                    { type: 'choiceitem', text: 'Red', value: '#f44336 ' },
+                    { type: 'choiceitem', text: 'brown', value: '#e57373' },
+                    { type: 'choiceitem', text: 'Green', value: '#66bb6a' },
+                    { type: 'choiceitem', text: 'Blue', value: '#42a5f5' },
+                    { type: 'choiceitem', text: 'yellow', value: '#fdd835' },
+                    { type: 'choiceitem', text: 'orange', value: '#ff6f00' },
+                    { type: 'choiceitem', text: 'pink', value: '#f06292' },
+                    { type: 'choiceitem', text: 'violet', value: '#ba68c8' },
+                    { type: 'choiceitem', text: 'black', value: 'black' },
+                    { type: 'choiceitem', text: 'white', value: 'white' },
+
                     // Add more colors as needed
                         ];
                 callback(colors);
@@ -459,8 +466,20 @@
                         { type: 'choiceitem', text: 'Arial', value: 'Arial, sans-serif' },
                         { type: 'choiceitem', text: 'Times New Roman', value: '"Times New Roman", serif' },
                         { type: 'choiceitem', text: 'Courier New', value: '"Courier New", monospace' },
-                        { type: 'choiceitem', text: 'Georgia', value: 'Georgia, serif' },
-                        { type: 'choiceitem', text: 'Verdana', value: 'Verdana, sans-serif' },
+                        { type: 'choiceitem', text: 'Trebuchet MS', value: '"Trebuchet MS", sans-serif' },
+                        { type: 'choiceitem', text: 'Comic Sans MS', value: '"Comic Sans MS", cursive, sans-serif' },
+                        { type: 'choiceitem', text: 'Palatino Linotype', value: '"Palatino Linotype", "Book Antiqua", Palatino, serif' },
+                        { type: 'choiceitem', text: 'Gill Sans', value: '"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif' },
+                        { type: 'choiceitem', text: 'Calibri', value: 'Calibri, sans-serif' },
+                        { type: 'choiceitem', text: 'Brush Script MT', value: '"Brush Script MT", cursive' },
+                        { type: 'choiceitem', text: 'Lucida Handwriting', value: '"Lucida Handwriting", cursive' },
+                        { type: 'choiceitem', text: 'Hindi-Kokila', value: 'Kokila, serif' },
+                        { type: 'choiceitem', text: 'Hindi-Aparajita', value: 'Aparajita, serif' },
+                        { type: 'choiceitem', text: 'Bangla-SolaimanLipi', value: '"SolaimanLipi", sans-serif' },
+                        { type: 'choiceitem', text: 'Bangla-Kalpurush', value: '"Kalpurush", serif' },
+                        { type: 'choiceitem', text: 'Bangla-Nikosh', value: '"Nikosh", serif' },
+                        
+                        
                         // Add more font families as needed
                     ];
                     callback(fontFamilies);
@@ -468,15 +487,14 @@
             });            
         },
         
-        plugins: ' advlist noneditable code table lists insertdatetime link textcolor print preview textshadow',
+        plugins: ' advlist table lists',
         
-        menubar:'file insert format textshadow',
+        menubar:'',
         
-        toolbar: ' | deleteSelectedElement | customFontFamily | BoldLetters ItalicLetters UnderlinedLetters ShadowLetters | customForecolor | alignleft aligncenter alignright alignjustify' ,
+        toolbar: ' deleteSelectedElement | customFontFamily | BoldLetters ItalicLetters UnderlinedLetters ShadowLetters | customForecolor | alignleft aligncenter alignright alignjustify' ,
         
-        insertdatetime_dateformat: '%d-%m-%Y',
-        font_family_formats: 'Arial=arial,helvetica,sans-serif; Times New Roman=times new roman,times; Courier New=courier new,courier; Open Sans=open sans,sans-serif; Roboto=roboto,sans-serif; Lato=lato,sans-serif;'+ ' Noto Serif Bengali=Noto Serif Bengali,sans-serif;',
         content_style: `html { height:100%;}body::-webkit-scrollbar{ display: none;}body{height:100%;width:100%;margin:0 !important;overflow:scroll;line-height: 1.2;position:absolute; }`,
+        
         });
         function applyFontFamily(value){
             const element = tinymce.activeEditor.selection.getNode();
@@ -1439,25 +1457,13 @@
         <form id="form">
         @csrf
             <textarea class="content " name="content"id="editor-div">
-            {{--<div  style="background-color:#FFCCBC;" class="block-div"><img class="block-img"src="{{asset('/img/error.png')}}"></div><div class="block-content"><div class="block-title">Error</div><div>Write your content here.</div></div></div>
-            <div></div>
-            <table class="firstrowfirstcolumnolivetable"width="100%"><colGroup><col width="33.3%"><col width="33.3%"><col width="33.3%"></colGroup><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>
-            <img src="{{asset('/img/select-image1.jpg')}}">
-            method="GET"  action="{{ route('export-pdf') }}"
-            --}}
+            
             @if($isContent==true)
             {!!$form->content!!}
             @else
             <h1 class="div-resizable-draggable" style="position:absolute;top:150px;left:80px;">Start creating your template</h1>
             @endif
             
-            {{--
-            <div style="background-color:blue;width:200px;height:200px;"><div>aditi</div><div>vijay</div></div>
-            <div class="div-resizable div-resizable-draggable"style="border:2px solid black;">aditi </div>
-            
-            <img class="div-resizable-draggable"style=""src="{{asset('/img/select-image4.jpg')}}">
-            <p  class="div-resizable-draggable">aditi</p>
-            --}}
             </textarea>
             <button  type="button" id="capturepng" class="btn btn-success btn-sm float-end">PNG</button>
             <button  type="button" id="capturejpg" class="btn btn-success btn-sm float-end">JPG</button>
