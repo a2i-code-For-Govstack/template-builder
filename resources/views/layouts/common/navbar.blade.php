@@ -5,8 +5,8 @@
     #navbar{
         background-color:white ;
     }
-    li:hover{
-        background-color:none ;
+    .dropdown-item:hover{
+        background-color:#e6ee9c ;
     }
     #navbar-main{
         background-color:white ;
@@ -116,7 +116,7 @@
                                     </span>
                                 </a>
 
-                                <ul class="dropdown-menu" style="background-color:#ECF6FD;" aria-labelledby="formsDropdown1">
+                                <ul class="dropdown-menu" style="background-color:#aed581;" aria-labelledby="formsDropdown1">
                                     <li><span class="dropdown-item">
                                             <strong>Name:</strong> {{ Auth::user()->name }}
                                             </span></li>

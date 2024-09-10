@@ -16,12 +16,12 @@
         }
         
     </style>
-    <div class="container mt-5">
+    <div class="container mt-5 pb-3"style="background-color:#aed581;">
         <div class=" row justify-content-center shadow  rounded mt-3 mb-3 d-md-flex">
             <div class="col-md-6 p-3">
                 <div class="col-md-12 card mb-3 shadow p-0">
                     <div class="card-header border-none login-instruction p-1">
-                        <div class="col-md-12 fw-bold">
+                        <div class="col-md-12 fw-bold" style="background-color:#4caf50;">
                             <i class='bx bx-clipboard bx-tada' style='color:#f19b16'></i> <span> নিয়মাবলি </span>
                         </div>
 
@@ -45,7 +45,7 @@
 
                 <div class="col-md-12 card mb-3 shadow p-0">
                     <div class="card-header border-none login-help-desk p-1">
-                        <div class="col-md-12 fw-bold">
+                        <div class="col-md-12 fw-bold"style="background-color:#4caf50;">
                             <span><i class='bx bx-help-circle bx-tada' style='color:#f19b16'></i> হেল্প ডেস্ক | মাইগভ
                                 সংক্রান্ত যেকোনো জিজ্ঞাসা
                         </div>
@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="card shadow">
-                    <div class="card-header">{{ __('Register') }}</div>
+                    <div class="card-header"style="background-color:#4caf50;">{{ __('Register') }}</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('register') }}">
@@ -140,7 +140,7 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            {{--
                             <div class="row mb-3">
                                 <div class="col-md-6 offset-md-4">
                                     <div class="form-check">
@@ -153,10 +153,10 @@
                                     </div>
                                 </div>
                             </div>
-
+                            --}}
                             <div class="row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" style="background-color:#4caf50;">
                                         {{ __('Register') }}
                                     </button>
                                     

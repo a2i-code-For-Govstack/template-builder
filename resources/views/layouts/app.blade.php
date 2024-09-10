@@ -47,7 +47,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 
 
-<script src="{{ asset('js/app.js') }}"></script>
 {{--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
     <!-- Include html-docx-js from CDN -->
