@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Validation\ValidationException;
+
+use Illuminate\Support\Facades\Auth;
+
+
 class LoginController extends Controller
 
 {
@@ -38,23 +42,61 @@ class LoginController extends Controller
     }
 
     public function login(Request $request)
-    {
+    {   
         $this->validateLogin($request);
-
+         
         if ($this->attemptLogin($request)) {
+            
+            
             $user = $this->guard()->user();
-
+            //$user = User::where('email', $request->email)->first();
+            $token = $user->createToken("API-TOKEN")->plainTextToken;
+            $user->api_token = $token;
             if ($user->hasVerifiedEmail()) {
                 return $this->sendLoginResponse($request);
-            } else {
+                
+            } 
+            else {
                 $this->guard()->logout();
                 return redirect('/login')->with('warning', 'You need to verify your email address before you can log in. Check your inbox');
             }
+            
         }
-
+        
         return $this->sendFailedLoginResponse($request);
+        
+        
     }
-
+    
+    public function loginRequest(Request $request)
+    {   
+        $this->validateLogin($request);
+         
+        if ($this->attemptLogin($request)) {
+            
+            
+            $user = $this->guard()->user();
+            //$user = User::where('email', $request->email)->first();
+            $token = $user->createToken("API-TOKEN")->plainTextToken;
+            $user->api_token = $token;
+            if ($user->hasVerifiedEmail()) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'User Logged In Successfully',
+                    'token' =>$token
+                ], 200);
+            } 
+            else {
+                $this->guard()->logout();
+                return redirect('/login')->with('warning', 'You need to verify your email address before you can log in. Check your inbox');
+            }
+            
+        }
+        
+        return $this->sendFailedLoginResponse($request);
+        
+        
+    }
     protected function validateLogin(Request $request)
     {
         $request->validate([
@@ -64,18 +106,19 @@ class LoginController extends Controller
     }
 
     protected function attemptLogin(Request $request)
-    {
-        return $this->guard()->attempt(
-            $this->credentials($request), $request->filled('remember')
-        );
+    {   
+        
+        return Auth::attempt($request->only(['email', 'password']));
     }
 
     protected function sendLoginResponse(Request $request)
     {
         $request->session()->regenerate();
-
+        
         return $this->authenticated($request, $this->guard()->user())
                 ?: redirect()->intended($this->redirectPath());
+        
+        
     }
 
     protected function sendFailedLoginResponse(Request $request)

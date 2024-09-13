@@ -63,7 +63,7 @@ Route::group([
     'namespace' => 'App\Http\Controllers\Home',
     'prefix' => '/home',
     ], function () {
-        Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth', 'verified');
+        Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth','verified');
         Route::get('/usersrole', ['uses'=>'HomeController@usersrole'])->name('usersrole');
 });
 Route::group([
@@ -74,7 +74,7 @@ Route::group([
         Route::get('/search', [CollectionController::class, 'search'])->name('search');
         Route::get('/select/{id}', [CollectionController::class, 'select'])->name('collection.select');
 });
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','verified'])->group(function () {
 
     Route::group([
         'namespace' => 'App\Http\Controllers\User',
