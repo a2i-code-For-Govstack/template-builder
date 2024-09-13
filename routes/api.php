@@ -10,6 +10,7 @@ use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Form\FormAnyController;
+use App\Http\Controllers\Collection\CollectionController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -59,6 +60,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/form-any', [FormAnyController::class,'editor'])->name('form.editor')->middleware('auth','verified');
     Route::get('/form-any/{id}', [FormAnyController::class,'any'])->name('form.any')->middleware('auth','verified');
     Route::get('/form-any/background-only/{id}', [FormAnyController::class,'background'])->name('form.background-only')->middleware('auth','verified');
+    Route::get('/collection', [CollectionController::class, 'index'])->name('collection')->middleware('auth', 'verified');
+        
     Route::group([
         'namespace' => 'App\Http\Controllers\Api',
         'prefix' => '/form',
