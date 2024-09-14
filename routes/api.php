@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Api\FormController;
 //use App\Http\Controllers\PdfController;
 
+use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Form\FormAnyController;
+use App\Http\Controllers\Collection\CollectionController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,12 +25,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::group([
-        'namespace' => 'App\Http\Controllers\Api',
+        'namespace' => 'App\Http\Controllers\Auth',
     ], function () {
-        Route::post('/login', ['uses'=>'AuthController@loginUser']);
-        Route::post('/register', ['uses'=>'AuthController@createUser']);
+        Route::post('/login', ['uses'=>'LoginController@loginRequest']);
+        Route::post('/register', ['uses'=>'RegisterController@registerRequest']);
     });
 
 
@@ -35,10 +39,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
    $request->headers->set('Authorization', 'Bearer ' . $request->user()->api_token);
    return $request->user();
 });
-
 //Munir
 //Route::post('log/update-api/', [FormController::class, 'logUpdateApis']);
 
+//Route::post('/register', [RegisterController::class, 'register'])->middleware('guest','preventBackHistory');
 Route::middleware('auth:sanctum')->group(function () {
 
     /*
@@ -52,7 +56,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('log/get-last-update-data', [FormController::class, 'getLastUpdatedLog'])->name('log.get.data');
         Route::post('/get-letter-list', [FormController::class, 'getLetterList'])->name('form.getLetterList');
     */
-
+    Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth','verified');
+    Route::get('/form-any', [FormAnyController::class,'editor'])->name('form.editor')->middleware('auth','verified');
+    Route::get('/form-any/{id}', [FormAnyController::class,'any'])->name('form.any')->middleware('auth','verified');
+    Route::get('/form-any/background-only/{id}', [FormAnyController::class,'background'])->name('form.background-only')->middleware('auth','verified');
+    Route::get('/collection', [CollectionController::class, 'index'])->name('collection')->middleware('auth', 'verified');
+        
     Route::group([
         'namespace' => 'App\Http\Controllers\Api',
         'prefix' => '/form',
@@ -63,6 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/log/update-api/', ['uses'=>'FormController@newlogUpdateApi'])->name('log.update.api');
         Route::post('/log/get-last-update-data', ['uses'=>'FormController@getLastUpdatedLog'])->name('log.get.data');
         Route::post('/get-letter-list', ['uses'=>'FormController@getLetterList'])->name('form.getLetterList');
+        //Route::post('login', [LoginController::class, 'login'])->middleware('guest','preventBackHistory');
     });
 
 });

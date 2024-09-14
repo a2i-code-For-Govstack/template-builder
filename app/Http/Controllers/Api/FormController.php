@@ -26,9 +26,11 @@ class FormController extends Controller
     public function getList()
     {
         try {
-            $forms = Form::select('id', 'title', 'sid')->get();
+            //$forms = Form::select('id', 'title', 'sid')->get();
+            $forms = Form::all();
             return response()->json($forms);
-        } catch (\Throwable $th) {
+        } 
+        catch (\Throwable $th) {
             throw $th;
         }
 

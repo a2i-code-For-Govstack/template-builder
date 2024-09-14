@@ -79,14 +79,27 @@ class RegisterController extends Controller
         ]);
     }
     public function register(Request $request)
-    {
-        $this->validator($request->all())->validate();
+    {   $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
 
-        
-
-
         return redirect($this->redirectPath())->with('status', 'We sent you an activation code. Check your email and click on the link to verify.');
+    
+    }
+    public function registerRequest(Request $request)
+    {   $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $user = User::where('email', $request->email)->first();
+        $token = $user->createToken("API-TOKEN")->plainTextToken;
+        $user->api_token = $token;
+        return response()->json([
+            'status' => true,
+            'message' => 'User Logged In Successfully',
+            'token' =>$token
+        ], 200);
+        //return redirect($this->redirectPath())->with('status', 'We sent you an activation code. Check your email and click on the link to verify.');
+    
     }
 }

@@ -52,7 +52,7 @@ class VerificationController extends Controller
             event(new Verified($user));
             Auth::login($user);
         }
-
+        
         //return redirect($this->redirectPath())->with('verified', true);
         return redirect("/home")->with('verified', true);
     }
